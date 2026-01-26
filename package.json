@@ -46,7 +46,8 @@
     ]
   },
   "devDependencies": {
-    "@types/react": "^19.2.8",
+    "@types/lodash": "^4.17.23",
+    "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3"
   }
 }

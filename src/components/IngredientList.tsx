@@ -5,7 +5,7 @@ import { selectAllIngredients } from '../features/ingredients/ingredientsSlice';
 import { Ingredient } from '../types/menu';
 
 interface IngredientListProps {
-  ingredientIds: string[];
+  ingredientIds: number[];
 }
 
 const IngredientList: React.FC<IngredientListProps> = ({ ingredientIds }) => {
