@@ -20,7 +20,7 @@ const AdminPanel: React.FC = () => {
         price: 0,
         category: 'main',
         ingredients: [],
-        preparationTime: 15,
+        preparationTime: 35,
         isAvailable: true,
         isChefSpecial: false,
     });
@@ -68,7 +68,7 @@ const AdminPanel: React.FC = () => {
             case 'vegetable': return 'Овощи';
             case 'meat': return 'Мясо';
             case 'dairy': return 'Молочные продукты';
-            case 'spice': return 'Специи';
+            case 'spice': return 'Острое';
             case 'other': return 'Прочее';
             default: return category;
         }
