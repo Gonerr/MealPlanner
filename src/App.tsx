@@ -22,8 +22,8 @@ function App() {
     <div className="App">
       <Header />
 
-      <main className="py-4">
-        <Container fluid={isAdminMode}>
+      <main>
+        <Container className="mw-1600" fluid={isAdminMode}>
           {isAdminMode ? (
             // Режим администратора - редактирование базы рецептов
             <AdminPanel />
@@ -157,8 +157,8 @@ function App() {
 
                 {/* Центральная колонка - список рецептов */}
                 <Col lg={9} className="mb-4">
-                <RecipesSection />
-              </Col>
+                  <RecipesSection />
+                </Col>
 
                 {/* Правая колонка - план на неделю и список покупок */}
                 <Col lg={3} className="mb-4">

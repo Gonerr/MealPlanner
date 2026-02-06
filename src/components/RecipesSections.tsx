@@ -3,9 +3,10 @@ import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFilteredDishes } from '../features/menu/menuSlice';
 import { Dish, DishCategory } from '../types/menu';
-import { RecipeCard } from './Main/RecipeCard'
-import { CategoryNav } from './shared/CategoryNav'
+import { RecipeCard } from './Main/RecipeCard';
+import { CategoryNav } from './shared/CategoryNav';
 import { EmptyState } from './EmptyState';
+import { ChefHatIcon, InfoIcon, SortAscIcon, SortDescIcon } from './icons';
 
 interface Category {
   id: DishCategory | 'all';
@@ -30,28 +31,6 @@ const RecipesSection: React.FC = () => {
     { id: 'drinks', name: 'Напитки', color: 'cyan' },
     { id: 'specials', name: 'Особые рецепты', color: 'rose' },
   ];
-
-  // Преобразование Dish в формат для RecipeCard
-  const transformDishToRecipe = (dish: Dish) => {
-    return {
-      id: dish.id.toString(),
-      name: dish.name,
-      categoryId: dish.category,
-      difficulty: getDifficulty(dish.preparationTime),
-      cookingTime: dish.preparationTime,
-      servings: 4, // Можно добавить в Dish если нужно
-      calories: dish.calories || 300,
-      rating: 4.5, // Можно добавить в Dish если нужно
-      isFavorite: false, // Можно добавить в Dish если нужно
-      description: dish.description,
-      imageUrl: dish.imageUrl || '/placeholder-recipe.jpg',
-      tags: dish.isChefSpecial ? ['Шеф-спешиал'] : [],
-      price: dish.price,
-      isAvailable: dish.isAvailable,
-      isChefSpecial: dish.isChefSpecial,
-      preparationTime: dish.preparationTime,
-    };
-  };
 
   // Фильтрация и сортировка блюд
   const filteredRecipes = useMemo(() => {
@@ -80,45 +59,26 @@ const RecipesSection: React.FC = () => {
   const hasRecipes = filteredRecipes.length > 0;
   const totalRecipes = allRecipes.length;
 
-  // Функция для определения сложности
-  function getDifficulty(preparationTime: number): 'easy' | 'medium' | 'hard' {
-    if (preparationTime <= 15) return 'easy';
-    if (preparationTime <= 30) return 'medium';
-    return 'hard';
-  }
-
   const handleResetCategory = () => {
     setActiveCategory('all');
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 h-full">
+    <div className="bg-white rounded-3 shadow-sm border border-gray-300 h-100 p-2">
       {/* Шапка с навигацией */}
-      <div className="sticky top-0 z-10 bg-white rounded-t-2xl border-b border-gray-100">
-        <div className="p-6 pb-0">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                <ChefHatIcon />
-                {hasRecipes ? 'Доступные рецепты' : 'Рецепты не найдены'}
-              </h1>
-              <p className="text-gray-500 mt-1">
-                {totalRecipes > 0 
-                  ? `Найдено ${totalRecipes} рецептов`
-                  : 'Добавьте рецепты для начала работы'
-                }
-              </p>
-            </div>
+      <div className="sticky-top bg-white rounded-top-3 border-bottom border-gray-300">
+        <div className="p-4 pb-0">
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h1 className="h3 fw-bold text-dark d-flex align-items-center gap-2">
+              {hasRecipes ? 'Доступные рецепты' : 'Рецепты не найдены'}
+            </h1>
             
-            <div className="flex items-center gap-3">
-              <span className={`px-3 py-1.5 rounded-full text-sm font-medium ${
-                hasRecipes 
-                  ? 'bg-green-100 text-green-800' 
-                  : 'bg-yellow-100 text-yellow-800'
-              }`}>
-                {hasRecipes ? `${filteredRecipes.length} рецептов` : '0 рецептов'}
-              </span>
-            </div>
+            <p className="text-muted m-0">
+              {totalRecipes > 0 
+                ? `Найдено ${totalRecipes} рецептов`
+                : 'Добавьте рецепты для начала работы'
+              }
+            </p>
           </div>
           
           {/* Навигация по категориям */}
@@ -126,42 +86,42 @@ const RecipesSection: React.FC = () => {
             categories={categories}
             activeCategory={activeCategory}
             onCategoryChange={(categoryId) => setActiveCategory(categoryId as DishCategory | 'all')}
-            />
+          />
         </div>
       </div>
 
       {/* Панель сортировки */}
-      <div className="px-6 py-4 border-b border-gray-100">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600 font-medium">Сортировка:</span>
-            <div className="flex gap-2">
+      <div className="px-4 py-3 border-bottom border-gray-300">
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex align-items-center gap-3">
+            <span className="text-muted fw-medium">Сортировка:</span>
+            <div className="d-flex gap-2">
               <button
                 onClick={() => setSortBy('name')}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`btn btn-sm ${
                   sortBy === 'name'
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'btn-dark'
+                    : 'btn-outline-dark'
                 }`}
               >
                 По названию
               </button>
               <button
                 onClick={() => setSortBy('time')}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`btn btn-sm ${
                   sortBy === 'time'
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'btn-dark'
+                    : 'btn-outline-dark'
                 }`}
               >
                 По времени
               </button>
               <button
                 onClick={() => setSortBy('price')}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`btn btn-sm ${
                   sortBy === 'price'
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'btn-dark'
+                    : 'btn-outline-dark'
                 }`}
               >
                 По цене
@@ -171,10 +131,10 @@ const RecipesSection: React.FC = () => {
           
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="flex items-center gap-2 px-3 py-1.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2"
           >
             {sortOrder === 'asc' ? <SortAscIcon /> : <SortDescIcon />}
-            <span className="text-sm font-medium">
+            <span>
               {sortOrder === 'asc' ? 'По возрастанию' : 'По убыванию'}
             </span>
           </button>
@@ -182,16 +142,18 @@ const RecipesSection: React.FC = () => {
       </div>
 
       {/* Контент */}
-      <div className="p-6">
+      <div className="p-4">
         {hasRecipes ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="row g-4">
             {filteredRecipes.map(dish => (
-              <RecipeCard key={dish.id} dish={dish} />
+              <div key={dish.id} className="col-12 col-md-6 col-lg-4">
+                <RecipeCard dish={dish} />
+              </div>
             ))}
           </div>
         ) : (
           <EmptyState 
-            searchQuery="" // если есть поиск, передать сюда
+            searchQuery=""
             activeCategory={activeCategory}
             categories={categories}
             onResetCategory={handleResetCategory}
@@ -200,16 +162,16 @@ const RecipesSection: React.FC = () => {
 
         {/* Подсказка о сортировке */}
         {hasRecipes && (
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="mt-4 pt-4 border-top border-gray-300">
+            <div className="d-flex align-items-center gap-2 text-muted">
               <InfoIcon />
-              <span>
+              <small>
                 Отсортировано <strong>
                   {sortBy === 'name' && 'по названию'}
                   {sortBy === 'time' && 'по времени приготовления'}
                   {sortBy === 'price' && 'по цене'}
                 </strong> {sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'}
-              </span>
+              </small>
             </div>
           </div>
         )}
@@ -219,36 +181,3 @@ const RecipesSection: React.FC = () => {
 };
 
 export default RecipesSection;
-
-// SVG иконки
-const ChefHatIcon: React.FC = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 15C8.68629 15 6 17.6863 6 21H18C18 17.6863 15.3137 15 12 15Z" stroke="currentColor" strokeWidth="1.5"/>
-    <path d="M12 15V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M17 9C17 6.23858 14.7614 4 12 4C9.23858 4 7 6.23858 7 9" stroke="currentColor" strokeWidth="1.5"/>
-  </svg>
-);
-
-const SortAscIcon: React.FC = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 7H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M6 12H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M10 17H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-  </svg>
-);
-
-const SortDescIcon: React.FC = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 17H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M6 12H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M10 7H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-  </svg>
-);
-
-const InfoIcon: React.FC = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/>
-    <path d="M12 8V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    <circle cx="12" cy="16" r="0.5" fill="currentColor" stroke="currentColor" strokeWidth="1.5"/>
-  </svg>
-);

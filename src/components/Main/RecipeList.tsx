@@ -1,6 +1,11 @@
 // components/shared/CategoryNav.tsx
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import {
+  Folder, Salad, Soup, Beef, Cake,
+  Star, Utensils, Pizza, Coffee
+} from 'lucide-react';
+
 
 interface Category {
   id: string;
@@ -14,11 +19,27 @@ interface CategoryNavProps {
   onCategoryChange: (categoryId: string) => void;
 }
 
+export const iconProps = { size: 16, className: "me-2" };
+export const getCategoryIcon = (categoryId: string) => {
+    switch (categoryId) {
+      case 'all': return <Folder {...iconProps} />;
+      case 'salads': return <Salad {...iconProps} />;
+      case 'soups': return <Soup {...iconProps} />;
+      case 'main': return <Beef {...iconProps} />;
+      case 'desserts': return <Cake {...iconProps} />;
+      case 'snacks': return <Pizza {...iconProps} />;
+      case 'drinks': return <Coffee {...iconProps} />;
+      case 'specials': return <Star {...iconProps} />;
+      default: return <Utensils {...iconProps} />;
+    }
+  };
+
 export const CategoryNav: React.FC<CategoryNavProps> = ({
   categories,
   activeCategory,
   onCategoryChange
 }) => {
+
   const getButtonStyle = (category: Category, isActive: boolean) => {
     if (isActive) {
       return {
@@ -49,19 +70,6 @@ export const CategoryNav: React.FC<CategoryNavProps> = ({
     }
   };
 
-  const getCategoryIcon = (categoryId: string) => {
-    switch (categoryId) {
-      case 'all': return '📁';
-      case 'salads': return '🥗';
-      case 'soups': return '🍲';
-      case 'main': return '🍛';
-      case 'desserts': return '🍰';
-      case 'snacks': return '🥪';
-      case 'drinks': return '🥤';
-      case 'specials': return '⭐';
-      default: return '🍽️';
-    }
-  };
 
   return (
     <div className="py-2">
@@ -81,7 +89,7 @@ export const CategoryNav: React.FC<CategoryNavProps> = ({
               className="d-flex align-items-center gap-2 rounded-pill px-3 py-2"
               style={{
                 ...getButtonStyle(category, isActive),
-                whiteSpace: 'nowrap',
+                whiteSpace: 'wrap',
                 transition: 'all 0.2s ease',
                 borderWidth: '1px',
                 borderStyle: 'solid',

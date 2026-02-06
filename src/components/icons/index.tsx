@@ -372,4 +372,3 @@ export const CloseIcon: React.FC = () => (
     <path d="M9 9L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 );
-
