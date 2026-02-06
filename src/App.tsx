@@ -10,6 +10,8 @@ import SearchBar from './components/shared/SearchBar';
 import WeeklyPlan from './components/WeeklyPlan';
 import ShoppingList from './components/ShoppingList';
 import { selectIsAdminMode, selectFilteredDishes, selectMenuStats } from './features/menu/menuSlice';
+import Sidebar from './components/shared/Sidebar';
+import RecipesSection from './components/RecipesSections';
 
 function App() {
   const isAdminMode = useSelector(selectIsAdminMode);
@@ -29,7 +31,6 @@ function App() {
             // Пользовательский режим - планирование домашней готовки
             <>
               {/* Приветственный блок */}
-              {/* Герой-секция с фоновым изображением */}
               <div className="position-relative vh-100 d-flex align-items-center justify-content-center overflow-hidden">
                 {/* Фоновое изображение */}
                 <div
@@ -99,7 +100,7 @@ function App() {
               </div>
 
               <Row>
-                {/* Левая колонка - фильтры и поиск */}
+                {/* Левая колонка - фильтры и поиск
                 <Col lg={3} className="mb-4">
                   <div className="sticky-top" style={{ top: '20px' }}>
                     <div className="card shadow-sm border-0">
@@ -140,7 +141,7 @@ function App() {
                     </div>
 
                     {/* Блок с подсказками */}
-                    <div className="card shadow-sm border-0 mt-3">
+                {/* <div className="card shadow-sm border-0 mt-3">
                       <div className="card-body">
                         <h6 className="card-title mb-3">📝 Быстрые советы</h6>
                         <ul className="list-unstyled small">
@@ -152,87 +153,16 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </Col>
+                </Col> */}
 
                 {/* Центральная колонка - список рецептов */}
-                <Col lg={6} className="mb-4">
-                  <div className="card shadow-sm border-0 h-100">
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h2 className="card-title mb-0">
-                          {filteredDishes.length > 0 ? '🍳 Доступные рецепты' : '😔 Рецепты не найдены'}
-                        </h2>
-                        <Badge bg={filteredDishes.length > 0 ? "success" : "warning"} pill>
-                          {filteredDishes.length}
-                        </Badge>
-                      </div>
-
-                      {filteredDishes.length > 0 ? (
-                        <MenuList />
-                      ) : (
-                        <Alert variant="light" className="text-center py-5">
-                          <div className="display-1 mb-3">🍳</div>
-                          <h4>Рецепты не найдены</h4>
-                          <p className="text-muted">
-                            Попробуйте изменить фильтры или поисковый запрос.<br />
-                            Или добавьте новые рецепты в режиме администратора.
-                          </p>
-                        </Alert>
-                      )}
-                    </div>
-                  </div>
-                </Col>
+                <Col lg={9} className="mb-4">
+                <RecipesSection />
+              </Col>
 
                 {/* Правая колонка - план на неделю и список покупок */}
                 <Col lg={3} className="mb-4">
-                  <div className="sticky-top" style={{ top: '20px' }}>
-                    {/* План на неделю */}
-                    <div className="card shadow-sm border-0 mb-4">
-                      <div className="card-body">
-                        <h5 className="card-title mb-3">
-                          📅 План на неделю
-                        </h5>
-                        <WeeklyPlan />
-                      </div>
-                    </div>
-
-                    {/* Список покупок */}
-                    <div className="card shadow-sm border-0">
-                      <div className="card-body">
-                        <h5 className="card-title mb-3">
-                          🛒 Список покупок
-                        </h5>
-                        <ShoppingList />
-
-                        <div className="mt-4">
-                          <button className="btn btn-success w-100 mb-2">
-                            📝 Распечатать список
-                          </button>
-                          <button className="btn btn-outline-primary w-100">
-                            📱 Отправить на телефон
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Быстрое меню */}
-                    <div className="card shadow-sm border-0 mt-4">
-                      <div className="card-body">
-                        <h6 className="card-title mb-3">⚡ Быстрые действия</h6>
-                        <div className="d-grid gap-2">
-                          <button className="btn btn-outline-info">
-                            🎲 Случайный рецепт
-                          </button>
-                          <button className="btn btn-outline-warning">
-                            ⭐ Избранные рецепты
-                          </button>
-                          <button className="btn btn-outline-success">
-                            🕒 Быстрые рецепты
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <Sidebar />
                 </Col>
               </Row>
             </>
