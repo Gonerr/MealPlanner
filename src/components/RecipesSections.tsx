@@ -66,7 +66,7 @@ const RecipesSection: React.FC = () => {
   return (
     <div className="bg-white rounded-3 shadow-sm border border-gray-300 h-100 p-2">
       {/* Шапка с навигацией */}
-      <div className="sticky-top bg-white rounded-top-3 border-bottom border-gray-300">
+      <div className=" bg-white rounded-top-3 border-bottom border-gray-300">
         <div className="p-4 pb-0">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h1 className="h3 fw-bold text-dark d-flex align-items-center gap-2">

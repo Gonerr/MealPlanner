@@ -5,7 +5,7 @@ import ShoppingList from '../ShoppingList';
 
 const Sidebar: React.FC = () => {
   return (
-    <div className="sticky-top" style={{ top: '20px' }}>
+    <div style={{ top: '20px' }}>
       
       {/* План на неделю */}
       <div className="card border-0 bg-white mb-4" style={{ 
