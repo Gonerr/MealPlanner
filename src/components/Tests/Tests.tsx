@@ -1,9 +1,11 @@
 import { round, trimStart } from "lodash";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { describe, it, expect } from '@jest/globals';
 
 const Tests = () => {
+
+    // #region Решение задач -----------------
 
     // const f1 = (a: number) => {
 
@@ -119,25 +121,28 @@ const Tests = () => {
     //
 
 
-//Передается код состоящий из морзе, задача -> составить слова из этих кодов
-// const decodeMorse = function(MorseCode: string) {
-//     let phrase = '';
+    //Передается код состоящий из морзе, задача -> составить слова из этих кодов
+    // const decodeMorse = function(MorseCode: string) {
+    //     let phrase = '';
 
-//     for (let split_word of MorseCode.trim().split('   ')) {
-//         let word = '';
+    //     for (let split_word of MorseCode.trim().split('   ')) {
+    //         let word = '';
 
-//         for (let morse of split_word.split(' ')) {
-//             let letter = MORSE_CODE[morse];
-//             word += letter;
-//         }
-//         phrase+=word + ' ';
-//     }
-// }
-// decodeMorse('.... . -.--   .--- ..- -.. .') // должно получиться 'HEY JUDE')
+    //         for (let morse of split_word.split(' ')) {
+    //             let letter = MORSE_CODE[morse];
+    //             word += letter;
+    //         }
+    //         phrase+=word + ' ';
+    //     }
+    // }
+    // decodeMorse('.... . -.--   .--- ..- -.. .') // должно получиться 'HEY JUDE')
 
-// Поиск квадратов чисел
-    function checkedSquareNumbers(num: number){
-        return (Math.round(num**(1/2)) === num**(1/2)) ? true : false;
+
+
+
+    // Поиск квадратов чисел
+    function checkedSquareNumbers(num: number) {
+        return (Math.round(num ** (1 / 2)) === num ** (1 / 2)) ? true : false;
     }
 
     const alphabet = 'abcdefjhigklmnopqrstuvwxyz';
@@ -154,19 +159,19 @@ const Tests = () => {
     }
 
     // нужно чтобы при abcd -> A-Bb-Ccc-Dddd -> то есть первая буква в верхнем регистре и тд
-    function isFormatingWords (str: string) {
+    function isFormatingWords(str: string) {
         let result = '';
         let count = 0;
-        for (let letter of str.toLowerCase()){
+        for (let letter of str.toLowerCase()) {
             count++;
-            result = result + letter.toUpperCase().repeat(1) + letter.repeat(count-1) + '-';
+            result = result + letter.toUpperCase().repeat(1) + letter.repeat(count - 1) + '-';
         }
-        return result.slice(0,-1);
+        return result.slice(0, -1);
     }
 
     // Найти вхождения одного массива в другом
-    function checkMassive (numsA: number[], numsB: number[]) {
-        return numsA.filter( n => !numsB.includes(n));
+    function checkMassive(numsA: number[], numsB: number[]) {
+        return numsA.filter(n => !numsB.includes(n));
     }
 
 
@@ -177,7 +182,7 @@ const Tests = () => {
     // The returned format must be correct in order to complete this challenge.
     // Don't forget the space after the closing parentheses!
     // ArraysStringsRegular ExpressionsAlgorithms
-    
+
     // function createPhoneNumber(numbers: number[]){
     //     if (numbers.length < 10) return;
 
@@ -188,7 +193,7 @@ const Tests = () => {
     // to one in the binary representation of that number. You can guarantee that input is non-negative.
     // Example: The binary representation of 1234 is 10011010010, so the function 
     // should return 5 in this case
-    
+
     // function binaryRepresent(n: number){
     //     if (!n || n===0) return 0;
 
@@ -197,210 +202,399 @@ const Tests = () => {
     // }
 
 
-// "is2 Thi1s T4est 3a"  -->  "Thi1s is2 3a T4est"
-// "4of Fo1r pe6ople g3ood th5e the2"  -->  "Fo1r the2 g3ood 4of th5e pe6ople"
-// ""  -->  ""
+    // "is2 Thi1s T4est 3a"  -->  "Thi1s is2 3a T4est"
+    // "4of Fo1r pe6ople g3ood th5e the2"  -->  "Fo1r the2 g3ood 4of th5e pe6ople"
+    // ""  -->  ""
 
-// function order(str: string){
-//   let splitedWords = str.split(' ');
-//         let res = new Array (splitedWords.length);
-//         for (let i = 1; i < splitedWords.length + 1; i++){
-//             for (let word of splitedWords) {
-//                 if (word.indexOf(i.toString()) > -1) {
-//                     res[i] = word;
-//                     break;
-//                 } 
-//             }
-//         }
+    // function order(str: string){
+    //   let splitedWords = str.split(' ');
+    //         let res = new Array (splitedWords.length);
+    //         for (let i = 1; i < splitedWords.length + 1; i++){
+    //             for (let word of splitedWords) {
+    //                 if (word.indexOf(i.toString()) > -1) {
+    //                     res[i] = word;
+    //                     break;
+    //                 } 
+    //             }
+    //         }
 
-//         return res.join(' ')
-// }
-
-
-// result = str.match(/любо/gi)   -    g - ищем все совпадения, а не только первое
-// i - не учитывает регистр
-// result.index - позиция совпадения
-// result.input - входная (начальная) строка
- 
-// \d - цифры 
-// function tryRegExp () {
-//     let str = "+7(903)-123-45-67";
-//     let regexp = /\d/g; // g - ищет все вхождения цирф в данной строке
-
-//     alert (str.match(regexp));
-
-//     regexp = /\s/g;   // space - пробелы, табуляции, переводы строк и т.д. Обычно ставится в конце строки
+    //         return res.join(' ')
+    // }
 
 
-//     regexp = /\w/g;   // буквы латинские, цирфы или подчеркивание
+    // result = str.match(/любо/gi)   -    g - ищем все совпадения, а не только первое
+    // i - не учитывает регистр
+    // result.index - позиция совпадения
+    // result.input - входная (начальная) строка
+
+    // \d - цифры 
+    // function tryRegExp () {
+    //     let str = "+7(903)-123-45-67";
+    //     let regexp = /\d/g; // g - ищет все вхождения цирф в данной строке
+
+    //     alert (str.match(regexp));
+
+    //     regexp = /\s/g;   // space - пробелы, табуляции, переводы строк и т.д. Обычно ставится в конце строки
 
 
-// }
-// function toCamelCase(str){
-    
-//   return (str.match(/[^-_]/g)).join('');
-
-//   let words = str.split(/[-_]/);
-//   let res = words[0];
-//   for (let i = 1; i<words.length; i++){
-//     res += words[i][0].toString().toCamelCase + words.slice(1);
-//   }
-//   return res;
-  
-// }
-
-// function rgb(r,g,b){
-//     return [to16Sys(r),to16Sys(g),to16Sys(b)].join('');
-// }
+    //     regexp = /\w/g;   // буквы латинские, цирфы или подчеркивание
 
 
-// function to16Sys(num: number){
-//     if (num <= 0) return '00';
-//     if (num >= 255) return 'FF';
-//     let alphabet = '0123456789ABCDEF'
-//     let res = '';
-    
-//     while (num !== 0) {
-//         res += alphabet[Math.abs(num) % 16];
-//         num = Math.floor(num / 16);
-//     }
-//     if (res.length<2) res = 0 + res;
-//     return res.split('').reverse().join('');
-// }
+    // }
+    // function toCamelCase(str){
 
-//     1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153
-//    1^4 + 6^4 + 5^4 + 2^4 = 1 + 1296 + 625 + 16 = 1938
-// function narcissistic(value: number) {
-//     let tryNarcissistic = 0;
-//     let lengthNumber = value.toString().length;
-//     let initialValue = value;
-//     while (value > 0) {
-//         tryNarcissistic += Math.pow(Math.floor(value%10),lengthNumber);
-//         value = Math.floor(value/10)
-//     }
+    //   return (str.match(/[^-_]/g)).join('');
 
-//     return (tryNarcissistic === initialValue) ? true : tryNarcissistic;
-// }
+    //   let words = str.split(/[-_]/);
+    //   let res = words[0];
+    //   for (let i = 1; i<words.length; i++){
+    //     res += words[i][0].toString().toCamelCase + words.slice(1);
+    //   }
+    //   return res;
+
+    // }
+
+    // function rgb(r,g,b){
+    //     return [to16Sys(r),to16Sys(g),to16Sys(b)].join('');
+    // }
 
 
-//Implement the function unique_in_order which takes as argument a sequence and returns
-//  a list of items without any elements with the same value next to each other
-//  and preserving the original order of elements.
-// For example:
+    // function to16Sys(num: number){
+    //     if (num <= 0) return '00';
+    //     if (num >= 255) return 'FF';
+    //     let alphabet = '0123456789ABCDEF'
+    //     let res = '';
 
-// uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']
-// uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']
-// uniqueInOrder([1,2,2,3,3])       == [1,2,3]
+    //     while (num !== 0) {
+    //         res += alphabet[Math.abs(num) % 16];
+    //         num = Math.floor(num / 16);
+    //     }
+    //     if (res.length<2) res = 0 + res;
+    //     return res.split('').reverse().join('');
+    // }
 
-// const uniqueInOrder = function(iterable: string) {
-//     let result = new Array();
-//     for (let letter of iterable) {
-//         if (result.at(-1) !== letter) result.push(letter);
-//     }
-//     return result;
-// }
+    //     1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153
+    //    1^4 + 6^4 + 5^4 + 2^4 = 1 + 1296 + 625 + 16 = 1938
+    // function narcissistic(value: number) {
+    //     let tryNarcissistic = 0;
+    //     let lengthNumber = value.toString().length;
+    //     let initialValue = value;
+    //     while (value > 0) {
+    //         tryNarcissistic += Math.pow(Math.floor(value%10),lengthNumber);
+    //         value = Math.floor(value/10)
+    //     }
 
-
-// A child is playing with a ball on the nth floor of a tall building. 
-// The height of this floor above ground level, h, is known.
-// 
-// He drops the ball out of the window. The ball bounces (for example), 
-// to two-thirds of its height (a bounce of 0.66).
-// His mother looks out of a window 1.5 meters from the ground.
-// 
-// How many times will the mother see the ball pass in front of her window 
-// (including when it's falling and bouncing)?
-
-// Three conditions must be met for a valid experiment:
-// Float parameter "h" in meters must be greater than 0
-// Float parameter "bounce" must be greater than 0 and less than 1
-// Float parameter "window" must be less than h.
-// If all three conditions above are fulfilled, return a positive integer, otherwise return -1.
-
-// The ball can only be seen if the height of the rebounding ball 
-// is strictly greater than the window parameter.
-
-//Examples:
-// - h = 3, bounce = 0.66, window = 1.5, result is 3
-// - h = 3, bounce = 1, window = 1.5, result is -1 
-// (Condition 2) not fulfilled).
+    //     return (tryNarcissistic === initialValue) ? true : tryNarcissistic;
+    // }
 
 
-// let regexp = /\d{2}[:-]\d{2}/g; 
-// alert( "Завтрак в 09:00. Ужин в 21-30".match(regexp) );
+    //Implement the function unique_in_order which takes as argument a sequence and returns
+    //  a list of items without any elements with the same value next to each other
+    //  and preserving the original order of elements.
+    // For example:
 
-// массивы я знаю
-// at - метод для получения элемента массива по индексу
-// shift - убирает из массива последний элемент
-// массивы не сравниваются между собой
+    // uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']
+    // uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']
+    // uniqueInOrder([1,2,2,3,3])       == [1,2,3]
 
-// // принцип работы for... of:
-// let range = {
-//   from: 1,
-//   to: 5,
-
-//   [Symbol.iterator]() {
-//     this.current = this.from;
-//     return this;
-//   },
-
-//   next() {
-//     if (this.current <= this.to) {
-//       return { done: false, value: this.current++ };
-//     } else {
-//       return { done: true };
-//     }
-//   }
-// };
-
-// for (let num of range) {
-//   alert(num); // 1, затем 2, 3, 4, 5
-// }
-
-// Array.from(range, num => num * num);
-
-// map - коллекция ключ/значение, как и object
-// map.set("1", "str1");    // строка в качестве ключа
-// map.set(1, "num1");      // цифра как ключ
-// map.set(true, "bool1");  // булево значение как ключ
+    // const uniqueInOrder = function(iterable: string) {
+    //     let result = new Array();
+    //     for (let letter of iterable) {
+    //         if (result.at(-1) !== letter) result.push(letter);
+    //     }
+    //     return result;
+    // }
 
 
-// как из the-atealth-warrior получить theStealthWarrior???
+    // A child is playing with a ball on the nth floor of a tall building. 
+    // The height of this floor above ground level, h, is known.
+    // 
+    // He drops the ball out of the window. The ball bounces (for example), 
+    // to two-thirds of its height (a bounce of 0.66).
+    // His mother looks out of a window 1.5 meters from the ground.
+    // 
+    // How many times will the mother see the ball pass in front of her window 
+    // (including when it's falling and bouncing)?
 
-// let messages = [
-//     {text: "Hello", from: "John"},
-//     {text: "How goes?", from: "John"},
-//     {text: "See you soon", from: "Alice"}
-// ]
-// // Чтобы хранить информацию о дате чтения сообщения
-// let readMap = new WeakMap();
+    // Three conditions must be met for a valid experiment:
+    // Float parameter "h" in meters must be greater than 0
+    // Float parameter "bounce" must be greater than 0 and less than 1
+    // Float parameter "window" must be less than h.
+    // If all three conditions above are fulfilled, return a positive integer, otherwise return -1.
 
-// readMap.set(messages[0], new Date(2017,1,1));
+    // The ball can only be seen if the height of the rebounding ball 
+    // is strictly greater than the window parameter.
 
-// Найти все HTML-комментарии в тексте:
-let regexp = /[\w\s]+/g;
-let str = `... <!-- My -- comment
+    //Examples:
+    // - h = 3, bounce = 0.66, window = 1.5, result is 3
+    // - h = 3, bounce = 1, window = 1.5, result is -1 
+    // (Condition 2) not fulfilled).
+
+
+    // let regexp = /\d{2}[:-]\d{2}/g; 
+    // alert( "Завтрак в 09:00. Ужин в 21-30".match(regexp) );
+
+    // массивы я знаю
+    // at - метод для получения элемента массива по индексу
+    // shift - убирает из массива последний элемент
+    // массивы не сравниваются между собой
+
+    // // принцип работы for... of:
+    // let range = {
+    //   from: 1,
+    //   to: 5,
+
+    //   [Symbol.iterator]() {
+    //     this.current = this.from;
+    //     return this;
+    //   },
+
+    //   next() {
+    //     if (this.current <= this.to) {
+    //       return { done: false, value: this.current++ };
+    //     } else {
+    //       return { done: true };
+    //     }
+    //   }
+    // };
+
+    // for (let num of range) {
+    //   alert(num); // 1, затем 2, 3, 4, 5
+    // }
+
+    // Array.from(range, num => num * num);
+
+    // map - коллекция ключ/значение, как и object
+    // map.set("1", "str1");    // строка в качестве ключа
+    // map.set(1, "num1");      // цифра как ключ
+    // map.set(true, "bool1");  // булево значение как ключ
+
+
+    // как из the-atealth-warrior получить theStealthWarrior???
+
+    // let messages = [
+    //     {text: "Hello", from: "John"},
+    //     {text: "How goes?", from: "John"},
+    //     {text: "See you soon", from: "Alice"}
+    // ]
+    // // Чтобы хранить информацию о дате чтения сообщения
+    // let readMap = new WeakMap();
+
+    // readMap.set(messages[0], new Date(2017,1,1));
+
+    // Найти все HTML-комментарии в тексте:
+    let regexp = /[\w\s]+/g;
+    let str = `... <!-- My -- comment
  test --> ..  <!----> ..
 `;
 
 
-alert( str.match(regexp) );
 
-// опережающая проверка: X(?=Y) - указывает, что где-то после выражения X обязательно
-// находится символ Y
-// негативная опережающая проверка: (?!Y) - точно нет символа Y
+    function countObjecProperties() {
+        let user = {
+            name: 'John',
+            age: 30
+        };
+
+        function count(user: object) {
+
+            for (let value of Object.values(user)) {
+                alert(`Object.values = ${value}`);
+            }
+
+            for (let key of Object.keys(user)) {
+                alert(`Object.keys = ${key}`);
+            }
+
+            for (let entrie of Object.entries(user)) {
+                alert(`Object.entries = ${entrie}`);
+            }
+
+        }
+    }
+
+    // alert( str.match(regexp) );
+
+    // опережающая проверка: X(?=Y) - указывает, что где-то после выражения X обязательно
+    // находится символ Y
+    // негативная опережающая проверка: (?!Y) - точно нет символа Y
+    // есть еще ретроспективные проверки - проверяют, чтобы ПЕРЕД X шло Y
+    // (?<=Y)X и (?<!Y)X
+
+
+    // function longestConsec(strarr: string[], k: number) {
+    //     if (strarr.length < k) return "";
+    //     let res = "";
+    //     console.log(strarr.length);
+    //     for (let i = 0; i <= strarr.length - k; i++) {
+    //         let word = '';
+    //         for (let j = i; j < i+k; j++){
+    //             word += strarr[j].toString();
+    //             console.log('word=', word);
+    //         }
+    //         res = word.length > res.length ? word : res;
+    //     }
+    //     return res;
+    // }
+    // longestConsec(["zone", "abigail", "theta", "form", "libe", "zas"], 2);
+
+    // +--------+-------+
+    // | Symbol | Value |
+    // +--------+-------+
+    // |    M   |  1000 |
+    // |   CM   |   900 |
+    // |    D   |   500 |
+    // |   CD   |   400 |
+    // |    C   |   100 |
+    // |   XC   |    90 |
+    // |    L   |    50 |
+    // |   XL   |    40 |
+    // |    X   |    10 |
+    // |   IX   |     9 |
+    // |    V   |     5 |
+    // |   IV   |     4 |
+    // |    I   |     1 |
+    // +--------+-------+
+
+    // to roman:
+    // 2000 -> "MM"
+    // 1666 -> "MDCLXVI"
+    //   86 -> "LXXXVI"
+    //    1 -> "I"
+
+    // from roman:
+    // "MM"      -> 2000
+    // "MDCLXVI" -> 1666
+    // "LXXXVI"  ->   86
+    // "I"       ->    1
+
+    // let romanianLetters = {
+    //     "M": 1000,
+    //     "CM": 900,
+    //     "D": 500,
+    //     "CD": 400,
+    //     "C": 100,
+    //     "XC": 90,
+    //     "L": 50,
+    //     "XL": 40,
+    //     "X": 10,
+    //     "IX": 9,
+    //     "V": 5,
+    //     "IV": 4,
+    //     "I": 1
+    // }
+    // function toRomanian(num: number){
+    //     let result = '';
+    //     for (let key in romanianLetters){
+    //         while (num >= romanianLetters[key]){
+    //             result += key;
+    //             num -= romanianLetters[key];
+    //         }
+    //     }
+    //     return result;
+    // }
+
+
+    //   function fromRoman(str:string) {
+    //     let res = 0;
+    //     for (let i = 0; i < str.length; i++){
+    //         let twoLetters = str[i] + str[i+1];
+    //         if (romanianLetters[twoLetters]){
+    //           i+=1;
+    //           res += romanianLetters[twoLetters]
+    //           continue;
+    //         }
+    //         res += romanianLetters[str[i]];
+    //     }
+
+    //     return res;
+    //   }
+
+    // #endreion
+
+    const divStyle = {
+        
+    }
 
     return (
-        <>
-            <div>
-                Я JavaScript
-
-
-            </div>
+        <Container
+            style={{
+                display:'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-around',
+                padding: '1rem'
+            }}>
             <Link to="Tests/TestsJS">
                 Ссылка на Js
             </Link>
-        </>
+
+
+            <h3> Object.keys, values, entries</h3>
+            <ul>
+                <li>Object.keys(obj) - возвращает массив ключей</li>
+                <li> Object.values(obj) - возвращает массив значений</li>
+                <li> Object.entries(obj) - возвращает массив пар [ключ, значение]</li>
+            </ul>
+
+            <div style={{
+                padding: '2rem'
+            }}>
+                <strong>Деструктуризация массива</strong> - спец. синтаксис, который позволяет нам "распаковать" массивы
+                или объекты в несколько переменных, так как иногда они более удобны.
+            </div>
+
+
+            <code style={{width: '70%'}}>
+                let arr = ["Ilya", "Kantor"]; <br />
+                let [firstName, surName] = arr; // firstName = arr[0]; surName = arr[1];
+            </code>
+
+            <strong>Оператор расширения</strong> - оператор "...", который позволяется раскрыть массив в список аргументов.
+                <ul>
+                    Если ...
+                    <li>располагается в конце списка параметров функции, то это "остаточные параметры". <br/>
+                        Он собирает остальные неуказанные аргументы и делает из них массив.</li>
+                    <li>встретился в вызове функции, то это "оператор расширения". <br/> 
+                        Он извлекает элементы из массива.</li>
+                </ul>
+
+            <span style={{
+                width: '70%',
+                background: '#dddddd',
+                padding: '1rem 1.5rem',
+                alignSelf: 'center'
+            }}>
+                <strong style={{fontSize:'large',}}>Замыкание</strong> <br/>
+                - функция, которая запоминает свои внешние переменные и может получить к ним доступ. <br/>
+                - это комбинация функции и лексического окружения, в котором эта функция была определена. <br/>
+                - это функция, которая "запоминает" переменные из того места, где была создана,
+                даже после того, как это место уже закончило работу.
+                <ul>
+                    <li>
+                        Они автоматически запоминают, где были созданы (с помощью скрытого
+                    свойства <code>[[Enviroment]]</code>), и все они могут получить 
+                    доступ к внешним переменным.
+                    </li>
+                    <li>
+                        Все функции в JavaScript являются замыканиями. 
+                    </li>
+                    <li>
+                        Создаются каждый раз при создании функции, во время её создания.
+                    </li>
+                </ul>
+
+                <code style={{padding:'1rem 0'}}>
+                   { `Напишите функцию sum, которая работает таким образом: sum(a)(b) = a + b;
+                    function sum(a){
+                        return function (b) {
+                            return a + b;
+                        }
+                    }
+                    Чтобы вторые скобки заработали, первые - должны вернуть функцию.` 
+                    }
+                </code>
+            </span>
+        </Container>
     );
 }
 
