@@ -175,6 +175,34 @@ const Tests = () => {
     }
 
 
+    // must return 2
+// cakes({flour: 500, sugar: 200, eggs: 1}, {flour: 1200, sugar: 1200, eggs: 5, milk: 200}); 
+// must return 0
+// cakes({apples: 3, flour: 300, sugar: 150, milk: 100, oil: 100}, {sugar: 500, flour: 2000, milk: 2000}); 
+// function cakes(recipe: object, available: object) {
+//     let res;
+//     for (let key of Object.keys(recipe)){
+//         if (!Object.keys(available).includes(key)) return 0;
+
+//         let cakes = Math.floor(available[key]/recipe[key]);
+//         if (res === null) {res = cakes;}
+//         else {res = Math.min(cakes,res!);}       
+//     }
+//     return res;
+// }
+
+// where the value is 0 if a spot is empty, 1 if it is an "X", or 2 if it is an "O"
+// [[0, 0, 1],
+// [0, 1, 2],
+// [2, 1, 0]]
+function TicTacToe (arr: number[][]){
+    if ((arr.at(0)?.at(0) === arr.at(1)?.at(1) && arr.at(1)?.at(1) === arr.at(2)?.at(2)) ||
+        (arr.at(0)?.at(2) === arr.at(1)?.at(1) && arr.at(1)?.at(1) === arr.at(2)?.at(0)) 
+        ){return arr.at(0)?.at(0);
+    }
+}
+
+
     //Write a function that accepts an array of 10 integers (between 0 and 9), that 
     // returns a string of those numbers in the form of a phone number.
     // Example
@@ -388,7 +416,7 @@ const Tests = () => {
  test --> ..  <!----> ..
 `;
 
-
+    // 
 
     function countObjecProperties() {
         let user = {
@@ -512,9 +540,6 @@ const Tests = () => {
 
     // #endreion
 
-    const divStyle = {
-        
-    }
 
     return (
         <Container
