@@ -541,6 +541,9 @@ function TicTacToe (arr: number[][]){
     // #endreion
 
 
+
+    // Видимо для аренды помещений не работает расчет сделки, иначе я без понятия, почему оно так 
+    // работает..
     return (
         <Container
             style={{
@@ -568,6 +571,13 @@ function TicTacToe (arr: number[][]){
                 или объекты в несколько переменных, так как иногда они более удобны.
             </div>
 
+            <div style={{
+                display:'flex',
+                flexDirection: 'column',
+                justifyContent: 'center'
+            }}>
+
+            </div>
 
             <code style={{width: '70%'}}>
                 let arr = ["Ilya", "Kantor"]; <br />
