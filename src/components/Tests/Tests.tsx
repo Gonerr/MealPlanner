@@ -541,6 +541,29 @@ function TicTacToe (arr: number[][]){
     // #endreion
 
 
+    function isSolvedTicTacToe(arr: number[][]){
+        if ((arr.at(0)?.at(0) === arr.at(1)?.at(1) && arr.at(1)?.at(1) === arr.at(2)?.at(2)) ||
+            (arr.at(0)?.at(2) === arr.at(1)?.at(1) && arr.at(1)?.at(1) === arr.at(2)?.at(0)) 
+        ){return arr.at(1)?.at(1);}
+
+        for (let i = 0; i < arr.length; i++){
+            if (arr[i][0] == arr[i][1] && arr[i][1] == arr[i][2] && arr[i][0] !== 0){
+                return arr.at(i)?.at(0);
+            }
+        }
+
+        for (let j = 0; j < arr[0].length; j++){
+            if (arr[0][j] == arr[1][j] && arr[1][j] == arr[2][j] && arr[0][j] !== 0){
+                return arr.at(0)?.at(j);
+            }
+        }
+
+        let count = 0;
+        arr.map(a => a.map(elem => count = (elem === 0 ? 1 : count) ))
+        return 0;
+
+    }
+
 
     // Видимо для аренды помещений не работает расчет сделки, иначе я без понятия, почему оно так 
     // работает..
@@ -628,6 +651,7 @@ function TicTacToe (arr: number[][]){
                     Чтобы вторые скобки заработали, первые - должны вернуть функцию.` 
                     }
                 </code>
+
             </span>
         </Container>
     );
