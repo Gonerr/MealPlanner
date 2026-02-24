@@ -2,6 +2,7 @@ import { round, trimStart } from "lodash";
 import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { describe, it, expect } from '@jest/globals';
+import { current } from "@reduxjs/toolkit";
 
 const Tests = () => {
 
@@ -540,7 +541,7 @@ function TicTacToe (arr: number[][]){
 
     // #endreion
 
-
+    // Для решения задачи Крестики-Нолики
     function isSolvedTicTacToe(arr: number[][]){
         if ((arr.at(0)?.at(0) === arr.at(1)?.at(1) && arr.at(1)?.at(1) === arr.at(2)?.at(2)) ||
             (arr.at(0)?.at(2) === arr.at(1)?.at(1) && arr.at(1)?.at(1) === arr.at(2)?.at(0)) 
@@ -558,15 +559,45 @@ function TicTacToe (arr: number[][]){
             }
         }
 
-        let count = 0;
-        arr.map(a => a.map(elem => count = (elem === 0 ? 1 : count) ))
-        return 0;
+        let count = -1;
+        arr.map(a => a.map(elem => count = (elem === 0 ? 0 : count) ))
+        return count;
 
     }
 
+    // Задание - в тексте отделить комментарии от остального текста
+    function searchComments(text: string, markers: string[]) {
+        if (markers.length === 0) return text.trimEnd();
 
-    // Видимо для аренды помещений не работает расчет сделки, иначе я без понятия, почему оно так 
-    // работает..
+        const separator = '___NEWLINE___';
+        text = text.replaceAll('\n', separator);
+
+        let formattedText = text.split(separator);
+        let res = [];
+
+        for (let phrase of formattedText){
+            let words = '';
+            for (let letter of phrase){
+                if (!markers.includes(letter)) words+=letter
+                else break;
+            }   
+            res.push(words.trimEnd());
+        }
+        
+        return res.join('\n');
+    }
+
+    function printNumbers(from: number, to:number){
+        function printN() {
+            alert(current);
+            if(current===to){
+                clearInterval(timer)
+            }
+        }
+        let current = from;
+        let timer = setInterval(printN, 1000)
+    }
+
     return (
         <Container
             style={{
@@ -651,6 +682,8 @@ function TicTacToe (arr: number[][]){
                     Чтобы вторые скобки заработали, первые - должны вернуть функцию.` 
                     }
                 </code>
+
+
 
             </span>
         </Container>
