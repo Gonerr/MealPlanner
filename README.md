@@ -35,4 +35,3 @@ Components are organized by feature rather than by type, promoting maintainabili
 The application provides a structured approach to meal planning with responsive design,
 comprehensive state management, and modern UI components. The tech stack ensures type safety,
 testability, and maintainable code architecture. 
-
