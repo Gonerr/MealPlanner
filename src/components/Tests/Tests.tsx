@@ -598,6 +598,7 @@ function TicTacToe (arr: number[][]){
         let timer = setInterval(printN, 1000)
     }
 
+    
     return (
         <Container
             style={{

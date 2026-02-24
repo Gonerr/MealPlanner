@@ -313,39 +313,6 @@ function App() {
           </Row>
         </Container>
       </footer>
-      {/* <footer className="bg-light py-4 mt-5 border-top">
-        <Container>
-          <Row className="align-items-center">
-            <Col md={4} className="text-center text-md-start mb-3 mb-md-0">
-              <h5 className="text-primary">🏠 Домашняя кухня</h5>
-              <p className="text-muted small mb-0">
-                Планируйте меню, готовьте с удовольствием!
-              </p>
-            </Col>
-
-            <Col md={4} className="text-center mb-3 mb-md-0">
-              <div className="d-flex justify-content-center gap-3">
-                <a href="#" className="text-decoration-none text-secondary">
-                  👤 Личный кабинет
-                </a>
-                <a href="#" className="text-decoration-none text-secondary">
-                  📚 База рецептов
-                </a>
-                <a href="#" className="text-decoration-none text-secondary">
-                  💬 Сообщество
-                </a>
-              </div>
-            </Col>
-
-            <Col md={4} className="text-center text-md-end">
-              <small className="text-muted">
-                С любовью для домашних поваров ❤️<br />
-                © {new Date().getFullYear()} ДомашняяКухня.ру
-              </small>
-            </Col>
-          </Row>
-        </Container>
-      </footer> */}
     </div>
   );
 }
