@@ -4,6 +4,28 @@ import { Link } from "react-router-dom";
 import { describe, it, expect } from '@jest/globals';
 import { current } from "@reduxjs/toolkit";
 
+export function justify(text: string, width: number){
+    if (text.length <= width) return text;
+    
+    let formattedText = text.split(' ');
+    let result = '';
+    let line = '';
+    for (let word of formattedText) {
+        result += word;
+        if (result.length > width){
+            line += result + '\n';
+        }
+        else {
+            let words = result.split(' ');
+            let freeSpace = width - words.reduce((sum, w) => sum + w.length, 0);
+            let space = ' '.repeat(Math.floor(freeSpace/(words.length-1)));
+            line = words.join(space) + '\n';
+        }
+        result += line;
+    }
+    return result; 
+}
+
 const Tests = () => {
 
     // #region Решение задач -----------------
@@ -565,6 +587,9 @@ function TicTacToe (arr: number[][]){
 
     }
 
+ 
+    
+
     // Задание - в тексте отделить комментарии от остального текста
     function searchComments(text: string, markers: string[]) {
         if (markers.length === 0) return text.trimEnd();
@@ -609,8 +634,7 @@ function TicTacToe (arr: number[][]){
             }}>
             <Link to="Tests/TestsJS">
                 Ссылка на Js
-            </Link>
-
+            </Link> 
 
             <h3> Object.keys, values, entries</h3>
             <ul>
@@ -618,7 +642,6 @@ function TicTacToe (arr: number[][]){
                 <li> Object.values(obj) - возвращает массив значений</li>
                 <li> Object.entries(obj) - возвращает массив пар [ключ, значение]</li>
             </ul>
-
             <div style={{
                 padding: '2rem'
             }}>

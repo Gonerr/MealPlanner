@@ -1,0 +1,10 @@
+{
+    "macros": {
+        "myFirstMacro": [
+            "type", "Это мой первый макрос!",
+            "delay", 500,
+            "cursorMove", "down",
+            "type", "Вторая строка"
+        ]
+    }
+}
