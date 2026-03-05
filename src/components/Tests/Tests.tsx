@@ -563,9 +563,9 @@ function TicTacToe (arr: number[][]){
 
     }
 
- 
-    
 
+
+    
     // Задание - в тексте отделить комментарии от остального текста
     function searchComments(text: string, markers: string[]) {
         if (markers.length === 0) return text.trimEnd();
@@ -610,6 +610,10 @@ function TicTacToe (arr: number[][]){
             }}>
             <Link to="Tests/TestsJS">
                 Ссылка на Js
+            </Link> 
+
+            <Link to="Tests/Github">
+                Ссылка на GitHub-заметки
             </Link> 
 
             <h3> Object.keys, values, entries</h3>

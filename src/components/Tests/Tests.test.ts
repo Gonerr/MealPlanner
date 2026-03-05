@@ -1,4 +1,4 @@
-import { justify } from "./newTest";
+import { justify, longestSlideDown, longestSlideDown2 } from "./newTest";
 
 describe('justify function', () => {
     test('returns full text if length <= width', () => {
@@ -33,4 +33,17 @@ describe('justify function', () => {
     //     expect(justify(text, 15)).toBe('Lorem     ipsu,');
     // });
 })
-//
+
+
+describe('longestSlideDown function', () => {
+    test('first description example', () => {
+        const pyramids = [ [3],
+                            [7, 4],
+                            [2, 4, 6],
+                            [8, 5, 9, 3]];
+        expect(longestSlideDown2(pyramids)).toBe(23);
+    })
+})
+ // Начинаем с первого числа
+ // полный обход дерева - не вариант, нужен какой-то алгоритм
+ //  

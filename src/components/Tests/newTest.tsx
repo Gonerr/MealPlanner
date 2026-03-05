@@ -1,3 +1,4 @@
+import { max } from "lodash";
 
 export function justify(text: string, width: number){
     if (text.length <= width) return text;
@@ -37,4 +38,33 @@ function splitLine (text: string, width: number) {
         spaces--;
     }
     return res;
+}
+
+export function longestSlideDown(pyramid: number[][]) {
+    let lengthOfPyramid = pyramid.length;
+    
+    let firstNumber = pyramid[0][0];
+    let numOfElement = 0;
+
+    for (let i = 1; i < lengthOfPyramid; i++){
+        let maxValue = 0;
+        for (let j = 0; j < pyramid[i].length; j++)
+        if (pyramid[i][j] >= maxValue && (j - numOfElement <= 1)) {
+            maxValue = pyramid[i][j];
+            numOfElement = j;
+        }
+        firstNumber += maxValue;
+    }
+    return firstNumber;
+}
+
+export function longestSlideDown2(pyramid: number[][]) {
+    let sums = [...pyramid[pyramid.length - 1]];
+    
+    for (let i = pyramid.length - 2; i >= 0; i--) {
+        for (let j = 0; j < pyramid[i].length; j++) {
+            sums[j] = pyramid[i][j] + Math.max(sums[j], sums[j + 1]);
+        }
+    }
+    return sums[0];
 }
