@@ -10,6 +10,9 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { Contact } from 'lucide-react';
 import Tests from './components/Tests/Tests';
 import TestsJS from './components/Tests/TestsJS';
+import Github from './components/Tests/Github';
+import Nextjs from './components/Tests/NextJS';
+import Objects from './components/Tests/Objects';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -28,8 +31,10 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/tests" element={<Tests />}>
-          <Route path="js" element={<TestsJS />} />
-          <Route path="Github" element = {</>} />
+          <Route path="TestsJS" element={<TestsJS />} />
+          <Route path="Github" element = {<Github/>} />
+          <Route path="Nextjs" element = {<Nextjs/>} />
+          <Route path="Objects" element = {<Objects/>} />
           {/* <Route path="bike" element={<BikeProducts />} /> */}
         </Route>
         <Route path="/contact" element={<Contact />} />

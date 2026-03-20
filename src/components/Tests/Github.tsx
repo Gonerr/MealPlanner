@@ -1,12 +1,12 @@
 import { Container } from "react-bootstrap"
 
+// Этот компонент находится внути другой страницы - то есть предыдущая страница тоже остается
 const Github = () => {
 
-
+    // нужно красиво отредактировать и будет отлично
     return (
-        <Container>
+        <Container className="g-2">
             <h2> Пояснения к основным командам Github</h2>
-
             <div>
                 <h4> Crerry-pick </h4>
                 <div>
@@ -27,6 +27,13 @@ const Github = () => {
                         <li>
                             reset - стирает текущие изменения в ветке (в т. ч. коммит)
                         </li>
+                        <li>
+                            echo ".cfg" {">>"} .gitignore - помогает "скрыть" файлы от 
+                            сторонних лиц (игнорирует файлы) 
+                        </li>
+                        <li>
+                            git show - показывает изменения, произошедшие в ветке
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -35,4 +42,4 @@ const Github = () => {
 
 }
 
-export default Github
+export default Github;

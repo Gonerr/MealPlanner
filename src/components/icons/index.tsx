@@ -58,13 +58,13 @@ export const AllCategoriesIcon: React.FC = () => (
 );
 
 export const NoRecipesIcon: React.FC = () => (
-  <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="48" cy="48" r="44" stroke="#E5E7EB" strokeWidth="2"/>
-    <path d="M32 40L40 48L32 56" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M64 40L56 48L64 56" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="48" cy="48" r="8" stroke="#9CA3AF" strokeWidth="2"/>
-    <path d="M60 36C60 33.7909 61.7909 32 64 32C66.2091 32 68 33.7909 68 36C68 38.2091 66.2091 40 64 40" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M36 60C36 57.7909 34.2091 56 32 56C29.7909 56 28 57.7909 28 60C28 62.2091 29.7909 64 32 64" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
+   <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="48" cy="48" r="40" stroke="#E5E7EB" strokeWidth="2" fill="#F9FAFB"/>
+    <circle cx="48" cy="48" r="30" stroke="#9CA3AF" strokeWidth="1.5" strokeDasharray="4 4"/>
+    <path d="M24 68L72 68" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M30 72L66 72" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="48" cy="48" r="8" fill="#E5E7EB"/>
+    <path d="M58 38C58 32.4772 52.5228 28 48 28C43.4772 28 38 32.4772 38 38" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
   </svg>
 );
 

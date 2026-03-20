@@ -1,6 +1,6 @@
 import { round, trimStart } from "lodash";
 import { Button, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { describe, it, expect } from '@jest/globals';
 import { current } from "@reduxjs/toolkit";
 
@@ -601,96 +601,38 @@ function TicTacToe (arr: number[][]){
 
     
     return (
-        <Container
-            style={{
-                display:'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-around',
-                padding: '1rem'
-            }}>
-            <Link to="Tests/TestsJS">
+    <Container>
+                
+            <Link to="TestsJS">
                 Ссылка на Js
             </Link> 
 
-            <Link to="Tests/Github">
+            <Link to="Github">
                 Ссылка на GitHub-заметки
             </Link> 
 
-            <h3> Object.keys, values, entries</h3>
-            <ul>
-                <li>Object.keys(obj) - возвращает массив ключей</li>
-                <li> Object.values(obj) - возвращает массив значений</li>
-                <li> Object.entries(obj) - возвращает массив пар [ключ, значение]</li>
-            </ul>
-            <div style={{
-                padding: '2rem'
-            }}>
-                <strong>Деструктуризация массива</strong> - спец. синтаксис, который позволяет нам "распаковать" массивы
-                или объекты в несколько переменных, так как иногда они более удобны.
+            <Link to="Nextjs">
+                Ссылка на Nextjs
+            </Link> 
+
+            <Link to="Objects">
+                Замыкания, объекты и т.п.
+            </Link> 
+
+
+            <Outlet/>
+
+            <div id="outer" className="container">
+                <div id="inner" className="container">
+                    <ul>
+                        <li className="nav"> <a href="#">One</a></li>
+                        <li className="nav"> <a href="#">Two</a></li>
+                    </ul>
+                </div>
+
             </div>
-
-            <div style={{
-                display:'flex',
-                flexDirection: 'column',
-                justifyContent: 'center'
-            }}>
-
-            </div>
-
-            <code style={{width: '70%'}}>
-                let arr = ["Ilya", "Kantor"]; <br />
-                let [firstName, surName] = arr; // firstName = arr[0]; surName = arr[1];
-            </code>
-
-            <strong>Оператор расширения</strong> - оператор "...", который позволяется раскрыть массив в список аргументов.
-                <ul>
-                    Если ...
-                    <li>располагается в конце списка параметров функции, то это "остаточные параметры". <br/>
-                        Он собирает остальные неуказанные аргументы и делает из них массив.</li>
-                    <li>встретился в вызове функции, то это "оператор расширения". <br/> 
-                        Он извлекает элементы из массива.</li>
-                </ul>
-
-            <span style={{
-                width: '70%',
-                background: '#dddddd',
-                padding: '1rem 1.5rem',
-                alignSelf: 'center'
-            }}>
-                <strong style={{fontSize:'large',}}>Замыкание</strong> <br/>
-                - функция, которая запоминает свои внешние переменные и может получить к ним доступ. <br/>
-                - это комбинация функции и лексического окружения, в котором эта функция была определена. <br/>
-                - это функция, которая "запоминает" переменные из того места, где была создана,
-                даже после того, как это место уже закончило работу.
-                <ul>
-                    <li>
-                        Они автоматически запоминают, где были созданы (с помощью скрытого
-                    свойства <code>[[Enviroment]]</code>), и все они могут получить 
-                    доступ к внешним переменным.
-                    </li>
-                    <li>
-                        Все функции в JavaScript являются замыканиями. 
-                    </li>
-                    <li>
-                        Создаются каждый раз при создании функции, во время её создания.
-                    </li>
-                </ul>
-
-                <code style={{padding:'1rem 0'}}>
-                   { `Напишите функцию sum, которая работает таким образом: sum(a)(b) = a + b;
-                    function sum(a){
-                        return function (b) {
-                            return a + b;
-                        }
-                    }
-                    Чтобы вторые скобки заработали, первые - должны вернуть функцию.` 
-                    }
-                </code>
-
-
-
-            </span>
-        </Container>
+            
+    </Container>
     );
 }
 

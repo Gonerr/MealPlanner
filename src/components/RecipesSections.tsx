@@ -5,7 +5,7 @@ import { selectFilteredDishes } from '../features/menu/menuSlice';
 import { Dish, DishCategory } from '../types/menu';
 import { RecipeCard } from './Main/RecipeCard';
 import { CategoryNav } from './shared/CategoryNav';
-import { EmptyState } from './EmptyState';
+import { EmptyState } from './shared/EmptyState';
 import { ChefHatIcon, InfoIcon, SortAscIcon, SortDescIcon } from './icons';
 
 interface Category {
