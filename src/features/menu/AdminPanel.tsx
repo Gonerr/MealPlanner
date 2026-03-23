@@ -4,8 +4,8 @@ import { Button, Card, Form, Modal, Table, Badge } from 'react-bootstrap';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { addDish, selectAllDishes } from './menuSlice';
 import { addIngredient, deleteIngredient, selectAllIngredients } from '../ingredients/ingredientsSlice';
-import { Dish, DishCategory, Ingredient } from '../../types/menu';
 import { nanoid } from '@reduxjs/toolkit';
+import { Dish, Ingredient, DishCategory } from '../../app/types/menu';
 
 const AdminPanel: React.FC = () => {
     const dispatch = useDispatch();

@@ -2,11 +2,11 @@
 import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFilteredDishes } from '../features/menu/menuSlice';
-import { Dish, DishCategory } from '../types/menu';
 import { RecipeCard } from './Main/RecipeCard';
 import { CategoryNav } from './shared/CategoryNav';
 import { EmptyState } from './shared/EmptyState';
 import { ChefHatIcon, InfoIcon, SortAscIcon, SortDescIcon } from './icons';
+import { DishCategory } from '../app/types/menu';
 
 interface Category {
   id: DishCategory | 'all';

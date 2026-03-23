@@ -2,7 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { setSelectedCategory, selectSelectedCategory } from '../features/menu/menuSlice';
-import { DishCategory } from '../types/menu';
+import { DishCategory } from '../app/types/menu';
+
 
 const categories: { value: DishCategory | 'all'; label: string; icon: string }[] = [
   { value: 'all', label: 'Все', icon: '🍽️' },

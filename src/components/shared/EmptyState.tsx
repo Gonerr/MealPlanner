@@ -1,7 +1,7 @@
 import React from 'react';
 import { CheckIcon } from '../icons';
 import { Utensils } from 'lucide-react';
-import { EmptyStateProps } from '../../types/IEmptyStateProps';
+import { EmptyStateProps } from '../../app/types/IEmptyStateProps';
 
 export const EmptyState: React.FC<EmptyStateProps> = ({
   searchQuery,

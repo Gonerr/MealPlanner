@@ -1,8 +1,8 @@
 import { round, trimStart } from "lodash";
 import { Button, Container } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom";
-import { describe, it, expect } from '@jest/globals';
-import { current } from "@reduxjs/toolkit";
+// import { describe, it, expect } from '@jest/globals';
+// import { current } from "@reduxjs/toolkit";
 
 const Tests = () => {
     // #region Решение задач -----------------

@@ -8,7 +8,7 @@ import {
   selectSelectedCategory,
   setSelectedCategory 
 } from './menuSlice';
-import { DishCategory } from '../../types/menu';
+import { DishCategory } from '../../app/types/menu';
 
 const MenuList: React.FC = () => {
   const dispatch = useDispatch();

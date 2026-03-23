@@ -1,9 +1,9 @@
 // components/Main/RecipeCard.tsx
 import React, { useState } from 'react';
 import { Card, Badge, Button } from 'react-bootstrap';
-import { Dish } from '../../types/menu';
 import { getCategoryIcon } from './RecipeList';
 import { RecipeModal } from './RecipeModal';
+import { Dish } from '../../app/types/menu';
 
 
 interface RecipeCardProps {

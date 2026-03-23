@@ -1,7 +1,6 @@
 // components/Main/RecipeModal.tsx
 import React from 'react';
 import { Modal, Button, Badge } from 'react-bootstrap';
-import { Dish } from '../../types/menu';
 import { 
   Clock, 
   Flame, 
@@ -12,6 +11,7 @@ import {
   BookOpen,
   ShoppingBag
 } from 'lucide-react';
+import { Dish } from '../../app/types/menu';
 
 interface RecipeModalProps {
   dish: Dish;

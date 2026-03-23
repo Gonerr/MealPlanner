@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
-import { Dish } from "../../types/menu";
 import { useState } from "react";
 import { deleteDish, toggleDishAvailability, updateDish } from "./menuSlice";
 import { Badge, Button, Card, Form, Modal } from "react-bootstrap";
 import IngredientList from "../../components/IngredientList";
 import { FaClock, FaEdit, FaEye, FaFire, FaStar, FaTrash } from "react-icons/fa";
+import { Dish } from "../../app/types/menu";
 
 interface MenuItemProps {
     dish: Dish;

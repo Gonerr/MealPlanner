@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
-import { Dish, DishCategory, MenuState } from '../../types/menu';
+import { Dish, DishCategory, MenuState } from '../../app/types/menu';
+
 
 const initialState: MenuState = {
   dishes: [

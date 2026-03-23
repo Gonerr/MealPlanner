@@ -2,64 +2,40 @@
   "name": "test-app",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.1",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/bootstrap": "^5.2.10",
-    "@types/node": "^16.18.126",
+    "@tanstack/react-query": "^5.95.0",
     "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
-    "chai": "^6.2.2",
     "cookie": "^1.1.1",
     "jsonwebtoken": "^9.0.3",
+    "lodash": "^4.17.23",
     "lucide-react": "^0.563.0",
-    "react": "^19.2.3",
+    "next": "^14.2.0",
+    "react": "^18.2.0",
     "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.2.3",
+    "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.1",
-    "react-scripts": "5.0.1",
-    "styled-components": "^6.3.11",
-    "test": "^3.3.0",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "store": "^2.0.12",
+    "styled-components": "^6.3.11"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
-    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/lodash": "^4.17.23",
-    "@types/react": "^19.2.9",
-    "@types/react-dom": "^19.2.3"
+    "@types/lodash": "^4.17.24",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
   }
 }
