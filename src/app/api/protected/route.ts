@@ -71,10 +71,6 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        // побудь моим психологом-наставником-другом, который предложит 
-        // наиболее лайтовый, оптимальный и при этом действительно успешный 
-        // план по достижению красивой и спокойной жизни. Итак, мои исходные данные:
-
         const body = await request.json();
         return NextResponse.json({
             success: true,
@@ -82,8 +78,7 @@ export async function POST(request: NextRequest) {
             createdBy: payload.userId,
             data: body 
         });
-        // я работаю в компании на 80 тысяч рублей веб-разработчиком и у меня 
-        // точно
+        
     } catch {
         return NextResponse.json(
             { error: 'Internal server error' },

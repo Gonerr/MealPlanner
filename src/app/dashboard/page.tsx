@@ -22,6 +22,9 @@ export default function DashboardPage(){
             .catch(() => {
                 router.push('/login');
             })
+            .finally(() => {
+                setLoading(false);
+            })
     },[router])
 
     const handleLogout = async() => {
@@ -53,7 +56,7 @@ export default function DashboardPage(){
                     </Card.Body>
                     <Card.Footer className="text-end">
                         <Button variant="danger" onClick={handleLogout}>
-                            Logout
+                            Выйти
                         </Button>
                     </Card.Footer>
                 </Col>
