@@ -10,7 +10,7 @@ import RecipesSection from '../components/RecipesSections';
 import Footer from '../components/layout/Footer';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function HomePage() {
   const [user, setUser] = useState<any>(null);
@@ -120,8 +120,4 @@ export default function HomePage() {
       <Footer />
     </div>
   );
-}
-
-function useEffect(arg0: () => void, arg1: AppRouterInstance[]) {
-  throw new Error('Function not implemented.');
 }

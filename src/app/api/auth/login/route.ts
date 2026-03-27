@@ -40,8 +40,8 @@ export async function POST(request: NextRequest) {
             role: user.role
         };
         
-        const accessToken = generateAccessToken(payload);
-        const refreshToken = generateRefreshToken(payload);
+        const accessToken = await generateAccessToken(payload);
+        const refreshToken = await generateRefreshToken(payload);
         
         const cookieStore = await cookies();
         cookieStore.set('accessToken', accessToken, {
