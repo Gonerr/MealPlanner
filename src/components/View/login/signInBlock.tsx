@@ -23,6 +23,8 @@ export default function SignInBlock({ onSwitchToSignUp }: SignInBlockProps) {
         setError('');
 
         try {
+            console.log('Sending login request...', {email, password});
+
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
@@ -31,13 +33,16 @@ export default function SignInBlock({ onSwitchToSignUp }: SignInBlockProps) {
                 body: JSON.stringify({ email, password }),
             })
 
-            const data = await response.json();
+            console.log('Response status:', response.status);
 
+            const data = await response.json();
+            console.log('Response data: ', data);
             if (!response.ok) {
                 throw new Error(data.error || 'Login failed');
             }
 
-            router.push('/dashboard');
+            console.log('Login successful, redirecting to home page...');
+            router.push('/');
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Login failed');
         } finally {

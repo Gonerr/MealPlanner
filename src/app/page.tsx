@@ -8,11 +8,36 @@ import { selectIsAdminMode, selectFilteredDishes, selectMenuStats } from '../fea
 import Sidebar from '../components/shared/Sidebar';
 import RecipesSection from '../components/RecipesSections';
 import Footer from '../components/layout/Footer';
+import { useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useState } from 'react';
 
 export default function HomePage() {
+  const [user, setUser] = useState<any>(null);
+
   const isAdminMode = useSelector(selectIsAdminMode);
   const filteredDishes = useSelector(selectFilteredDishes);
   const stats = useSelector(selectMenuStats);
+
+  const router = useRouter();
+    
+  useEffect(() => {
+      // Проверяем авторизацию
+      fetch('/api/auth/me')
+          .then(async (res) => {
+              if (res.ok) {
+                  const data = await res.json();
+                  setUser(data.user);
+              }
+          })
+          .catch(() => router.push('/login'));
+  }, []);
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', {method: 'POST'});
+    setUser(null);
+    router.push('/login');
+  }
 
   return (
     <div className="App">
@@ -95,4 +120,8 @@ export default function HomePage() {
       <Footer />
     </div>
   );
+}
+
+function useEffect(arg0: () => void, arg1: AppRouterInstance[]) {
+  throw new Error('Function not implemented.');
 }

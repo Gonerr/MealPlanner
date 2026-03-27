@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Lock, Mail, UserRoundPlusIcon } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail, UserRoundPlusIcon } from 'lucide-react'
 import { Button, Alert, Card, Col, Container, Form, Row } from "react-bootstrap";
 
 interface SignUpBlockProps {
@@ -12,8 +12,12 @@ interface SignUpBlockProps {
 export default function SignUpBlock({ onSwitchToSignIn }: SignUpBlockProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const router = useRouter();
 
@@ -21,12 +25,20 @@ export default function SignUpBlock({ onSwitchToSignIn }: SignUpBlockProps) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 
+    const validatePassword = (password: string) => {
+        const errors = [];
+        if (password.length < 6) errors.push('at least 6 characters');
+        if (!/[A-Z]/.test(password)) errors.push('one uppercase letter');
+        if (!/[0-9]/.test(password)) errors.push('one number');
+        return errors;
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');
 
-        if (!email || !password) {
+        if (!email || !password  || !confirmPassword)  {
             setError('Enter email and password');
             setLoading(false);
             return;
@@ -38,7 +50,18 @@ export default function SignUpBlock({ onSwitchToSignIn }: SignUpBlockProps) {
             return;
         }
         
-        setError('');
+        const passwordErrors = validatePassword(password);
+        if (passwordErrors.length > 0){
+            setError(`Password must contain: ${passwordErrors.join(', ')}`);
+            setLoading(false);
+            return;
+        }
+
+        if(password != confirmPassword) {
+            setError('Passwords do not match');
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await fetch('/api/auth/signup', {
@@ -52,9 +75,19 @@ export default function SignUpBlock({ onSwitchToSignIn }: SignUpBlockProps) {
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || 'Signup failed');
+                throw new Error(data.error || 'Registration failed');
             }
 
+            setSuccess('Account created successfully! Redirecting to login...');
+            setTimeout(() => {
+                if (onSwitchToSignIn) {
+                    onSwitchToSignIn();
+                }
+                // Очищаем форму
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+            })
             router.push('/dashboard');
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Signup failed');
@@ -80,6 +113,12 @@ export default function SignUpBlock({ onSwitchToSignIn }: SignUpBlockProps) {
                             {error && (
                                 <Alert variant="danger" className="mb-4">
                                     {error}
+                                </Alert>
+                            )}
+
+                            {success && (
+                                <Alert variant="success" className="mb-4">
+                                    {success}
                                 </Alert>
                             )}
 
@@ -113,6 +152,47 @@ export default function SignUpBlock({ onSwitchToSignIn }: SignUpBlockProps) {
                                             required
                                             onChange={(e) => setPassword(e.target.value)}
                                         />
+
+                                        <Button
+                                            variant="link"
+                                            className="position-absolute top-50 end-0 translate-middle-y me-2 p-0"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            style={{textDecoration:'none'}}
+                                            >
+                                                {showPassword ? <EyeOff size={16}/> : <Eye size={16}/>}
+                                        </Button>
+                                    </div>
+                                    <Form.Text className="text-muted">
+                                        Password must contain at least 6 characters, one uppercase letter and one number
+                                    </Form.Text>
+                                </Form.Group>
+
+                                <Form.Group className="mb-4">
+                                    <Form.Label className="text muted small">
+                                        Confirm Password 
+                                    </Form.Label>
+
+                                    <div className="position-relative">
+                                        <Lock size={18} className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"/>
+                                        <Form.Control
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            placeholder="Confirm your password"
+                                            value={confirmPassword}
+                                            disabled={loading}
+                                            className="ps-5 py-2"
+                                            required
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            />
+                                            <Button
+                                                variant="link"
+                                                className="position-absolute top-50 end-0 translate-middle-y me-2 p-0"
+                                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                style={{textDecoration: 'none'}}
+                                                >
+                                                    {showConfirmPassword ? <EyeOff size={16}/> : <Eye size={16}/>}
+
+
+                                            </Button>
                                     </div>
                                 </Form.Group>
 
