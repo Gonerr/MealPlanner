@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Navbar, Button, Badge } from 'react-bootstrap';
 import { FaUserLock, FaUtensils } from 'react-icons/fa';
-import { toggleAdminMode, selectIsAdminMode, selectMenuStats } from '../features/menu/menuSlice';
+import { toggleAdminMode, selectIsAdminMode, selectMenuStats } from '../../features/menu/menuSlice';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
       style={{
         borderBottom: '1px solid #e5e7eb',
         position: 'sticky',
-        minHeight: '6rem',
+        minHeight: '5rem',
         top: 0,
         zIndex: 1000,
         backdropFilter: 'blur(8px)',
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
 
         {/* Левая часть - логотип/название */}
         <Navbar.Brand className="d-flex align-items-center me-0">
-          <span className="fw-semibold fs-2 text-dark">Minimal Menu</span>
+          <span className="fw-semibold fs-4 text-dark">Days Menu</span>
         </Navbar.Brand>
 
         {/* Центральная часть - статистика
@@ -66,7 +66,7 @@ const Header: React.FC = () => {
           <Button
             variant={isAdminMode ? "warning" : "outline-dark"}
             onClick={() => dispatch(toggleAdminMode())}
-            size="lg"
+            size="sm"
             className="d-flex align-items-center"
             style={{
               borderRadius: '6px',

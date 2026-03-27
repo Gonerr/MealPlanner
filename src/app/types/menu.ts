@@ -18,6 +18,8 @@ export interface Dish {
     imageUrl?: string;
     calories?: number;
     isChefSpecial: boolean;
+    availableDays?: number[];
+    mealType: 'breakfast' | 'lunch' | 'dinner' | 'snacks';
 }
 
 export type DishCategory = |

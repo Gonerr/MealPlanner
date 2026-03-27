@@ -2,7 +2,7 @@
 
 import { Container, Row, Col, Alert, Badge } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import Header from '../components/Header';
+import Header from '../components/layout/Header';
 import AdminPanel from '../features/menu/AdminPanel';
 import { selectIsAdminMode, selectFilteredDishes, selectMenuStats } from '../features/menu/menuSlice';
 import Sidebar from '../components/shared/Sidebar';
@@ -11,14 +11,12 @@ import Footer from '../components/layout/Footer';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function HomePage() {
   const [user, setUser] = useState<any>(null);
 
   const isAdminMode = useSelector(selectIsAdminMode);
-  const filteredDishes = useSelector(selectFilteredDishes);
-  const stats = useSelector(selectMenuStats);
-
   const router = useRouter();
     
   useEffect(() => {
@@ -32,82 +30,74 @@ export default function HomePage() {
           })
           .catch(() => router.push('/login'));
   }, []);
+  
+    const [selectedDay, setSelectedDay] = useState(0);
+    const days = Array.from({length: 7}, (_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
 
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', {method: 'POST'});
-    setUser(null);
-    router.push('/login');
-  }
+        return {
+        index: i,
+        label: i === 0 ? 'Сегодня' : date.toLocaleDateString('ru-RU', {weekday: 'short'}),
+        full: date.toLocaleDateString('ru-RU',{day: 'numeric', month: 'long'})
+        };
+    });
+
 
   return (
     <div className="App">
       <Header />
 
       <main>
-        <Container className="px-0" fluid>
+        <Container className="px-2">
           {isAdminMode ? (
             <AdminPanel />
           ) : (
             <>
               {/* Приветственный блок */}
-              <div className="position-relative vh-100 d-flex align-items-center justify-content-center overflow-hidden">
-                <div
-                  className="position-absolute top-0 left-0 w-100 h-100 bg-cover bg-center mr-0 ml-0"
-                  style={{
-                    backgroundColor: '#83bcddff',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    filter: 'brightness(0.7)'
-                  }}
-                />
-                <div className="position-absolute top-0 left-0 w-100 h-100 bg-dark opacity-40" />
-                <div className="position-relative z-10 text-center text-white px-4">
-                  <h1 className="display-1 fw-light mb-4" style={{
-                    letterSpacing: '2px',
-                    textShadow: '0 2px 10px rgba(0, 164, 230, 0.3)'
-                  }}>
-                    Вкусный уголок
+              <div className="px-4 py-4">
+                  <h1 className="h2 fw-bold mb-1">
+                      меню на {days[selectedDay].label.toLowerCase()}
                   </h1>
-                  <div className="display-6 fw-light mb-5 mx-auto" style={{
-                    maxWidth: '800px',
-                    lineHeight: '1.6',
-                    textShadow: '0 1px 5px rgba(0,0,0,0.3)'
-                  }}>
-                    Выбирай меню на сегодня, завтра и каждый день
-                  </div>
-                  <div className="d-flex justify-content-center gap-4 mt-5">
-                    <div className="text-center">
-                      <div className="display-5 fw-bold">{stats.total}</div>
-                      <div className="fs-6 opacity-90">рецептов</div>
-                    </div>
-                    <div className="vr opacity-25" />
-                    <div className="text-center">
-                      <div className="display-5 fw-bold">{Math.round(stats.avgPrice)}</div>
-                      <div className="fs-6 opacity-90">мин среднее время</div>
-                    </div>
-                    <div className="vr opacity-25" />
-                    <div className="text-center">
-                      <div className="display-5 fw-bold">{stats.specials}</div>
-                      <div className="fs-6 opacity-90">избранных</div>
-                    </div>
-                  </div>
-                  <div className="mt-8">
-                    <div className="d-flex flex-column align-items-center">
-                      <span className="fs-6 opacity-75 mb-2">Продолжить просмотр</span>
-                      <div className="mouse-scroll">
-                        <div className="mouse">
-                          <div className="wheel"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  <p className="text-muted m-0">
+                      Подборка блюд на день
+                  </p>
               </div>
 
+              <div className="py-4 border-bottom">
+                  <div className="d-flex gap-2 overflow-auto px-3">
+
+                      {days.map(day => (
+                          <button
+                              key={day.index}
+                              onClick={() => setSelectedDay(day.index)}
+                              className={`btn ${
+                                  selectedDay === day.index
+                                  ? 'btn-dark'
+                                  : 'btn-outline-secondary'
+                                  }`}
+                                  style={{
+                                      borderRadius: '20px',
+                                      whiteSpace: 'nowrap'
+                                  }}
+                          >
+                              <div>{day.label}</div>
+                              <small className="opacity-75">{day.full}</small>
+                          </button>
+                      ))}
+
+                  </div>
+              </div>
+              
               <Row>
-                <Col lg={9} className="mb-4">
+                <motion.div
+                  key={selectedDay}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  >
                   <RecipesSection />
-                </Col>
+                </motion.div>
                 <Col lg={3} className="mb-4">
                   <Sidebar />
                 </Col>
