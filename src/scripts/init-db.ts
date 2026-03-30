@@ -14,17 +14,17 @@ async function main() {
             `INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)`,
             ['user@example.com', hashedPassword, 'user']
         );
-        console.log('✅ Test user created: user@example.com / hahah23');
+        console.log('Test user created: user@example.com / hahah23');
     } else {
-        console.log('✅ Test user already exists');
+        console.log('Test user already exists');
     }
     
     // Проверяем количество пользователей
     const count = await db.get('SELECT COUNT(*) as count FROM users');
-    console.log(`📊 Total users: ${count.count}`);
+    console.log(`Total users: ${count.count}`);
     
     await db.close();
-    console.log('✅ Database initialization complete!');
+    console.log('Database initialization complete!');
 }
 
 main().catch(console.error);
