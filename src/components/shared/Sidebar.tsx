@@ -4,6 +4,7 @@ import WeeklyPlan from '../WeeklyPlan';
 import ShoppingList from '../ShoppingList';
 
 const Sidebar: React.FC = () => {
+  
   return (
     <div style={{ top: '20px' }}>
       
