@@ -1,117 +1,121 @@
-import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { Dish, DishCategory, MenuState } from '../../app/types/menu';
+import { apiClient } from '@/lib/api-client';
 
+export const fetchRecipes = createAsyncThunk(
+  'menu/fetchRecipes',
+  async () => {
+    return await apiClient.getRecipes();
+  }
+);
+
+export const createRecipe = createAsyncThunk(
+  'menu/createRecipe',
+  async (recipe: Omit<Dish, 'id'>) => {
+      return await apiClient.createRecipe(recipe);
+  }
+);
+
+export const updateRecipe = createAsyncThunk(
+    'menu/updateRecipe',
+    async ({ id, recipe }: { id: number; recipe: Partial<Dish> }) => {
+        const success = await apiClient.updateRecipe(id, recipe);
+        if (success) {
+            return { id, recipe };
+        }
+        throw new Error('Failed to update recipe');
+    }
+);
+
+export const deleteRecipe = createAsyncThunk(
+    'menu/deleteRecipe',
+    async (id: number) => {
+        const success = await apiClient.deleteRecipe(id);
+        if (success) {
+            return id;
+        }
+        throw new Error('Failed to delete recipe');
+    }
+);
 
 const initialState: MenuState = {
-  dishes: [
-    {
-      id: 1,
-      name: 'Курица по-французски',
-      description: 'Запеканка из нескольких слоев',
-      price: 450,
-      category: 'main',
-      ingredients: [1, 2, 3, 4],
-      preparationTime: 55,
-      isAvailable: true,
-      calories: 320,
-      isChefSpecial: true,
-    },
-    {
-      id: 2,
-      name: 'Стейк из говядины',
-      description: 'Сочный стейк с овощами гриль',
-      price: 890,
-      category: 'main',
-      ingredients: [6, 1, 4],
-      preparationTime: 25,
-      isAvailable: true,
-      calories: 650,
-      isChefSpecial: false,
-    },
-    {
-      id: 3,
-      name: 'Шоколадный фондан',
-      description: 'Теплый шоколадный десерт с мороженым',
-      price: 350,
-      category: 'desserts',
-      ingredients: [7, 5],
-      preparationTime: 20,
-      isAvailable: false,
-      calories: 420,
-      isChefSpecial: true,
-    },
-    {
-      id: 4,
-      name: 'Мохито',
-      description: 'Освежающий коктейль с мятой и лаймом',
-      price: 300,
-      category: 'drinks',
-      ingredients: [],
-      preparationTime: 5,
-      isAvailable: true,
-      calories: 150,
-      isChefSpecial: false,
-    },
-  ],
-  ingredients: [],
-  selectedCategory: 'all',
-  isAdminMode: false,
-  searchQuery: '',
+    dishes: [],
+    ingredients: [],
+    selectedCategory: 'all',
+    isAdminMode: false,
+    searchQuery: '',
+    loading: false,
+    error: null
 };
+
 
 const menuSlice = createSlice({
   name: 'menu',
   initialState,
   reducers: {
-    addDish: {
-      reducer: (state, action: PayloadAction<Dish>) => {
-        state.dishes.push(action.payload);
-      },
-      prepare: (dish: Omit<Dish, 'id'>) => ({
-        payload: { ...dish, id: 0 },
-      }),
-    },
-    
-    updateDish: (state, action: PayloadAction<Dish>) => {
-      const index = state.dishes.findIndex(dish => dish.id === action.payload.id);
-      if (index !== -1) {
-        state.dishes[index] = action.payload;
-      }
-    },
-    
-    deleteDish: (state, action: PayloadAction<number>) => {
-      state.dishes = state.dishes.filter(dish => dish.id !== action.payload);
-    },
-    
-    toggleDishAvailability: (state, action: PayloadAction<number>) => {
-      const dish = state.dishes.find(dish => dish.id === action.payload);
-      if (dish) {
-        dish.isAvailable = !dish.isAvailable;
-      }
-    },
-    
     setSelectedCategory: (state, action: PayloadAction<DishCategory | 'all'>) => {
-      state.selectedCategory = action.payload;
-    },
-    
-    toggleAdminMode: (state) => {
-      state.isAdminMode = !state.isAdminMode;
-    },
-    
-    setSearchQuery: (state, action: PayloadAction<string>) => {
-      state.searchQuery = action.payload;
-    },
+            state.selectedCategory = action.payload;
+        },
+        
+        toggleAdminMode: (state) => {
+            state.isAdminMode = !state.isAdminMode;
+        },
+        
+        setSearchQuery: (state, action: PayloadAction<string>) => {
+            state.searchQuery = action.payload;
+        },
+        
+        clearError: (state) => {
+            state.error = null;
+        }
   },
+  extraReducers: (builder) => {
+        // Fetch recipes
+        builder
+            .addCase(fetchRecipes.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchRecipes.fulfilled, (state, action) => {
+                state.loading = false;
+                state.dishes = action.payload;
+            })
+            .addCase(fetchRecipes.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch recipes';
+            });
+        
+        // Create recipe
+        builder
+            .addCase(createRecipe.fulfilled, (state, action) => {
+                if (action.payload) {
+                    state.dishes.push(action.payload);
+                }
+            });
+        
+        // Update recipe
+        builder
+            .addCase(updateRecipe.fulfilled, (state, action) => {
+                const { id, recipe } = action.payload;
+                const index = state.dishes.findIndex(dish => dish.id === id);
+                if (index !== -1) {
+                    state.dishes[index] = { ...state.dishes[index], ...recipe };
+                }
+            });
+        
+        // Delete recipe
+        builder
+            .addCase(deleteRecipe.fulfilled, (state, action) => {
+                state.dishes = state.dishes.filter(dish => dish.id !== action.payload);
+            });
+    }
 });
 
 export const {
-  addDish,
-  updateDish,
-  deleteDish,
-  toggleDishAvailability,
-  setSelectedCategory,
-  toggleAdminMode,
-  setSearchQuery,
+    setSelectedCategory,
+    toggleAdminMode,
+    setSearchQuery,
+    clearError
 } = menuSlice.actions;
 
 // Селекторы
@@ -119,6 +123,8 @@ export const selectAllDishes = (state: { menu: MenuState }) => state.menu.dishes
 export const selectSelectedCategory = (state: { menu: MenuState }) => state.menu.selectedCategory;
 export const selectIsAdminMode = (state: { menu: MenuState }) => state.menu.isAdminMode;
 export const selectSearchQuery = (state: { menu: MenuState }) => state.menu.searchQuery;
+export const selectLoading = (state: { menu: MenuState }) => state.menu.loading;
+export const selectError = (state: { menu: MenuState }) => state.menu.error;
 
 export const selectFilteredDishes = (state: { menu: MenuState }) => {
   const { dishes, selectedCategory, searchQuery } = state.menu;

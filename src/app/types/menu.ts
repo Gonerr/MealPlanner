@@ -38,4 +38,6 @@ export interface MenuState {
   selectedCategory: DishCategory | 'all';
   isAdminMode: boolean;
   searchQuery: string;
+  loading: boolean;
+  error: string | null;
 }

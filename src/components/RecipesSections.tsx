@@ -1,12 +1,13 @@
 // components/RecipesSection.tsx
-import React, { useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { selectFilteredDishes } from '../features/menu/menuSlice';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRecipes, selectError, selectFilteredDishes, selectLoading } from '../features/menu/menuSlice';
 import { RecipeCard } from './Main/RecipeCard';
 import { CategoryNav } from './shared/CategoryNav';
 import { EmptyState } from './shared/EmptyState';
 import { ChefHatIcon, InfoIcon, SortAscIcon, SortDescIcon } from './icons';
 import { DishCategory } from '../app/types/menu';
+import { LoaderIcon } from 'lucide-react';
 
 interface Category {
   id: DishCategory | 'all';
@@ -15,11 +16,20 @@ interface Category {
 }
 
 const RecipesSection: React.FC = () => {
-  const allRecipes = useSelector(selectFilteredDishes);
+  const dispatch = useDispatch();
+    const allRecipes = useSelector(selectFilteredDishes);
+    const loading = useSelector(selectLoading);
+    const error = useSelector(selectError);
+    
   const [activeCategory, setActiveCategory] = useState<DishCategory | 'all'>('all');
   const [sortBy, setSortBy] = useState<'name' | 'time' | 'price'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
+  // Загружаем рецепты при монтировании компонента
+    useEffect(() => {
+        dispatch(fetchRecipes() as any);
+    }, [dispatch]);
+    
   // Категории для навигации
   const categories: Category[] = [
     { id: 'all', name: 'Все рецепты', color: 'gray' },
@@ -62,6 +72,38 @@ const RecipesSection: React.FC = () => {
   const handleResetCategory = () => {
     setActiveCategory('all');
   };
+
+  if (loading && allRecipes.length === 0) {
+        return (
+            <div className="bg-white rounded-3 shadow-sm border border-gray-300 h-100 p-2">
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
+                    <div className="text-center">
+                        <LoaderIcon className="animate-spin mb-3" size={40} />
+                        <p className="text-muted">Загрузка рецептов...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (error && allRecipes.length === 0) {
+      return (
+        <div className="bg-white rounded-3 shadow-sm border border-gray-300 h-100 p-2">
+          <div className="d-flex justify-content-center align-items-center" style={{minHeight:'400px'}}>
+            <div className="text-center text-danger">
+                <p>Ошибка загрузки рецептов: {error}</p>
+                <button
+                  className="btn btn-outline-primary" 
+                  onClick={() => dispatch(fetchRecipes() as any)}
+                >
+                  Попробовать снова
+                </button>
+            </div>
+          </div>
+
+        </div>
+      )
+    }
 
   return (
     <div className="bg-white rounded-3 shadow-sm border border-gray-300 h-100 p-2">
