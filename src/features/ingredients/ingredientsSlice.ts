@@ -104,7 +104,7 @@ const ingredientsSlice = createSlice({
 export const { clearError } = ingredientsSlice.actions;
 export default ingredientsSlice.reducer;
 
-export const selectAllIngredients = (state: { ingredients: Ingredient[]}) => state.ingredients;
+export const selectAllIngredients = (state: { ingredients: IngredientState}) => state.ingredients.items;
 export const selectIngredientsLoading = (state: { ingredients: IngredientState }) => state.ingredients.loading;
 export const selectIngredientsError = (state: { ingredients: IngredientState }) => state.ingredients.error;
 export const selectIngredientById = (id: number) => (state: { ingredients: Ingredient[] }) => state.ingredients.find(ing => ing.id === id);
