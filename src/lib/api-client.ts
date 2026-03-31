@@ -1,4 +1,5 @@
-import { Dish, DishCategory } from "@/app/types/menu";
+import { Dish, DishCategory, Ingredient } from "@/app/types/menu";
+import { deleteIngredient } from "@/features/ingredients/ingredientsSlice";
 
 interface RecipeDTO {
     id: number;
@@ -137,6 +138,77 @@ class ApiClient {
             return response.ok;
         } catch (error) {
             console.error('Error deleting recipe:', error);
+            return false;
+        }
+    }
+
+
+    // ================== ИНГРЕДИЕНТЫ ====================
+
+    // Получить все ингредиенты
+    async getIngredients(): Promise<Ingredient[]> {
+        try{
+            const response = await fetch(`${this.baseUrl}/ingredients`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch ingredients');
+            }
+            const data = await response.json();
+            return data.ingredients;
+        }catch(error){
+            console.error('Error fetching ingredients:', error);
+            return [];
+        }
+    }
+
+    // Создать ингредиент 
+    async createIngredient(ingredient: Omit<Ingredient, 'id'>): Promise<Ingredient | null> {
+        try {
+            const response = await fetch(`${this.baseUrl}/ingredients`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(ingredient)
+            });
+            if (!response.ok) {
+                throw new Error('Failed to create ingredient');
+            }
+            
+            const data = await response.json();
+            return data.ingredient;
+        } catch (error) {
+            console.error('Error creating ingredient:', error);
+            return null;
+        }
+    }
+
+    // Обновить ингредиент
+    async updateIngredient(id: number, ingredient: Partial<Ingredient>): Promise<boolean> {
+        try {
+            const response = await fetch(`${this.baseUrl}/ingredients`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, ...ingredient })
+            });
+            
+            return response.ok;
+        } catch (error) {
+            console.error('Error updating ingredient:', error);
+            return false;
+        }
+    }
+
+    // Удалить ингредиент
+    async deleteIngredient(id: number): Promise<boolean> {
+        try{
+             const response = await fetch(`${this.baseUrl}/ingredients?id=${id}`, {
+                method: 'DELETE'
+            });
+            return response.ok;
+        } catch (error) {
+            console.error('Error deleting ingredient:', error);
             return false;
         }
     }

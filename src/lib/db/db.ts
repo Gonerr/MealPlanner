@@ -276,7 +276,7 @@ async function seedTestData(db: any) {
                     }
                 }
             }
-            console.log('✅ Recipes seeded');
+            console.log('Recipes seeded');
         }
         
     } catch (error) {

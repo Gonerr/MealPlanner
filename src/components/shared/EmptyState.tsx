@@ -49,9 +49,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 
       {/* Подсказки */}
       <div className="border-top pt-4 w-100" style={{maxWidth: '400px'}}>
-        <h4 className="text-dark fw-semibold mb-3">Попробуйте:</h4>
+        <h4 className="text-dark text-center  fw-semibold mb-3">Попробуйте:</h4>
         <ul className="list-unstyled text-secondary">
-          <li className="d-flex align-items-center gap-2 mb-2">
+          <li className="d-flex align-items-center gap-2 mb-2 ">
             <CheckIcon />
             Выбрать другую категорию
           </li>

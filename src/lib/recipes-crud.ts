@@ -34,7 +34,7 @@ export class RecipesCRUD {
             SELECT 
                 r.*,
                 GROUP_CONCAT(i.id) as indredient_ids,
-                GROUP_CONCAT(i.namr) as indredient_names
+                GROUP_CONCAT(i.name) as indredient_names
             FROM recipes r
             LEFT JOIN recipe_ingredients ri ON r.id = ri.recipe_id
             LEFT JOIN ingredients i ON ri.ingredient_id = i.id

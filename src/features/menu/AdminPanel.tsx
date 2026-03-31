@@ -1,25 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, Form, Modal, Table, Badge } from 'react-bootstrap';
 import { FaPlus, FaTrash } from 'react-icons/fa';
-import { addDish, selectAllDishes } from './menuSlice';
-import { addIngredient, deleteIngredient, selectAllIngredients } from '../ingredients/ingredientsSlice';
+import { createRecipe, selectAllDishes } from './menuSlice';
+import { createIngredient, deleteIngredient, fetchIngredients, selectAllIngredients } from '../ingredients/ingredientsSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import { Dish, Ingredient, DishCategory } from '../../app/types/menu';
+import { AppDispatch } from '@/app/store';
+
+
 
 const AdminPanel: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const dishes = useSelector(selectAllDishes);
     const ingredients = useSelector(selectAllIngredients);
 
     const [showAddDish, setShowAddDish] = useState(false);
     const [showAddIngredient, setShowAddIngredient] = useState(false);
+    
+    useEffect(() => {
+        dispatch(fetchIngredients() as any);
+    }, [dispatch]);
+
     const [newDish, setNewDish] = useState<Omit<Dish, 'id'>>({
         name: '',
         description: '',
         price: 0,
         category: 'main',
         ingredients: [],
+        mealType: 'lunch',
         preparationTime: 35,
         isAvailable: true,
         isChefSpecial: false,
@@ -32,49 +41,93 @@ const AdminPanel: React.FC = () => {
         category: 'other',
     });
 
-    const handleAddDish = () => {
+    const handleAddDish = async () => {
         if (newDish.name && newDish.price > 0) {
-            dispatch(addDish(newDish));
-            setNewDish({
-                name: '',
-                description: '',
-                price: 0,
-                category: 'main',
-                ingredients: [],
-                preparationTime: 15,
-                isAvailable: true,
-                isChefSpecial: false,
-            });
-            setShowAddDish(false);
+            try {
+                await dispatch(createRecipe(newDish) as any);
+                setNewDish({
+                    name: '',
+                    description: '',
+                    price: 0,
+                    category: 'main',
+                    ingredients: [],
+                    mealType: 'lunch',
+                    preparationTime: 35,
+                    isAvailable: true,
+                    isChefSpecial: false,
+                });
+                setShowAddDish(false);
+            } catch (err) {
+                console.error('Failed to create recipe');
+            }
         }
     };
 
-    const handleAddIngredient = () => {
+    const handleAddIngredient = async () => {
         if (newIngredient.name) {
-            dispatch(addIngredient({ ...newIngredient, id: 0}));
-            setNewIngredient({
-                name: '',
-                description: '',
-                isAvailable: false,
-                category: 'other',
-            });
-            setShowAddIngredient(false);
+            try {
+                await dispatch(createIngredient(newIngredient) as any);
+                setNewIngredient({
+                    name: '',
+                    description: '',
+                    isAvailable: false,
+                    category: 'other',
+                });
+                setShowAddIngredient(false);
+            } catch (err) {
+                console.error('Failed to create ingredient');
+            }
         }
     };
 
-    // Функция для получения русского названия категории ингредиента
-    const getIngredientCategoryLabel = (category: Ingredient['category']): string => {
-        switch (category) {
-            case 'vegetable': return 'Овощи';
-            case 'meat': return 'Мясо';
-            case 'dairy': return 'Молочные продукты';
-            case 'spice': return 'Острое';
-            case 'other': return 'Прочее';
-            default: return category;
+    const handleDeleteIngredient = async (id: number) => {
+        if (window.confirm('Вы уверены, что хотите удалить этот ингредиент?')) {
+            try {
+                await dispatch(deleteIngredient(id) as any);
+            } catch (err) {
+                console.error('Failed to delete ingredient');
+            }
         }
     };
+
+    const getIngredientCategoryLabel = (category: Ingredient['category']): string => {
+        const labels: Record<string, string> = {
+            vegetable: 'Овощи',
+            meat: 'Мясо',
+            dairy: 'Молочные продукты',
+            spice: 'Специи',
+            other: 'Прочее'
+        };
+        return labels[category] || category;
+    };
+
+    const getIngredientColor = (category: Ingredient['category']): string => {
+        const colors: Record<string, string> = {
+            vegetable: 'success',
+            meat: 'danger',
+            dairy: 'info',
+            spice: 'warning',
+            other: 'secondary'
+        };
+        return colors[category] || 'secondary';
+    };
+
 
     return (
+
+        // в панели администртора четыре основных секции
+        // 1 секция "Управление блюдами" и кнопка "Добавить"
+            // Модальное окно - AddDishModal
+        
+
+        // 2 секция "Управление ингредиентами" (стоимость, наличием и тп)
+            // Модальное окно - AddIngredientModal
+
+
+        // 3 Таблица ингредиентов 
+
+        // 4 блок статистики (?) внизу
+
         <div className="mb-5">
             <h3 className="mb-4 border-bottom pb-2">Панель администратора</h3>
 
@@ -447,3 +500,4 @@ const AdminPanel: React.FC = () => {
 };
 
 export default AdminPanel;
+
