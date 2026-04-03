@@ -1,5 +1,5 @@
 import { withAuthHandler } from "@/lib/api-helper"
-import { RecipesCRUD } from "@/lib/recipes-crud";
+import { RecipesCRUD } from "@/lib/db/recipes-crud";
 import { NextResponse } from "next/server"
 
 

@@ -1,7 +1,7 @@
 import { withAuthHandler } from "@/lib/api-helper";
 import { verifyAccessToken } from "@/lib/auth/jwt";
 import { initDB } from "@/lib/db/db";
-import { RecipesCRUD } from "@/lib/recipes-crud";
+import { RecipesCRUD } from "@/lib/db/recipes-crud";
 import { update } from "lodash";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";

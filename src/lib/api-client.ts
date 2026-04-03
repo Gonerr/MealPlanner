@@ -212,6 +212,25 @@ class ApiClient {
             return false;
         }
     }
+
+    async getMenuPlan(date: string) {
+        const res = await fetch(`${this.baseUrl}/menu-plan?date=${date}`)
+        return res.json();
+    }
+
+    async addToMenu(date: string, recipeId: number){
+        return fetch(`${this.baseUrl}/menu-plan`, {
+            method: 'POST',
+            body: JSON.stringify({date, recipeId})
+        })
+    }
+
+    async removeFromMenu(date: string, recipeId:number) {
+        return fetch(`${this.baseUrl}/menu-plan`,{
+            method: 'DELETE',
+            body: JSON.stringify({date, recipeId})
+        })
+    }
 }
 
 export const apiClient = new ApiClient();

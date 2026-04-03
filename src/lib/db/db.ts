@@ -95,7 +95,21 @@ export const initDB = async () => {
         )
     `);
 
-    console.log('✅ Database initialized with all tables');
+    await db.exec(`
+       CREATE TABLE IF NOT EXISTS menu_plan (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            date TEXT NOT NULL,
+            recipe_id INTEGER NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+            UNIQUE(user_id, date, recipe_id),
+
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+       ) 
+    `);
+    console.log('Database initialized with all tables');
     
     // Добавляем тестовые данные
     await seedTestData(db);
@@ -284,3 +298,6 @@ async function seedTestData(db: any) {
         throw error;
     }
 }
+
+
+

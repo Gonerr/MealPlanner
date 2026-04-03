@@ -1,4 +1,4 @@
-import { safeDB } from "./api-helper";
+import { safeDB } from "../api-helper";
 
 export interface RecipeInput {
     name: string;
