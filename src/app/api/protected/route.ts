@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
             )
         }
 
-        const payload = verifyAccessToken(accessToken);
+        const payload = await verifyAccessToken(accessToken);
 
         // проверка на валидность токена
         if (!payload) {
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-         const payload = verifyAccessToken(accessToken);
+         const payload = await verifyAccessToken(accessToken);
 
         // проверка на валидность токена
         if (!payload) {

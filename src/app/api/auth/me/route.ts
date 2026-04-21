@@ -14,7 +14,7 @@ export async function GET (request: NextRequest) {
             );
         }
 
-        const payload = verifyAccessToken(accessToken);
+        const payload = await verifyAccessToken(accessToken);
 
         if (!payload) {
             return NextResponse.json(

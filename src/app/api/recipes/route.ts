@@ -31,9 +31,7 @@ export const POST = withAuthHandler(async (request, { db, user }) => {
 
 
 // DELETE /api/recipes/:id - удалить рецепт
-export async function DELETE(request: NextRequest,
-    {params}: {params: {id:string} }
-) {
+export const DELETE = withAuthHandler(async (request, { db, params  }) => {
     try {
         // Проверка авторизации
         const cookieStore = await cookies();
@@ -75,4 +73,5 @@ export async function DELETE(request: NextRequest,
             { status: 500 }
         )
     }
-}
+})
+

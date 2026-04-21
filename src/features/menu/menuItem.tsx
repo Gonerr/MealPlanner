@@ -1,37 +1,65 @@
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { deleteDish, toggleDishAvailability, updateDish } from "./menuSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useCallback } from "react";
 import { Badge, Button, Card, Form, Modal } from "react-bootstrap";
+import {deleteRecipe, updateRecipe, selectIsAdminMode, selectLoading, selectError} from "./menuSlice";
 import IngredientList from "../../components/IngredientList";
 import { FaClock, FaEdit, FaEye, FaFire, FaStar, FaTrash } from "react-icons/fa";
 import { Dish } from "../../app/types/menu";
+import type {AppDispatch, RootState} from "../../app/store"
+import { number } from "framer-motion";
+import { CakeSlice, ForkKnife, GlassWater, Popcorn, Salad, Soup, Sparkles } from "lucide-react";
 
 interface MenuItemProps {
     dish: Dish;
     isAdminMode: boolean;
 }
 
+const MenuItem: React.FC<MenuItemProps> = ({ dish }) => {
+    const dispatch: AppDispatch = useDispatch<AppDispatch>();
 
-const MenuItem: React.FC<MenuItemProps> = ({ dish, isAdminMode }) => {
-    const dispatch = useDispatch();
+    const isAdminMode = useSelector((state: RootState) => selectIsAdminMode(state));
+    const loading = useSelector((state: RootState) => selectLoading(state));
+    const error = useSelector((state: RootState) => selectError(state));
+
     const [showDetails, setShowDetails] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editForm, setEditForm] = useState(dish);
 
+    const handleSave = useCallback(async() => {
+      try {
+        await dispatch(updateRecipe({id: dish.id, recipe: editForm})).unwrap();
+        setShowEditModal(false);
+      } catch (error) {
+        console.log('Ошибка сохранения рецепта: ', error)
+      }
+    },[dispatch, dish.id, editForm]);
 
-    const handleSave = () => {
-    dispatch(updateDish(editForm));
-    setShowEditModal(false);
-  };
+    const handleDelete = useCallback(async() => {
+      if (confirm('Удалить блюдо?')) {
+        try {
+          await dispatch(deleteRecipe(dish.id)).unwrap();
+        } catch (error) {
+          console.log('Ошибка удаления рецепта: ', error)
+        } 
+      }
+    },[dispatch, dish.id]);
 
-  const categoryLabels: Record<Dish['category'], string> = {
-        salads: '🥗 Салаты',
-        soups: 'Суп',
-        main: '🍖 Основное',
-        desserts: '🍰 Десерт',
-        snacks: 'Закуски',
-        drinks: '🥤 Напиток',
-        specials: '⭐ Особое',
+    const handleToggleAvailability = useCallback(() => {
+      const newAvailability = !dish.isAvailable;
+      dispatch(updateRecipe({
+        id: dish.id,
+        recipe: {isAvailable: newAvailability}
+      }))
+    }, [dispatch, dish.id, dish.isAvailable]);
+
+  const categoryLabels: Record<Dish['category'], React.ReactNode> = {
+        salads: <><Salad className="me-1 h-3 w-3"/> Салаты</>,
+        soups:  <><Soup className="me-1 h-3 w-3"/> Супы</>,
+        main: <><ForkKnife className="me-1 h-3 w-3"/> Основное</>,
+        desserts: <><CakeSlice className="me-1 h-3 w-3"/>Десерты</>,
+        snacks: <><Popcorn className="me-1 h-3 w-3"/>Закуски</>,
+        drinks: <><GlassWater className="me-1 h-3 w-3"/>Напитки</>,
+        specials: <><Sparkles className="me-1 h-3 w-3"/>Особое</>
     };
 
     return (
@@ -100,20 +128,23 @@ const MenuItem: React.FC<MenuItemProps> = ({ dish, isAdminMode }) => {
                   variant="outline-danger"
                   size="sm"
                   className="me-2"
-                  onClick={() => dispatch(deleteDish(dish.id))}
+                  onClick={handleDelete}
+                  disabled={loading}
                 >
                   {(FaTrash as any)}
                 </Button>
                 <Button
                   variant={dish.isAvailable ? 'outline-secondary' : 'outline-success'}
                   size="sm"
-                  onClick={() => dispatch(toggleDishAvailability(dish.id))}
+                  onClick={handleToggleAvailability}
+                  disabled={loading}
                 >
                   {dish.isAvailable ? 'Скрыть' : 'Показать'}
                 </Button>
               </div>
             )}
           </div>
+          {error && <div className="alert alert-danger mt-2">{error}</div>}
         </Card.Body>
       </Card>
 
@@ -210,8 +241,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ dish, isAdminMode }) => {
             <Button variant="secondary" onClick={() => setShowEditModal(false)}>
               Отмена
             </Button>
-            <Button variant="primary" onClick={handleSave}>
-              Сохранить
+            <Button variant="primary" onClick={handleSave} disabled={loading}>
+              {loading ? 'Сохранение...' : 'Сохранить'}
             </Button>
           </Modal.Footer>
         </Modal>

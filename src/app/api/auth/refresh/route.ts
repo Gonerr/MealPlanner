@@ -14,8 +14,8 @@ export async function POST(request: NextRequest) {
                 {status: 401}
             );
         }
-
-        const payload = verifyRefreshToken(refreshToken);
+        
+        const payload = await verifyRefreshToken(refreshToken);
 
         if (!payload) {
             return NextResponse.json(
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const newAccessToken = generateAccessToken(payload);
+        const newAccessToken = await generateAccessToken(payload);
 
         // Обновляем cookie
         cookieStore.set('accessToken', newAccessToken, {

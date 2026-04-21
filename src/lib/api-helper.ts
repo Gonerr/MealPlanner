@@ -5,7 +5,11 @@ import { initDB } from "./db/db";
 
 type AuthHandler = (
     request: NextRequest,
-    context: {params?: any; user: TokenPayload; db: any}
+    context: {
+        params: {id: string}; 
+        user: TokenPayload; 
+        db: any
+    }
 ) => Promise<NextResponse>;
 
 export async function withAuth(
@@ -55,16 +59,18 @@ export async function withAuth(
 export function withAuthHandler(
     handler: AuthHandler,
     requireAdmin: boolean = false
-) {
-    return async (request: NextRequest, context?: any) => {
+): any  {
+    return async (request: NextRequest, contextRaw: {params: Promise<{id: string}>}) => {
         const auth = await withAuth(request, requireAdmin);
         if (auth.error) {
             return auth.error;
         }
 
         const db = await initDB();
+        const params = await contextRaw.params;
+
         return handler(request, {
-            ...context, 
+            params, 
             user: auth.user,
             db
         })

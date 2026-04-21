@@ -15,3 +15,20 @@ export const GET = withAuthHandler(async (req, {user, db}) => {
 
     return NextResponse.json(result);
 })
+
+export const POST = withAuthHandler(async (req, {user, db}) => {
+    const {date, recipeId} = await req.json();
+
+    const menu = new MenuPlanCRUD(db);
+    await menu.addDish(user.id, date, recipeId);
+
+    return NextResponse.json({success: true});
+})
+
+export const DELETE = withAuthHandler(async (req, {user, db}) => {
+    const {date, recipeId} = await req.json();
+
+    const menu = new MenuPlanCRUD(db);
+    await menu.removeDish(user.id, date,recipeId);
+    return NextResponse.json({success: true})
+})
