@@ -4,6 +4,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import WeeklyPlan from '../WeeklyPlan';
+import Sidebar from './Sidebar';
 
 interface PlanBlockProps {
     user?:{
@@ -63,8 +64,7 @@ const PlanBlock: React.FC<PlanBlockProps> = ({user, days = []}) => {
                             </div>
                         </div>
                     </div>
-                    {/* План на неделю */}
-                    <WeeklyPlan />
+                    <Sidebar />
                 </motion.div>
             ) : (
                 <motion.div

@@ -19,13 +19,15 @@ export default function HomePage() {
   const isAdminMode = useSelector(selectIsAdminMode);
 
   const [selectedDay, setSelectedDay] = useState(0);
-  const days = Array.from({length: 7}, (_, i) => {
+  const days = Array.from({length: 15}, (_, i) => {
       const date = new Date();
       date.setDate(date.getDate() + i);
 
       return {
       index: i,
-      label: i === 0 ? 'Сегодня' : date.toLocaleDateString('ru-RU', {weekday: 'short'}),
+      label: i === 0 ? 'Сегодня' :
+             i === 1 ? 'Завтра'  :
+             date.toLocaleDateString('ru-RU', {weekday: 'short'}),
       full: date.toLocaleDateString('ru-RU',{day: 'numeric', month: 'long'})
       };
   });
@@ -49,28 +51,14 @@ export default function HomePage() {
       <Header />
 
       <main>
-        <Container className="px-2">
+        <Container fluid className="px-5 py-4">
           {isAdminMode ? (
             <AdminPanel />
           ) : (
             <>
-              {/* Левая колонка - сворачиваемый Приветственный блок */}
               <Row>
-                <Col lg={3} className='mb-4'>
-                  <PlanBlock user={user} days={days}/>
-
-                  <div className='mt-3'>
-                    <div className='p-3 bg-light rounded-3' style={{borderRadius: '16px'}}>
-                      <small className='text-muted'> Совет дня</small>
-                       <p className="mb-0 mt-1" style={{ fontSize: '14px' }}>
-                        💡 Не забывайте пить воду и следить за балансом БЖУ!
-                      </p>
-                    </div>
-                  </div>
-                </Col>
-
-                {/* Центральная колонка - основной контент (3/5 = 60% ≈ колонка 7 из 12) */}
-                <Col lg={7} className='mb-4'>
+                {/* Основной контент (3/5 = 60% ≈ колонка 7 из 12) */}
+                <Col lg={9} className='mb-4'>
                     <div className='mb-4'>
                       <div className='d-flex align-items-center justify-content-between mb-3'>
                         <div>
@@ -122,8 +110,9 @@ export default function HomePage() {
                       </motion.div>
                     </AnimatePresence>
                 </Col>
-                <Col lg={2} className="mb-4">
-                  <Sidebar />
+
+                <Col lg={3} className='mb-1'>
+                  <PlanBlock user={user} days={days}/>
                 </Col>
               </Row>
             </>
