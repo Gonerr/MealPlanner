@@ -1,5 +1,4 @@
 import { Dish, DishCategory, Ingredient } from "@/app/types/menu";
-import { deleteIngredient } from "@/features/ingredients/ingredientsSlice";
 
 interface RecipeDTO {
     id: number;
@@ -25,7 +24,7 @@ const mapRecipeToDish = (recipe: RecipeDTO): Dish => ({
     description: recipe.description,
     price: recipe.price,
     category: recipe.category as DishCategory,
-    ingredients: recipe.ingredients.map(i => i.id),
+    ingredients:  recipe.ingredients?.map(i => i.id) ?? [], 
     preparationTime: recipe.preparationTime,
     isAvailable: recipe.isAvailable,
     calories: recipe.calories,
@@ -46,7 +45,12 @@ class ApiClient {
                 throw new Error('Failed to fetch recipes');
             }
             const data = await response.json();
-            return data.recipes.map(mapRecipeToDish);
+            console.log('API response sample:', data[0]); 
+            if (data.recipes !== null && data.recipes.length !== 0) {
+                return data.recipes.map(mapRecipeToDish);
+            }
+            console.error('Error fetching recipes: recipes dont exists');
+            return [];
         }catch (error) {
             console.error('Error fetching recipes:', error);
             return [];
@@ -61,7 +65,11 @@ class ApiClient {
                 throw new Error('Failed to fetch recipe');
             }
             const data = await response.json();
-            return mapRecipeToDish(data.recipe);
+            if (data.recipes !== null && data.recipes.length !== 0) { 
+                return mapRecipeToDish(data.recipe);
+            }
+            console.error('Error fetching recipes: recipes dont exists');
+            return null;
         }catch (error) {
             console.error('Error fetching recipe:', error);
             return null;
@@ -93,7 +101,12 @@ class ApiClient {
                 throw new Error('Failed to fetch recipe');
             }
             const data = await response.json();
-            return mapRecipeToDish(data.recipe);
+            if (data.recipes !== null && data.recipes.length !== 0) {
+                return mapRecipeToDish(data.recipe);
+            }
+            console.error('Error fetching recipes: recipes dont exists');
+            return null;
+
         }catch (error) {
             console.error('Error fetching recipe:', error);
             return null;
@@ -224,7 +237,6 @@ class ApiClient {
             body: JSON.stringify({date, recipeId})
         })
     }
-
     async removeFromMenu(date: string, recipeId:number) {
         return fetch(`${this.baseUrl}/menu-plan`,{
             method: 'DELETE',

@@ -2,6 +2,9 @@ import { createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { Dish, DishCategory, MenuState } from '../../app/types/menu';
 import { apiClient } from '@/lib/api-client';
 
+/* =================
+    ASYNC ACTIONS
+ ================== */ 
 export const fetchRecipes = createAsyncThunk(
   'menu/fetchRecipes',
   async () => {
@@ -38,11 +41,15 @@ export const deleteRecipe = createAsyncThunk(
     }
 );
 
+/* ====================
+    INITIAL STATE
+======================= */
+
 const initialState: MenuState = {
     dishes: [],
     ingredients: [],
     selectedCategory: 'all',
-    isAdminMode: false,
+    // isAdminMode: false,
     searchQuery: '',
     loading: false,
     error: null
@@ -57,9 +64,9 @@ const menuSlice = createSlice({
             state.selectedCategory = action.payload;
         },
         
-        toggleAdminMode: (state) => {
-            state.isAdminMode = !state.isAdminMode;
-        },
+        // toggleAdminMode: (state) => {
+        //     state.isAdminMode = !state.isAdminMode;
+        // },
         
         setSearchQuery: (state, action: PayloadAction<string>) => {
             state.searchQuery = action.payload;
@@ -111,20 +118,32 @@ const menuSlice = createSlice({
     }
 });
 
+/* =======================
+   EXPORT ACTIONS
+======================= */
+
 export const {
     setSelectedCategory,
-    toggleAdminMode,
+    // toggleAdminMode,
     setSearchQuery,
     clearError
 } = menuSlice.actions;
 
+/* =======================
+   SELECTORS
+======================= */
+
 // Селекторы
 export const selectAllDishes = (state: { menu: MenuState }) => state.menu.dishes;
 export const selectSelectedCategory = (state: { menu: MenuState }) => state.menu.selectedCategory;
-export const selectIsAdminMode = (state: { menu: MenuState }) => state.menu.isAdminMode;
+// export const selectIsAdminMode = (state: { menu: MenuState }) => state.menu.isAdminMode;
 export const selectSearchQuery = (state: { menu: MenuState }) => state.menu.searchQuery;
 export const selectLoading = (state: { menu: MenuState }) => state.menu.loading;
 export const selectError = (state: { menu: MenuState }) => state.menu.error;
+
+/* =======================
+   DERIVED SELECTORS
+======================= */
 
 export const selectFilteredDishes = (state: { menu: MenuState }) => {
   const { dishes, selectedCategory, searchQuery } = state.menu;

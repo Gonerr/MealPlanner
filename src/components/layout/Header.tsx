@@ -1,14 +1,30 @@
+"use client"
+
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Navbar, Button, Badge } from 'react-bootstrap';
 import { FaUserLock, FaUtensils } from 'react-icons/fa';
-import { toggleAdminMode, selectIsAdminMode, selectMenuStats } from '../../features/menu/menuSlice';
+import { selectMenuStats } from '../../features/menu/menuSlice';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch();
-  const isAdminMode = useSelector(selectIsAdminMode);
+  // const isAdminMode = useSelector(selectIsAdminMode);
   const stats = useSelector(selectMenuStats);
+  const pathname = usePathname();
 
+  const router = useRouter();
+  const [user, setUser] = React.useState<any>(null);
+
+  const isAdminPage = pathname?.startsWith('/admin');
+  const isAdmin = user?.role === 'admin';
+
+  React.useEffect(() => {
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => setUser(data.user))
+      .catch(() => {});
+  }, []);
+  
   return (
     <Navbar
       bg="white"
@@ -62,22 +78,24 @@ const Header: React.FC = () => {
         </div> */}
 
         {/* Правая часть - кнопка переключения режима */}
-        <div className="ms-auto">
-          <Button
-            variant={isAdminMode ? "warning" : "outline-dark"}
-            onClick={() => dispatch(toggleAdminMode())}
-            size="sm"
-            className="d-flex align-items-center"
-            style={{
-              borderRadius: '6px',
-              borderWidth: '1px',
-              transition: 'all 0.2s',
-              fontWeight: 500
-            }}
-          >
-            {isAdminMode ? 'Админ режим' : 'Обычный режим'}
-          </Button>
+        {isAdmin && 
+          <div className="ms-auto">
+            <Button
+              variant = {isAdminPage ? "warning" : "outline-dark"}
+              size="sm"
+              onClick={() => user?.role === 'admin' ? router.push('/admin') : router.push('/')}
+              style={{
+                borderRadius: '6px',
+                borderWidth: '1px',
+                transition: 'all 0.2s',
+                fontWeight: 500
+              }}
+            >
+              {isAdminPage ? 'Админ режим' : 'Меню'}
+            </Button>
         </div>
+        }
+        
 
       </Container>
     </Navbar>

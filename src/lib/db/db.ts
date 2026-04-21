@@ -109,6 +109,29 @@ export const initDB = async () => {
             FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
        ) 
     `);
+
+    await db.exec(`
+    CREATE TABLE IF NOT EXISTS menu_days (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        owner_id INTEGER,
+        date TEXT NOT NULL,
+        UNIQUE(owner_id, date),
+        FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+    `);
+
+    await db.exec(`
+    CREATE TABLE IF NOT EXISTS menu_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        menu_day_id INTEGER NOT NULL,
+        recipe_id INTEGER NOT NULL,
+        meal_type TEXT,
+        grams INTEGER,
+        custom_price REAL,
+        FOREIGN KEY (menu_day_id) REFERENCES menu_days(id) ON DELETE CASCADE,
+        FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+    )
+    `);
     console.log('Database initialized with all tables');
     
     // Добавляем тестовые данные

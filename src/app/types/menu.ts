@@ -36,7 +36,7 @@ export interface MenuState {
     dishes: Dish[];
   ingredients: Ingredient[];
   selectedCategory: DishCategory | 'all';
-  isAdminMode: boolean;
+//   isAdminMode: boolean;
   searchQuery: string;
   loading: boolean;
   error: string | null;

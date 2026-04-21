@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Providers } from "./providers";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
     title: 'Menu App',
@@ -16,7 +18,11 @@ export default function RootLayout({
         <html lang="ru" suppressHydrationWarning>
             <body suppressHydrationWarning>
                 <Providers>
-                    {children}
+                    <Header/>
+                    <main>
+                        {children}
+                    </main>
+                    <Footer/>
                 </Providers>
             </body>
         </html>

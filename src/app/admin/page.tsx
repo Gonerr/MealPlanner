@@ -3,34 +3,45 @@ import DishesManager from "@/components/admin/DishesManager";
 import IngredientsManager from "@/components/admin/IngredientsManager";
 import MenuPlanner from "@/components/admin/MenuPlanner";
 import StatsPlanner from "@/components/admin/StatsPlanner";
-import { Container, Tab, Tabs } from "react-bootstrap";
+import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { useEffect } from "react";
+import { fetchRecipes } from "@/features/menu/menuSlice";
+import { fetchIngredients } from "@/features/ingredients/ingredientsSlice";
 
 export default function AdminPage() {
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        dispatch(fetchRecipes());
+        dispatch(fetchIngredients());
+    }, [dispatch]);
+
+
     return (
-        <Container fluid className="py-4">
-            <h2 className="mb-4">Панель администратора</h2>
+        <Container className="px-1 py-4">
+            <h2 className="mb-4 border-bottom pb-2">
+                Панель администратора
+            </h2>
         
-            <Tabs defaultActiveKey="dishes" className="mb-3">
-                <Tab eventKey="dishes" title="Блюда">
-                     {/* Компонент для управления блюдами */}
-                    <DishesManager/> 
-                </Tab>
-
-                 <Tab eventKey="menu" title="Меню">
-                     {/* Конмонент для управления меню */}
-                    <MenuPlanner/> 
-                </Tab>
-                
-                 <Tab eventKey="ingredients" title="Ингредиенты">
-                     {/* Компонент для управления ингредиентами */}
+            <Row className="mb-4">
+                <Col md={6}>
+                    {/* Компонент для управления блюдами */}
+                    <DishesManager/>
+                </Col>
+                 <Col md={6}>
+                 {/* Компонент для управления ингредиентами */}
                     <IngredientsManager/>
-                </Tab>
+                </Col>
+            </Row>
 
-                 <Tab eventKey="stats" title="Статистика">
-                     {/* Компонент с основной статистикой по сайту*/}
-                    <StatsPlanner/>
-                </Tab>
-            </Tabs>
+            {/* Компонент для управления меню */}
+            <div className="mb-4">
+                 <MenuPlanner/> 
+            </div>
+
+            <StatsPlanner/>
         </Container>
     )
 }
