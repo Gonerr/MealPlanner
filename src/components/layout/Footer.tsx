@@ -116,8 +116,6 @@ const Footer = () => {
                   </NavLinks>
             </Col>
 
-
-
             <Col lg={4} mg={6} style={{
               display:'flex',
               flexDirection:'column',

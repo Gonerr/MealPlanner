@@ -8,45 +8,6 @@ const Sidebar: React.FC = () => {
   return (
     <div style={{ top: '20px' }}>
       
-      {/* План на неделю */}
-      <div className="card border-0 bg-white mb-4" style={{ 
-        borderRadius: '16px',
-        boxShadow: '0 2px 12px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.02)',
-        overflow: 'hidden'
-      }}>
-        <div className="card-body p-0">
-          <div className="p-4 border-bottom" style={{ 
-            backgroundColor: '#f8f9fa',
-            borderBottom: '1px solid #f0f0f0'
-          }}>
-            <div className="d-flex align-items-center">
-              <div style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '10px',
-                backgroundColor: 'rgba(74, 144, 226, 0.1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: '12px'
-              }}>
-                <CalendarIcon />
-              </div>
-              <h5 className="card-title mb-0" style={{ 
-                fontSize: '1.1rem',
-                fontWeight: '600',
-                color: '#333'
-              }}>
-                План на неделю
-              </h5>
-            </div>
-          </div>
-          <div className="p-4">
-            <WeeklyPlan />
-          </div>
-        </div>
-      </div>
-
       {/* Список покупок */}
       <ShoppingListCard />
 

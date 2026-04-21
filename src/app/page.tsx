@@ -1,6 +1,7 @@
 'use client';
 
-import { Container, Row, Col, Alert, Badge } from 'react-bootstrap';
+// Главная страница
+import { Container, Row, Col, Alert, Badge, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Header from '../components/layout/Header';
 import AdminPanel from '../features/menu/AdminPanel';
@@ -9,18 +10,30 @@ import Sidebar from '../components/shared/Sidebar';
 import RecipesSection from '../components/RecipesSections';
 import Footer from '../components/layout/Footer';
 import { useRouter } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import PlanBlock from '@/components/shared/PlanBlock';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function HomePage() {
   const [user, setUser] = useState<any>(null);
-
   const isAdminMode = useSelector(selectIsAdminMode);
+
+  const [selectedDay, setSelectedDay] = useState(0);
+  const days = Array.from({length: 7}, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+
+      return {
+      index: i,
+      label: i === 0 ? 'Сегодня' : date.toLocaleDateString('ru-RU', {weekday: 'short'}),
+      full: date.toLocaleDateString('ru-RU',{day: 'numeric', month: 'long'})
+      };
+  });
+
   const router = useRouter();
     
+ // Проверяем авторизацию
   useEffect(() => {
-      // Проверяем авторизацию
       fetch('/api/auth/me')
           .then(async (res) => {
               if (res.ok) {
@@ -31,19 +44,6 @@ export default function HomePage() {
           .catch(() => router.push('/login'));
   }, []);
   
-    const [selectedDay, setSelectedDay] = useState(0);
-    const days = Array.from({length: 7}, (_, i) => {
-        const date = new Date();
-        date.setDate(date.getDate() + i);
-
-        return {
-        index: i,
-        label: i === 0 ? 'Сегодня' : date.toLocaleDateString('ru-RU', {weekday: 'short'}),
-        full: date.toLocaleDateString('ru-RU',{day: 'numeric', month: 'long'})
-        };
-    });
-
-
   return (
     <div className="App">
       <Header />
@@ -54,20 +54,40 @@ export default function HomePage() {
             <AdminPanel />
           ) : (
             <>
-              {/* Приветственный блок */}
-              <div className="px-4 py-4">
-                  <h1 className="h2 fw-bold mb-1">
-                      меню на {days[selectedDay].label.toLowerCase()}
-                  </h1>
-                  <p className="text-muted m-0">
-                      Подборка блюд на день
-                  </p>
-              </div>
+              {/* Левая колонка - сворачиваемый Приветственный блок */}
+              <Row>
+                <Col lg={3} className='mb-4'>
+                  <PlanBlock user={user} days={days}/>
 
-              <div className="py-4 border-bottom">
-                  <div className="d-flex gap-2 overflow-auto px-3">
+                  <div className='mt-3'>
+                    <div className='p-3 bg-light rounded-3' style={{borderRadius: '16px'}}>
+                      <small className='text-muted'> Совет дня</small>
+                       <p className="mb-0 mt-1" style={{ fontSize: '14px' }}>
+                        💡 Не забывайте пить воду и следить за балансом БЖУ!
+                      </p>
+                    </div>
+                  </div>
+                </Col>
 
-                      {days.map(day => (
+                {/* Центральная колонка - основной контент (3/5 = 60% ≈ колонка 7 из 12) */}
+                <Col lg={7} className='mb-4'>
+                    <div className='mb-4'>
+                      <div className='d-flex align-items-center justify-content-between mb-3'>
+                        <div>
+                          <h1 className="h2 fw-bold mb-1">
+                              меню на {days[selectedDay].label.toLowerCase()}
+                          </h1>
+                          <p className="text-muted m-0 small">
+                            {days[selectedDay].full}
+                          </p>
+                        </div>
+                        <Badge bg="light" text="dark" className="px-3 py-2 rounded-pill">
+                          {days.length} дней
+                        </Badge>
+                      </div>
+
+                      <div className='d-flex gap-2 overflow-auto pb-2' style={{scrollbarWidth:'thin'}}>
+                        {days.map(day => (
                           <button
                               key={day.index}
                               onClick={() => setSelectedDay(day.index)}
@@ -78,7 +98,8 @@ export default function HomePage() {
                                   }`}
                                   style={{
                                       borderRadius: '20px',
-                                      whiteSpace: 'nowrap'
+                                      whiteSpace: 'nowrap',
+                                      padding: '8px 16px'
                                   }}
                           >
                               <div>{day.label}</div>
@@ -86,19 +107,22 @@ export default function HomePage() {
                           </button>
                       ))}
 
-                  </div>
-              </div>
-              
-              <Row>
-                <motion.div
-                  key={selectedDay}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                  >
-                  <RecipesSection />
-                </motion.div>
-                <Col lg={3} className="mb-4">
+                      </div>
+                    </div>
+
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={selectedDay}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                        >
+                        <RecipesSection />
+                      </motion.div>
+                    </AnimatePresence>
+                </Col>
+                <Col lg={2} className="mb-4">
                   <Sidebar />
                 </Col>
               </Row>

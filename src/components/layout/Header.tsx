@@ -28,7 +28,7 @@ const Header: React.FC = () => {
 
         {/* Левая часть - логотип/название */}
         <Navbar.Brand className="d-flex align-items-center me-0">
-          <span className="fw-semibold fs-4 text-dark">Days Menu</span>
+          <span className="fw-semibold fs-4 text-dark">NeMenu</span>
         </Navbar.Brand>
 
         {/* Центральная часть - статистика
