@@ -26,7 +26,7 @@ Promise<{ isValid: boolean; user?: TokenPayload; response?: NextResponse }> {
                 }
             }
 
-            const payload = verifyAccessToken(accessToken);
+            const payload = await verifyAccessToken(accessToken);
             if (!payload) {
                 return {
                     isValid: false,

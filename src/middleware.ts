@@ -4,7 +4,6 @@ import { verifyAccessToken } from "./lib/auth/jwt";
 export async function middleware(request: NextRequest) {
     const {pathname} = request.nextUrl;
 
-    // Публичные роуты
     const publicPaths = [
         '/login', 
         '/api/auth/login', 
@@ -13,11 +12,9 @@ export async function middleware(request: NextRequest) {
     ];
     const isPublicPath = publicPaths.some(path => pathname === path || pathname.startsWith(path +'/'));
     
-    // Получаем токен
     const accessToken = request.cookies.get('accessToken')?.value;
 
     if (pathname === '/login'){
-        // Если есть логин и он валидный то переходим на главную страницу
         if (accessToken) {
             const payload = await verifyAccessToken(accessToken);
             if (payload) {
@@ -25,13 +22,10 @@ export async function middleware(request: NextRequest) {
                 return NextResponse.redirect(new URL('/', request.url));
             }
         }
-        //иначе - показываем страницу логина
         return NextResponse.next();
     }
 
-    // Для всех остальных страниц (кроме публичных api)
     if (!isPublicPath && !pathname.startsWith('_next') && pathname !== '/favicon.ico'){
-        //если нет токена - редирект на логин
         if (!accessToken){
             console.log('Middleware - redirecting to /login from:', pathname);
             const loginUrl = new URL('/login', request.url);

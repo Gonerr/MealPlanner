@@ -3,7 +3,9 @@
     "baseUrl": ".",
     "target": "es5",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
     "lib": [
       "dom",
@@ -18,16 +20,12 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "ignoreDeprecations": "6.0",
-    "jsx": "preserve",
-    "types": [
-      "react/next",
-      "react-dom/next"
-    ],
+    "jsx": "react-jsx",
+    "types": [],
     "incremental": true,
     "plugins": [
       {
@@ -37,9 +35,10 @@
   },
   "include": [
     "src",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }
