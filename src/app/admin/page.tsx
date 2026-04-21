@@ -1,3 +1,8 @@
+'use client';
+import DishesManager from "@/components/admin/DishesManager";
+import IngredientsManager from "@/components/admin/IngredientsManager";
+import MenuPlanner from "@/components/admin/MenuPlanner";
+import StatsPlanner from "@/components/admin/StatsPlanner";
 import { Container, Tab, Tabs } from "react-bootstrap";
 
 export default function AdminPage() {
@@ -7,23 +12,23 @@ export default function AdminPage() {
         
             <Tabs defaultActiveKey="dishes" className="mb-3">
                 <Tab eventKey="dishes" title="Блюда">
-                     {/* TODO: сделать управление блюдами */}
-                    {/* <DishesManager/> */}
+                     {/* Компонент для управления блюдами */}
+                    <DishesManager/> 
                 </Tab>
 
                  <Tab eventKey="menu" title="Меню">
-                     {/* TODO: сделать управление меню */}
-                    {/* <MenuPlanner/> */}
+                     {/* Конмонент для управления меню */}
+                    <MenuPlanner/> 
                 </Tab>
                 
                  <Tab eventKey="ingredients" title="Ингредиенты">
-                     {/* TODO: сделать управление ингредиентами */}
-                    {/* <IngredientsManager/> */}
+                     {/* Компонент для управления ингредиентами */}
+                    <IngredientsManager/>
                 </Tab>
 
                  <Tab eventKey="stats" title="Статистика">
-                     {/* TODO: компонент с основной статистикой по сайту*/}
-                    {/* <StatsPlanner/> */}
+                     {/* Компонент с основной статистикой по сайту*/}
+                    <StatsPlanner/>
                 </Tab>
             </Tabs>
         </Container>
