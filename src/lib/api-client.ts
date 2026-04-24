@@ -65,7 +65,7 @@ class ApiClient {
                 throw new Error('Failed to fetch recipe');
             }
             const data = await response.json();
-            if (data.recipes !== null && data.recipes.length !== 0) { 
+            if (data.recipe !== null && data.recipe.length !== 0) { 
                 return mapRecipeToDish(data.recipe);
             }
             console.error('Error fetching recipes: recipes dont exists');
@@ -226,22 +226,33 @@ class ApiClient {
         }
     }
 
+    // Работа с меню и блюдами по дням 
     async getMenuPlan(date: string) {
         const res = await fetch(`${this.baseUrl}/menu-plan?date=${date}`)
         return res.json();
     }
 
-    async addToMenu(date: string, recipeId: number){
+    async addToMenu(date: string, recipeId: number, mealType: string, grams: number, price: number){
         return fetch(`${this.baseUrl}/menu-plan`, {
             method: 'POST',
-            body: JSON.stringify({date, recipeId})
+            body: JSON.stringify({date, recipeId, mealType, grams, price})
         })
     }
-    async removeFromMenu(date: string, recipeId:number) {
+    async removeFromMenu(date: string, recipeId:number, menuDayId:number) {
         return fetch(`${this.baseUrl}/menu-plan`,{
             method: 'DELETE',
-            body: JSON.stringify({date, recipeId})
+            body: JSON.stringify({date, recipeId, menuDayId})
         })
+    }
+
+
+    // Получение меню на неделю
+    async getWeekMenuPlan(start: string, end: string) {
+        const res = await fetch(`${this.baseUrl}/menu-plan/week?start=${start}&end=${end}`);
+        if (!res.ok) {
+            throw new Error("Failed to fetch weekly menu plan");
+        }
+        return res.json();
     }
 }
 

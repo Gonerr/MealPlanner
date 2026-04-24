@@ -7,12 +7,11 @@ export class MenuPlanCRUD {
         this.db = new safeDB(db);
     }
 
-
     /* =========================
        SERVICE: получить/создать день
     ========================== */
 
-    private async getOrCreateDay(ownerId: number, date: string) {
+    private async getOrCreateDay(ownerId: any, date: string) {
         let day = await this.db.get(`
                 SELECT * FROM menu_days
                 WHERE owner_id = ? AND date = ?
@@ -34,19 +33,7 @@ export class MenuPlanCRUD {
        GET: меню на день
     ========================== */
 
-    //версия с menu_plan
-    // async getByDate (userId: any, date: string) {
-    //     const rows = await this.db.all(`
-    //             SELECT r.*,
-    //             FROM menu_plan mp
-    //             JOIN recipes r ON mp.recipe_id = r.id
-    //             WHERE mp.user_id = ? AND mp.date = ?
-    //         `, [userId, date]);
-
-    //     return rows;
-    // }
-
-    async getByDate (ownerId: number, date: string) {
+    async getByDate (ownerId: any, date: string) {
         const rows = await this.db.all(
             `SELECT *
             FROM menu_days md
@@ -61,39 +48,101 @@ export class MenuPlanCRUD {
         return rows;
     }
 
-    // Добавить блюдо
-    async addDish(userId: any, date: string, recipeId: number) {
-        await this.db.run(`
-                INSERT OR IGNORE INTO menu_plan (user_id, date, recipe_id)
-                VALUES (?, ?, ?)
-            `, [userId, date, recipeId]);
+    /* =========================
+       ADD: добавить блюдо
+    ========================== */
+    
+    async addDish(
+        ownerId: any, 
+        date: string, 
+        recipeId: number, 
+        mealType: string, 
+        grams: number = 100,
+        price: number
+    ) {
+        let menuDay = await this.getOrCreateDay(ownerId,date);
+        let menuDayId = menuDay.id;
+
+        let recipeDefault = await this.db.get(`
+                SELECT meal_type, price
+                FROM recipes 
+                WHERE id = ?`, [recipeId]);
 
         await this.db.run(`
-                INSERT OR IGNORE INTO 
-            `)
+            INSERT OR IGNORE INTO menu_items (
+            menu_day_id, 
+            recipe_id,
+            meal_type,
+            grams,
+            custom_price
+            )
+            VALUES (?, ?, ?, ?, ?)
+            `, [
+                menuDayId,
+                recipeId,
+                mealType !== null ? mealType : recipeDefault.meal_type,
+                grams,
+                price !== null ? price: recipeDefault.price
+            ]);
     }
 
-    // Удалить блюдо
-    async removeDish(userId: any, date: string, recipeId: number) {
+    /* =========================
+       DEL: удалить блюдо
+    ========================== */
+
+    // Удалить блюдо в конкретный день
+    async removeDish(date: string, recipeId: number, menuDayId: number) {
         await this.db.run(`
-                DELETE FROM menu_plan
-                WHERE user_id = ? AND date = ? AND recipe_id = ?
-            `, [userId, date, recipeId]);
+            DELETE FROM menu_items
+            WHERE menu_day_id = ? AND date = ? AND recipe_id = ?
+        `, [menuDayId, date, recipeId]);
     }
 
-    // Перезаписать весь день
-    async setDay(userId: number, date: string, recipeId: number[]){
-        await this.db.transaction(async (db) => {
-            await db.run(`
-                DELETE FROM menu_plan WHERE user_id = ? AND date = ?`,
-            [userId, date]);
+    /* =========================
+       UPD: перезапись всего дня
+    ========================== */
 
-            for (const id of recipeId) {
-                await db.run(`
-                    INSERT INTO menu_plan (user_id, date, recipe_id)
-                    VALUES (?, ?, ?)
-                    `, [userId, date, id]);
-            }
-        })
+    // async setDay(ownerId: number, date: string, recipeId: number[]){
+    //     await this.db.transaction(async (db) => {
+    //         await db.run(`
+    //             DELETE FROM menu_plan WHERE user_id = ? AND date = ?`,
+    //         [userId, date]);
+
+    //         for (const id of recipeId) {
+    //             await db.run(`
+    //                 INSERT INTO menu_plan (user_id, date, recipe_id)
+    //                 VALUES (?, ?, ?)
+    //                 `, [userId, date, id]);
+    //         }
+    //     })
+    // }
+
+    /* ==================== 
+     Получить план за всю неделю
+    ======================== */
+    async getWeekPlan (ownerId: any, startDate: string, endDate: string) {
+        const rows = await this.db.all(
+            `
+            SELECT 
+                md.id as menu_day_id,
+                md.date as date,
+                mi.id as menu_item_id,
+                mi.recipe_id as recipe_id,
+                mi.meal_type as meal_type,
+                mi.grams as grams,
+                mi.custom_price as price,
+                r.title as title,
+                r.cook_time as cook_time
+            FROM menu_days md
+            LEFT JOIN menu_items mi ON mi.menu_day_id = md.id
+            LEFT JOIN recipes r ON r.id = mi.recipe_id
+            WHERE md.owner_id = ?
+                AND md.date BETWEEN ? AND ?
+            ORDER BY md.date ASC, mi.meal_type ASC
+            `,
+            [ownerId, startDate, endDate]
+        );
+
+        return rows;
     }
 }

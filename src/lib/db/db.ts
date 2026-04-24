@@ -95,20 +95,20 @@ export const initDB = async () => {
         )
     `);
 
-    await db.exec(`
-       CREATE TABLE IF NOT EXISTS menu_plan (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            date TEXT NOT NULL,
-            recipe_id INTEGER NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    // await db.exec(`
+    //    CREATE TABLE IF NOT EXISTS menu_plan (
+    //         id INTEGER PRIMARY KEY AUTOINCREMENT,
+    //         user_id INTEGER NOT NULL,
+    //         date TEXT NOT NULL,
+    //         recipe_id INTEGER NOT NULL,
+    //         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-            UNIQUE(user_id, date, recipe_id),
+    //         UNIQUE(user_id, date, recipe_id),
 
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
-       ) 
-    `);
+    //         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    //         FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+    //    ) 
+    // `);
 
     await db.exec(`
     CREATE TABLE IF NOT EXISTS menu_days (
@@ -231,7 +231,7 @@ async function seedTestData(db: any) {
                 {
                     name: 'Курица по-французски',
                     description: 'Запеканка из нескольких слоев',
-                    price: 450,
+                    ыыprice: 450,
                     category_slug: 'main',
                     preparation_time: 55,
                     is_available: 1,

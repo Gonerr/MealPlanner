@@ -1,20 +1,63 @@
+import { apiClient } from '@/lib/api-client';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CalendarIcon, ChevronDown, ChevronUp } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, ListGroup, Badge, Button } from 'react-bootstrap';
+
+
+type WeeklyMenuItem = {
+  recipeId: number;
+  title: string;
+  cookTime: number | null;
+  mealType: string | null;
+  grams: number | null;
+  price: number | null;
+};
+type WeeklyMenuDay = {
+  date: string;
+  day: string;
+  items: WeeklyMenuItem[];
+};
+
+function getStartAndEndOfWeek(date = new Date()){
+  const current = new Date(date);
+  const day = current.getDay();
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+
+  const start = new Date(current);
+  start.setDate(current.getDate() + diffToMonday);
+
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+
+  const format = (d: Date) => d.toISOString().slice(0,10);
+
+  return{
+    start: format(start),
+    end: format(end)
+  };
+}
 
 const WeeklyPlan: React.FC = () => {
   const [welcomeCollapsed, setWelcomeCollapsed] = useState(false);
+  const [days, setDays] = useState<WeeklyMenuDay[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const days = [
-    { day: 'Понедельник', meal: 'Паста карбонара', time: '30 мин' },
-    { day: 'Вторник', meal: 'Курица терияки', time: '25 мин' },
-    { day: 'Среда', meal: 'Овощное рагу', time: '40 мин' },
-    { day: 'Четверг', meal: 'Лосось на гриле', time: '20 мин' },
-    { day: 'Пятница', meal: 'Пицца домашняя', time: '45 мин' },
-    { day: 'Суббота', meal: 'Плов', time: '60 мин' },
-    { day: 'Воскресенье', meal: 'Суп-пюре', time: '35 мин' },
-  ];
+  useEffect(() => {
+    const loadWeek = async() => {
+      try {
+        const {start, end} = getStartAndEndOfWeek();
+        const result = await apiClient.getWeekMenuPlan(start,end);
+        setDays(result);
+      } catch (error) {
+        console.error('Failer to load weekly plan', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadWeek();
+  }, [])
 
   return (
     <AnimatePresence mode="wait">
@@ -74,26 +117,37 @@ const WeeklyPlan: React.FC = () => {
                 <div>
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <span className="text-muted">Текущая неделя</span>
-                    <Badge bg="info">7 блюд</Badge>
+                    <Badge bg="info">
+                      {days.reduce((sum,day) => sum + day.items.length, 0)} блюд 
+                    </Badge>
                   </div>
 
-                  <ListGroup variant="flush">
-                    {days.map((item, index) => (
-                      <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center py-3">
-                        <div>
-                          <strong>{item.day}</strong>
-                          <div className="small text-muted">{item.meal}</div>
-                        </div>
-                        <Badge bg="light" text="dark">{item.time}</Badge>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
+                  {loading ? (
+                    <div className='text-muted'> Загрузка... </div> 
+                  ) : (
+                    <ListGroup variant="flush">
+                      {days.map((item, index) => {
+                        const firstDish = item.items[0];
 
-                  <div className="mt-3">
-                    <button className="btn btn-outline-primary btn-sm w-100">
-                      + Добавить в план
-                    </button>
-                  </div>
+                        return (
+                        <ListGroup.Item 
+                            key={index} 
+                            className="d-flex justify-content-between align-items-center py-3">
+                          <div>
+                            <strong>{item.day}</strong>
+                            <div className="small text-muted">
+                                {firstDish ? firstDish.title : 'Нет блюда'}
+                                {item.items.length > 1 ? ` + ещё ${item.items.length - 1}` : ''}
+                              </div>
+                          </div>
+                          <Badge bg="light" text="dark">
+                            {firstDish?.cookTime ? `${firstDish.cookTime} мин` : '-'}
+                            </Badge>
+                        </ListGroup.Item>
+                        )
+                      })}
+                    </ListGroup>
+                  )}
                 </div>
               </div>
             </div>
