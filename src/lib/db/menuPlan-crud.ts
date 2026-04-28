@@ -145,4 +145,5 @@ export class MenuPlanCRUD {
 
         return rows;
     }
+
 }
