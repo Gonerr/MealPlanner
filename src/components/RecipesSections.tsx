@@ -1,12 +1,12 @@
 // components/RecipesSection.tsx
 import React, { useState, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipes, selectError, selectFilteredDishes, selectLoading } from '../features/menu/menuSlice';
+import { addDish, fetchRecipes, selectError, selectFilteredDishes, selectLoading } from '../features/menu/menuSlice';
 import { RecipeCard } from './Main/RecipeCard';
 import { CategoryNav } from './shared/CategoryNav';
 import { EmptyState } from './shared/EmptyState';
 import { ChefHatIcon, InfoIcon, SortAscIcon, SortDescIcon } from './icons';
-import { DishCategory } from '../app/types/menu';
+import { Dish, DishCategory } from '../app/types/menu';
 import { LoaderIcon } from 'lucide-react';
 
 interface Category {
@@ -15,7 +15,11 @@ interface Category {
   color: string;
 }
 
-const RecipesSection: React.FC = () => {
+interface Props {
+  mealType: string | null;
+}
+
+const RecipesSection: React.FC<Props> = ({mealType }) => {
   const dispatch = useDispatch();
     const allRecipes = useSelector(selectFilteredDishes);
     const loading = useSelector(selectLoading);
@@ -189,7 +193,16 @@ const RecipesSection: React.FC = () => {
           <div className="row g-4">
             {filteredRecipes.map(dish => (
               <div key={dish.id} className="col-12 col-md-6 col-lg-4">
-                <RecipeCard dish={dish} />
+                <RecipeCard 
+                    dish={dish} 
+                    onAdd={(dish) => {
+                        dispatch(addDish({
+                            dish,
+                            mealType,  
+                            grams: 100
+                        }));
+                    }}  
+                />
               </div>
             ))}
           </div>

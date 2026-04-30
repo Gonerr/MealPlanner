@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PlanBlock from '@/components/shared/PlanBlock';
 import { AnimatePresence, motion } from 'framer-motion';
+import DayMenuPlanner from '@/components/Main/DayMenuPlanner';
 
 export default function HomePage() {
   const [user, setUser] = useState<any>(null);
@@ -94,7 +95,7 @@ export default function HomePage() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <RecipesSection />
+                  <DayMenuPlanner date={days[selectedDay].full} />
                 </motion.div>
               </AnimatePresence>
             </Col>

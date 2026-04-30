@@ -37,3 +37,5 @@ export const DELETE = withAuthHandler(async (req, {user, db}) => {
     return NextResponse.json({success: true})
 })
 
+
+

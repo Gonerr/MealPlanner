@@ -56,7 +56,6 @@ const initialState: MenuState = {
     selected: []
 };
 
-
 const menuSlice = createSlice({
     name: 'menu',
     initialState,
@@ -74,7 +73,7 @@ const menuSlice = createSlice({
             state.selectedCategory = action.payload;
         },
 
-        cleatSelection: (state) => {
+        clearSelection: (state) => {
             state.selected = [];
         },
 
@@ -143,7 +142,7 @@ export const {
     clearError,
     addDish,
     removeDish,
-    cleatSelection
+    clearSelection
 } = menuSlice.actions;
 
 /* =======================
@@ -209,9 +208,5 @@ export const selectMenuStats = (state: { menu: MenuState }) => {
 
     return { total, available, specials, categories, avgPrice };
 };
-
-
-
-
 
 export default menuSlice.reducer;

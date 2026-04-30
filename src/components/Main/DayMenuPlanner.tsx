@@ -135,8 +135,9 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
             <SelectRecipeModal
                 show={showModal}
                 onClose={() => setShowModal(false)}
-                onSelect={handleSelectDish}
-                />
+                mealType={selectedMeal}
+                date={date}
+            />
         </div>
     );
 }

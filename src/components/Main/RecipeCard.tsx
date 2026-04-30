@@ -4,13 +4,18 @@ import { Card, Badge, Button } from 'react-bootstrap';
 import { getCategoryIcon } from './RecipeList';
 import { RecipeModal } from './RecipeModal';
 import { Dish } from '../../app/types/menu';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 interface RecipeCardProps {
   dish: Dish;
+  onAdd?: (dish: Dish) => void;
 }
 
-export const RecipeCard: React.FC<RecipeCardProps> = ({ dish }) => {
+export const RecipeCard: React.FC<RecipeCardProps> = ({ dish, onAdd }) => {
+  const dispatch = useDispatch();
+  const selected = useSelector((state: any) => state.menu.selected);
+  const isSelected = selected.some((s: any) => s.dish.id === dish.id);
   const [showRecipeModal, setShowRecipeModal] = useState(false);
 
   // Минималистичные цвета для сложности
@@ -46,7 +51,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ dish }) => {
           borderRadius: '12px',
           overflow: 'hidden',
           cursor: 'pointer',
-          border: '1px solid #e5e7eb'
+          border: isSelected ? '2px solid #22c55e' : '1px solid #e5e7eb'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-4px)';
@@ -244,27 +249,42 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ dish }) => {
             ) : null}
           </div>
 
-          {/* Кнопка действий */}
-          <Button 
-            variant="dark" 
-            className="w-100 d-flex align-items-center justify-content-center gap-2 py-2"
-            style={{ 
-              borderRadius: '8px',
-              backgroundColor: '#212529',
-              border: 'none',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#374151';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#212529';
-            }}
-            onClick={() => setShowRecipeModal(true)}
-          >
-            <i className="bi bi-book"></i>
-            Посмотреть рецепт
-          </Button>
+          <div className='d-flex gap-2'> 
+            {/* Кнопка действий */}
+            <Button 
+              variant="dark" 
+              className="w-100 d-flex align-items-center justify-content-center gap-2 py-2"
+              style={{ 
+                borderRadius: '8px',
+                backgroundColor: '#212529',
+                border: 'none',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#374151';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#212529';
+              }}
+              onClick={() => setShowRecipeModal(true)}
+            >
+              <i className="bi bi-book"></i>
+              Посмотреть рецепт
+            </Button>
+
+            {onAdd && (
+              <Button
+                variant="success"
+                className="w-100"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onAdd(dish);
+                }}>
+                  ➕
+              </Button>
+            )}
+          </div>
+          
         </Card.Body>
       </Card>
 

@@ -31,6 +31,11 @@ export type DishCategory = |
     'drinks' |
     'specials'
 ;
+export interface SelectedItem {
+  dish: Dish;
+  mealType: string | null;
+  grams: number;
+}
 
 export interface MenuState {
     dishes: Dish[];
@@ -40,4 +45,17 @@ export interface MenuState {
   searchQuery: string;
   loading: boolean;
   error: string | null;
+  selected: SelectedItem[];
+}
+
+type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+
+export interface MenuItem {
+  id: number;
+  recipeId: number;
+  name: string;
+  calories: number;
+  grams: number;
+  preparationTime: number;
+  mealType: MealType;
 }
