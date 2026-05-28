@@ -43,7 +43,7 @@ const SelectRecipeModal: React.FC<Props> = ({show, onClose, mealType, date }) =>
             <Modal.Footer>
                 <div className="d-flex justify-content-between w-100 align-items-center">
                     <span className="text-muted">
-                        Выбрано: {selected.length}
+                        Выбрано блюд: {selected.length}
                     </span>
 
                     <Button 
