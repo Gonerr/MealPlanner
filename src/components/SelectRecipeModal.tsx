@@ -11,12 +11,16 @@ interface Props {
     mealType: string | null;
     date: string;
 }
-const SelectRecipeModal: React.FC<Props> = ({show, onClose, mealType, date }) => {
-
+const SelectRecipeModal: React.FC<Props> = ({
+    show,
+    onClose,
+    mealType,
+    date,
+}) => {
     const dispatch = useDispatch();
     const selected = useSelector((state: any) => state.menu.selected);
 
-    const handleSave = async() => {
+    const handleSave = async () => {
         for (const item of selected) {
             await apiClient.addToMenu(
                 date,
@@ -29,15 +33,15 @@ const SelectRecipeModal: React.FC<Props> = ({show, onClose, mealType, date }) =>
 
         dispatch(clearSelection());
         onClose();
-    }
+    };
     return (
         <Modal show={show} onHide={onClose} size="xl">
             <Modal.Header closeButton>
                 <Modal.Title>Выберите блюдо</Modal.Title>
             </Modal.Header>
 
-            <Modal.Body style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-                <RecipesSection  mealType={mealType}/>
+            <Modal.Body style={{ maxHeight: "80vh", overflowY: "auto" }}>
+                <RecipesSection mealType={mealType} />
             </Modal.Body>
 
             <Modal.Footer>
@@ -46,7 +50,7 @@ const SelectRecipeModal: React.FC<Props> = ({show, onClose, mealType, date }) =>
                         Выбрано блюд: {selected.length}
                     </span>
 
-                    <Button 
+                    <Button
                         variant="success"
                         disabled={selected.length === 0}
                         onClick={handleSave}
@@ -57,6 +61,6 @@ const SelectRecipeModal: React.FC<Props> = ({show, onClose, mealType, date }) =>
             </Modal.Footer>
         </Modal>
     );
-}
+};
 
 export default SelectRecipeModal;
