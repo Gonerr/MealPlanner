@@ -9,6 +9,7 @@ import PlanBlock from "@/components/shared/PlanBlock";
 import { AnimatePresence, motion } from "framer-motion";
 import DayMenuPlanner from "@/components/Main/DayMenuPlanner";
 import DaysSlider from "@/components/Main/DaysSlider";
+import "./global.css";
 
 export default function HomePage() {
     const [user, setUser] = useState<any>(null);

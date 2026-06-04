@@ -2,12 +2,15 @@ import { apiClient } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import SelectRecipeModal from "../SelectRecipeModal";
+import { FiActivity, FiBox, FiClock, FiPlus, FiTrash2 } from "react-icons/fi";
+import { removeDish } from "@/features/menu/menuSlice";
+import "../../styles/dayMenuPlanner.css";
 
 const MEALS = [
-    { key: 'breakfast', label: 'Завтрак', color: 'warning' },
-    { key: 'lunch', label: 'Обед', color: 'success' },
-    { key: 'dinner', label: 'Ужин', color: 'dark' },
-    { key: 'snack', label: 'Перекус', color: 'info' },
+    { key: "breakfast", label: "Завтрак", color: "warning" },
+    { key: "lunch", label: "Обед", color: "success" },
+    { key: "dinner", label: "Ужин", color: "dark" },
+    { key: "snack", label: "Перекус", color: "info" },
 ] as const;
 
 const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
@@ -32,7 +35,7 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
     };
 
     const getByMeal = (meal: string) =>
-        items.filter(i => i.mealType === meal);
+        items.filter((i) => i.mealType === meal);
 
     const getStats = (list: any[]) => {
         return {
@@ -45,90 +48,85 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
     const handleSelectDish = async (dish: any) => {
         if (!selectedMeal) return;
 
-        await apiClient.addToMenu(
-            date,
-            dish.id,
-            selectedMeal,
-            100, 
-            dish.price
-        );
+        await apiClient.addToMenu(date, dish.id, selectedMeal, 100, dish.price);
 
         await load();
-    }
+    };
 
     return (
         <div className="d-flex flex-column gap-3">
-
-            {MEALS.map(meal => {
+            {MEALS.map((meal) => {
                 const mealItems = getByMeal(meal.key);
                 const stats = getStats(mealItems);
 
                 return (
-                    <Card key={meal.key} className="shadow-sm border-0">
-
+                    <section key={meal.key} className="meal-section">
                         {/* HEADER */}
-                        <Card.Header className="d-flex justify-content-between align-items-center">
-                            <div className="d-flex align-items-center gap-2">
-                                <h5 className="mb-0">{meal.label}</h5>
-                                <Badge bg={meal.color}>
-                                    {mealItems.length} блюд
-                                </Badge>
+                        <div className="meal-header">
+                            <div>
+                                <h2>{meal.label}</h2>
+                                <span>{mealItems.length} блюд</span>
                             </div>
 
-                            <Button 
-                                size="sm" 
-                                variant="outline-primary"
+                            <button
+                                className="add-btn"
                                 onClick={() => {
                                     setSelectedMeal(meal.key);
                                     setShowModal(true);
                                 }}
-                                >
-                                ➕ Добавить
-                            </Button>
-                        </Card.Header>
+                            >
+                                <FiPlus />
+                            </button>
+                        </div>
 
-                        {/* BODY */}
-                        <Card.Body>
-
-                            {mealItems.length === 0 ? (
-                                <div className="text-muted text-center py-3">
-                                    Нет блюд
-                                </div>
-                            ) : (
-                                <div className="d-flex flex-column gap-2">
-
-                                    {mealItems.map(item => (
-                                        <div
-                                            key={item.id}
-                                            className="d-flex justify-content-between align-items-center border rounded p-2"
-                                        >
-                                            <div>
-                                                <div className="fw-semibold">{item.name}</div>
-
-                                                <div className="small text-muted">
-                                                    {item.calories} ккал • {item.grams} г • {item.preparationTime} мин
-                                                </div>
+                        {mealItems.length === 0 ? (
+                            <div className="empty-state">
+                                Пока ничего не добавлено
+                            </div>
+                        ) : (
+                            <div className="meal-list">
+                                {mealItems.map((item) => (
+                                    <div key={item.id} className="meal-item">
+                                        <div>
+                                            <div className="meal-item-name">
+                                                {item.name}
                                             </div>
 
-                                            <Button size="sm" variant="outline-danger">
-                                                ✕
-                                            </Button>
+                                            <div className="meal-item-meta">
+                                                {item.calories} ккал ·{" "}
+                                                {item.grams} г ·{" "}
+                                                {item.preparationTime} мин
+                                            </div>
                                         </div>
-                                    ))}
 
-                                </div>
-                            )}
+                                        <button
+                                            className="delete-btn"
+                                            onClick={() => removeDish(item.id)}
+                                        >
+                                            <FiTrash2 />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
-                        </Card.Body>
+                        <div className="meal-stats">
+                            <div className="stat-chip">
+                                <FiActivity />
+                                {stats.calories} ккал
+                            </div>
 
-                        {/* FOOTER (СТАТИСТИКА) */}
-                        <Card.Footer className="d-flex justify-content-between text-muted small">
-                            <span>🔥 {stats.calories} ккал</span>
-                            <span>⚖️ {stats.grams} г</span>
-                            <span>⏱ {stats.time} мин</span>
-                        </Card.Footer>
+                            <div className="stat-chip">
+                                <FiBox />
+                                {stats.grams} г
+                            </div>
 
-                    </Card>
+                            <div className="stat-chip">
+                                <FiClock />
+                                {stats.time} мин
+                            </div>
+                        </div>
+                    </section>
                 );
             })}
 
@@ -140,6 +138,6 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
             />
         </div>
     );
-}
+};
 
 export default DayMenuPlanner;
