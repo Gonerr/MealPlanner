@@ -30,7 +30,7 @@ const PlanBlock: React.FC<PlanBlockProps> = ({ user, days = [] }) => {
                         className="card border-0 bg-gradient-primary mb-3"
                         style={{
                             background:
-                                "linear-gradient(135deg, #c0dd4b 0%, #ffff7f 100%)",
+                                "linear-gradient(135deg, #c0dd4b 0%, #fff 100%)",
                             borderRadius: "20px",
                             color: "#212529",
                             fontFamily: "Inter, 'SF Pro Display', sans-serif",

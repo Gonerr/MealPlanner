@@ -35,7 +35,7 @@ const Header: React.FC = () => {
                 top: 0,
                 zIndex: 1000,
                 background:
-                    "linear-gradient(to right, #fff 0%, #fff 60%, #b8d94a 100%)",
+                    "linear-gradient(to right, #fff 0%, #fff 80%, #b8d94a 100%)",
                 backdropFilter: "blur(14px)",
                 borderBottom: "1px solid #eef1e6",
             }}
@@ -43,22 +43,19 @@ const Header: React.FC = () => {
             <Container fluid className="px-5">
                 {/* Левая часть - логотип/название */}
                 <Navbar.Brand className="d-flex align-items-center me-0">
-                    <span
-                        style={{
-                            width: "34px",
-                            height: "34px",
-                            padding: "1.2em",
-                            background: "#c0dd4b",
-                            borderRadius: "10px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        🍃
-                    </span>
-                    <span className="fw-semibold fs-2 text-dark mx-4">
-                        NeMenu
+                    <span className="fw-semibold fs-2">
+                        <span
+                            style={{
+                                background:
+                                    "linear-gradient(135deg, #b8d94a, #8cb32b)",
+                                WebkitBackgroundClip: "text",
+                                backgroundClip: "text",
+                                color: "transparent",
+                            }}
+                        >
+                            Ne
+                        </span>
+                        <span className="text-dark">Меню</span>
                     </span>
                 </Navbar.Brand>
 
