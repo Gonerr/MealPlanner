@@ -16,6 +16,7 @@ const Header: React.FC = () => {
     const [user, setUser] = React.useState<any>(null);
 
     const isAdminPage = pathname?.startsWith("/admin");
+    console.log("user = ", user);
     const isAdmin = user?.role === "admin";
 
     React.useEffect(() => {
@@ -34,8 +35,7 @@ const Header: React.FC = () => {
                 minHeight: "3rem",
                 top: 0,
                 zIndex: 1000,
-                background:
-                    "linear-gradient(to right, #fff 0%, #fff 80%, #b8d94a 100%)",
+                background: "#fff",
                 backdropFilter: "blur(14px)",
                 borderBottom: "1px solid #eef1e6",
             }}

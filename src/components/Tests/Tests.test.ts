@@ -1,4 +1,6 @@
+import assert from "assert";
 import { simplify } from "./newTest";
+import { isValidWalk } from "./TestsTS";
 
 // describe('simplify function', () => {
 //     it('should split polynomials correctly', () => {
@@ -22,10 +24,10 @@ import { simplify } from "./newTest";
 //     //     const result = justify("word1 word2 word3", 10);
 //     //     const lines = result.split('\n');
 //     //     const lastLine = lines[lines.length - 1];
-        
+
 //     //     // В Jest используем expect вместо assert
 //     //     expect(lastLine).not.toMatch(/\s{2,}/);
-        
+
 //     //     const lastLineWords = lastLine.split(' ');
 //     //     expect(lastLineWords.every(word => word.length > 0)).toBe(true);
 //     // });
@@ -41,7 +43,6 @@ import { simplify } from "./newTest";
 //     // });
 // })
 
-
 // describe('longestSlideDown function', () => {
 //     test('first description example', () => {
 //         const pyramids = [ [3],
@@ -53,4 +54,35 @@ import { simplify } from "./newTest";
 // })
 //  // Начинаем с первого числа
 //  // полный обход дерева - не вариант, нужен какой-то алгоритм
-//  //  
+//  //
+
+describe("example", function () {
+    it("test", function () {
+        assert.equal(
+            isValidWalk(["n", "s", "n", "s", "n", "s", "n", "s", "n", "s"]),
+            true
+        );
+        assert.equal(
+            isValidWalk([
+                "w",
+                "e",
+                "w",
+                "e",
+                "w",
+                "e",
+                "w",
+                "e",
+                "w",
+                "e",
+                "w",
+                "e",
+            ]),
+            false
+        );
+        assert.equal(isValidWalk(["w"]), false);
+        assert.equal(
+            isValidWalk(["n", "n", "n", "s", "n", "s", "n", "s", "n", "s"]),
+            false
+        );
+    });
+});

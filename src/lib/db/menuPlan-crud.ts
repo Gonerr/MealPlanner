@@ -12,18 +12,24 @@ export class MenuPlanCRUD {
     ========================== */
 
     private async getOrCreateDay(ownerId: any, date: string) {
-        let day = await this.db.get(`
+        let day = await this.db.get(
+            `
                 SELECT * FROM menu_days
                 WHERE owner_id = ? AND date = ?
-            `, [ownerId, date])
-        
+            `,
+            [ownerId, date]
+        );
+
         if (!day) {
-            const result = await this.db.run(`
+            const result = await this.db.run(
+                `
                     INSERT INTO menu_days (owner_id, date)
                     VALUES (?, ?)
-                `, [ownerId, date]);
+                `,
+                [ownerId, date]
+            );
 
-            day = {id: result.lastID, owner_id: ownerId, date}
+            day = { id: result.lastID, owner_id: ownerId, date };
         }
 
         return day;
@@ -33,42 +39,62 @@ export class MenuPlanCRUD {
        GET: меню на день
     ========================== */
 
-    async getByDate (ownerId: any, date: string) {
+    async getByDate(ownerId: any, date: string) {
         const rows = await this.db.all(
             `SELECT *
             FROM menu_days md
             INNER JOIN menu_items mi 
                 ON md.id = mi.menu_day_id 
-            LEFT JOIN recipes r 
+            LEFT JOIN (
+                SELECT 
+                    id,
+                    user_id,
+                    name,
+                    description,
+                    price,
+                    category_slug,
+                    preparation_time,
+                    is_available,
+                    is_chef_special,
+                    calories,
+                    image_url
+                FROM recipes r ) 
+                AS r
                 ON r.id = mi.recipe_id
             WHERE md.owner_id = ? AND md.date = ?
             ORDER BY mi.meal_type
-            `, [ownerId, date]);
-            
+            `,
+            [ownerId, date]
+        );
+
         return rows;
     }
 
     /* =========================
        ADD: добавить блюдо
     ========================== */
-    
+
     async addDish(
-        ownerId: any, 
-        date: string, 
-        recipeId: number, 
-        mealType: string, 
+        ownerId: any,
+        date: string,
+        recipeId: number,
+        mealType: string,
         grams: number = 100,
         price: number
     ) {
-        let menuDay = await this.getOrCreateDay(ownerId,date);
+        let menuDay = await this.getOrCreateDay(ownerId, date);
         let menuDayId = menuDay.id;
 
-        let recipeDefault = await this.db.get(`
+        let recipeDefault = await this.db.get(
+            `
                 SELECT meal_type, price
                 FROM recipes 
-                WHERE id = ?`, [recipeId]);
+                WHERE id = ?`,
+            [recipeId]
+        );
 
-        await this.db.run(`
+        await this.db.run(
+            `
             INSERT OR IGNORE INTO menu_items (
             menu_day_id, 
             recipe_id,
@@ -77,13 +103,15 @@ export class MenuPlanCRUD {
             custom_price
             )
             VALUES (?, ?, ?, ?, ?)
-            `, [
+            `,
+            [
                 menuDayId,
                 recipeId,
                 mealType !== null ? mealType : recipeDefault.meal_type,
                 grams,
-                price !== null ? price: recipeDefault.price
-            ]);
+                price !== null ? price : recipeDefault.price,
+            ]
+        );
     }
 
     /* =========================
@@ -92,10 +120,13 @@ export class MenuPlanCRUD {
 
     // Удалить блюдо в конкретный день
     async removeDish(date: string, recipeId: number, menuDayId: number) {
-        await this.db.run(`
+        await this.db.run(
+            `
             DELETE FROM menu_items
             WHERE menu_day_id = ? AND date = ? AND recipe_id = ?
-        `, [menuDayId, date, recipeId]);
+        `,
+            [menuDayId, date, recipeId]
+        );
     }
 
     /* =========================
@@ -120,7 +151,7 @@ export class MenuPlanCRUD {
     /* ==================== 
      Получить план за всю неделю
     ======================== */
-    async getWeekPlan (ownerId: any, startDate: string, endDate: string) {
+    async getWeekPlan(ownerId: any, startDate: string, endDate: string) {
         const rows = await this.db.all(
             `
             SELECT 
@@ -131,8 +162,8 @@ export class MenuPlanCRUD {
                 mi.meal_type as meal_type,
                 mi.grams as grams,
                 mi.custom_price as price,
-                r.title as title,
-                r.cook_time as cook_time
+                r.name as title,
+                r.preparation_time as cook_time
             FROM menu_days md
             LEFT JOIN menu_items mi ON mi.menu_day_id = md.id
             LEFT JOIN recipes r ON r.id = mi.recipe_id
@@ -145,5 +176,4 @@ export class MenuPlanCRUD {
 
         return rows;
     }
-
 }

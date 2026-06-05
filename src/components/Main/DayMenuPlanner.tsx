@@ -28,14 +28,26 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
         setLoading(true);
         try {
             const data = await apiClient.getMenuPlan(date);
-            setItems(data.items || []);
+            console.log("Получаем данные о меню при загрузке: ", data);
+
+            setItems(data);
         } finally {
             setLoading(false);
         }
     };
 
-    const getByMeal = (meal: string) =>
-        items.filter((i) => i.mealType === meal);
+    const getByMeal = (meal: string) => {
+        console.log(
+            items.map((i) => ({
+                name: i.name,
+                meal_type: i.meal_type,
+            }))
+        );
+
+        let filteredMeal = items.filter((i) => i.meal_type === meal);
+
+        return filteredMeal;
+    };
 
     const getStats = (list: any[]) => {
         return {

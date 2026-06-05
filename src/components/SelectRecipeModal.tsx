@@ -21,18 +21,25 @@ const SelectRecipeModal: React.FC<Props> = ({
     const selected = useSelector((state: any) => state.menu.selected);
 
     const handleSave = async () => {
-        for (const item of selected) {
-            await apiClient.addToMenu(
-                date,
-                item.dish.id,
-                item.mealType,
-                item.grams,
-                item.dish.price
+        try {
+            for (const item of selected) {
+                await apiClient.addToMenu(
+                    date,
+                    item.dish.id,
+                    item.mealType,
+                    item.grams,
+                    item.dish.price
+                );
+            }
+
+            dispatch(clearSelection());
+            onClose();
+        } catch (error) {
+            console.error(
+                "Не удалось добавить блюда на день из-за ошибки: ",
+                error
             );
         }
-
-        dispatch(clearSelection());
-        onClose();
     };
     return (
         <Modal show={show} onHide={onClose} size="xl">
@@ -51,9 +58,14 @@ const SelectRecipeModal: React.FC<Props> = ({
                     </span>
 
                     <Button
-                        variant="success"
                         disabled={selected.length === 0}
                         onClick={handleSave}
+                        style={{
+                            background: "var(--main-color)",
+                            color: "black",
+                            border: "none",
+                            fontSize: "medium",
+                        }}
                     >
                         Добавить выбранное
                     </Button>

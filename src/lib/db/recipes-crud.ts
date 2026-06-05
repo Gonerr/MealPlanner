@@ -4,7 +4,7 @@ export interface RecipeInput {
     name: string;
     description?: string;
     price?: number;
-    category: string;
+    category_slug: string;
     preparationTime?: number;
     isAvailable?: boolean;
     isChefSpecial?: boolean;
@@ -23,7 +23,7 @@ export interface Recipe extends RecipeInput {
 export class RecipesCRUD {
     private db: safeDB;
 
-    constructor(db:any){
+    constructor(db: any) {
         this.db = new safeDB(db);
     }
 
@@ -47,7 +47,8 @@ export class RecipesCRUD {
 
     // Получение рецепта по ID
     async getById(id: number): Promise<Recipe | null> {
-        const recipe = await this.db.get(`
+        const recipe = await this.db.get(
+            `
             SELECT 
                 r.*,
                 GROUP_CONCAT(i.id) as ingredient_ids,
@@ -57,31 +58,36 @@ export class RecipesCRUD {
             LEFT JOIN ingredients i ON ri.ingredient_id = i.id
             WHERE r.id = ?
             GROUP BY r.id
-        `, [id]);
-        
+        `,
+            [id]
+        );
+
         return recipe ? this.formatRecipe(recipe) : null;
     }
 
-     // Проверка существования рецепта по имени
+    // Проверка существования рецепта по имени
     async existsByName(name: string): Promise<boolean> {
         const result = await this.db.get(
-            'SELECT 1 FROM recipes WHERE name = ?',
+            "SELECT 1 FROM recipes WHERE name = ?",
             [name]
         );
         return !!result;
     }
 
     // Создание рецепта
-    async create(userId: number, newRecipe: RecipeInput): Promise<Recipe>{
+    async create(userId: number, newRecipe: RecipeInput): Promise<Recipe> {
         // Проверяем существование
         if (await this.existsByName(newRecipe.name)) {
-            throw new Error('Recipe with this name already exists');
+            throw new Error("Recipe with this name already exists");
         }
 
         // Проверяем ингредиенты, если нужно создать новые
-        const ingredientIds = await this.ensureIngredients(newRecipe.ingredientIds || []);
+        const ingredientIds = await this.ensureIngredients(
+            newRecipe.ingredientIds || []
+        );
 
-        const result = await this.db.run(`
+        const result = await this.db.run(
+            `
             INSERT INTO recipes(
                 user_id, 
                 name, 
@@ -93,23 +99,33 @@ export class RecipesCRUD {
                 is_chef_special, 
                 calories, 
                 meal_type
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
                 userId,
                 newRecipe.name,
-                newRecipe.description || '',
+                newRecipe.description || "",
                 newRecipe.price || 0,
-                newRecipe.category,
+                newRecipe.category_slug,
                 newRecipe.preparationTime || 0,
-                newRecipe.isAvailable !== undefined? (newRecipe.isAvailable ? 1 : 0): 1,
-                newRecipe.isChefSpecial !== undefined? (newRecipe.isChefSpecial ? 1 : 0): 1,
+                newRecipe.isAvailable !== undefined
+                    ? newRecipe.isAvailable
+                        ? 1
+                        : 0
+                    : 1,
+                newRecipe.isChefSpecial !== undefined
+                    ? newRecipe.isChefSpecial
+                        ? 1
+                        : 0
+                    : 1,
                 newRecipe.calories || 0,
-                newRecipe.mealType || 'lunch'
-        ]);
+                newRecipe.mealType || "lunch",
+            ]
+        );
 
         const recipeId = result.lastID;
 
         // Добавляем связи с ингредиентами, если они переданы
-        for (let id of ingredientIds){
+        for (let id of ingredientIds) {
             await this.db.run(
                 `INSERT INTO recipe_ingredients (
                     recipe_id, 
@@ -118,27 +134,30 @@ export class RecipesCRUD {
                 [recipeId, id]
             );
         }
-        
+
         return this.getById(recipeId) as Promise<Recipe>;
     }
 
     // Обновление рецепта
-    async update(recipe: RecipeInput, id: number): Promise<Recipe>{
+    async update(recipe: RecipeInput, id: number): Promise<Recipe> {
         // Проверяем существование
-        if (await this.getById(id) === null) {
-            throw new Error('Recipe not exists!');
+        if ((await this.getById(id)) === null) {
+            throw new Error("Recipe not exists!");
         }
 
         // Проверяем ингредиенты, если нужно создать новые
-        const ingredientIds = await this.ensureIngredients(recipe.ingredientIds || []);
+        const ingredientIds = await this.ensureIngredients(
+            recipe.ingredientIds || []
+        );
 
-        const result = await this.db.run(`
+        const result = await this.db.run(
+            `
             UPDATE recipes
             SET 
                 name = COALESCE(?, name),
                 description = COALESCE(?, description),
                 price = COALESCE(?, price),
-                category = COALESCE(?, category),
+                category_slug = COALESCE(?, category_slug),
                 preparation_time = COALESCE(?, preparation_time),
                 is_available = COALESCE(?, is_available),
                 is_chef_special = COALESCE(?, is_chef_special),
@@ -146,11 +165,20 @@ export class RecipesCRUD {
                 meal_type = COALESCE(?, meal_type),
                 updated_at = CURRENT_TIMESTAMP
             WHERE id = ?
-            `,[
-                recipe.name, recipe.description, recipe.price, recipe.category,
-                recipe.preparationTime, recipe.isAvailable ? 1 : 0, 
-                recipe.isChefSpecial ? 1 : 0, recipe.calories, recipe.mealType, id
-            ])
+            `,
+            [
+                recipe.name,
+                recipe.description,
+                recipe.price,
+                recipe.category_slug,
+                recipe.preparationTime,
+                recipe.isAvailable ? 1 : 0,
+                recipe.isChefSpecial ? 1 : 0,
+                recipe.calories,
+                recipe.mealType,
+                id,
+            ]
+        );
 
         const recipeId = result.lastID;
 
@@ -158,35 +186,40 @@ export class RecipesCRUD {
         if (recipe.ingredientIds) {
             // Удаляем старые связи
             await this.db.run(
-                'DELETE FROM recipe_ingredients WHERE recipe_id = ?',
+                "DELETE FROM recipe_ingredients WHERE recipe_id = ?",
                 [id]
             );
-            
+
             // Добавляем новые
             for (const ingredientId of recipe.ingredientIds) {
                 await this.db.run(
-                    'INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (?, ?)',
+                    "INSERT INTO recipe_ingredients (recipe_id, ingredient_id) VALUES (?, ?)",
                     [id, ingredientId]
                 );
             }
         }
-        
+
         return this.getById(recipeId) as Promise<Recipe>;
     }
 
     // Удаление рецепта
     async delete(id: number): Promise<void> {
-        const result = await this.db.run(`
+        const result = await this.db.run(
+            `
             DELETE FROM recipes WHERE id = ?
-            `, [id]);
+            `,
+            [id]
+        );
 
-        if (result.changes === 0){
-            throw new Error('Recipe not found');
+        if (result.changes === 0) {
+            throw new Error("Recipe not found");
         }
     }
 
     // Проверка и создание ингредиентов (TODO)
-    private async ensureIngredients(ingredientIds: number[]): Promise<number[]> {
+    private async ensureIngredients(
+        ingredientIds: number[]
+    ): Promise<number[]> {
         // TODO: Проверить, существуют ли ингредиенты
         // Если нет - создать
         return ingredientIds;
@@ -200,16 +233,17 @@ export class RecipesCRUD {
             name: recipe.name,
             description: recipe.description,
             price: recipe.price,
-            category: recipe.category,
+            category_slug: recipe.category_slug,
             preparationTime: recipe.preparation_time,
             isAvailable: recipe.is_available === 1,
             isChefSpecial: recipe.is_chef_special === 1,
             calories: recipe.calories,
             mealType: recipe.meal_type,
-            ingredientIds: recipe.ingredient_ids ? 
-                recipe.ingredient_ids.split(',').map(Number) : [],
+            ingredientIds: recipe.ingredient_ids
+                ? recipe.ingredient_ids.split(",").map(Number)
+                : [],
             createdAt: recipe.created_at,
-            updatedAt: recipe.updated_at
+            updatedAt: recipe.updated_at,
         };
     }
 }

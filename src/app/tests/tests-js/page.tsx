@@ -1,5 +1,5 @@
-import TestsJS from '@/components/Tests/TestsJS';
+import TestsTS from "@/components/Tests/TestsTS";
 
 export default function TestsJSPage() {
-  return <TestsJS />;
+    return <TestsTS />;
 }
