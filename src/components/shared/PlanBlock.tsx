@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import WeeklyPlan from "../WeeklyPlan";
+import WeeklyPlan from "../sidebar/WeeklyPlan";
 import Sidebar from "./Sidebar";
 
 interface PlanBlockProps {

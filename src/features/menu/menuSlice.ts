@@ -56,7 +56,7 @@ const initialState: MenuState = {
     dishes: [],
     ingredients: [],
     selectedCategory: "all",
-    // isAdminMode: false,
+    isAdminMode: false,
     searchQuery: "",
     loading: false,
     error: null,
@@ -164,7 +164,8 @@ export const selectAllDishes = (state: { menu: MenuState }) =>
     state.menu.dishes;
 export const selectSelectedCategory = (state: { menu: MenuState }) =>
     state.menu.selectedCategory;
-// export const selectIsAdminMode = (state: { menu: MenuState }) => state.menu.isAdminMode;
+export const selectIsAdminMode = (state: { menu: MenuState }) =>
+    state.menu.isAdminMode;
 export const selectSearchQuery = (state: { menu: MenuState }) =>
     state.menu.searchQuery;
 export const selectLoading = (state: { menu: MenuState }) => state.menu.loading;

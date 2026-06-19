@@ -161,7 +161,7 @@ export const DELETE = withAuthHandler(async (request, { db }) => {
     ]);
 
     console.log("delete result:", result);
-
+    // FIXME: не получается удалить ингредиенты
     if (result.changes === 0) {
         return NextResponse.json(
             { error: "Ingredient not found" },

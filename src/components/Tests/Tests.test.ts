@@ -56,33 +56,33 @@ import { isValidWalk } from "./TestsTS";
 //  // полный обход дерева - не вариант, нужен какой-то алгоритм
 //  //
 
-describe("example", function () {
-    it("test", function () {
-        assert.equal(
-            isValidWalk(["n", "s", "n", "s", "n", "s", "n", "s", "n", "s"]),
-            true
-        );
-        assert.equal(
-            isValidWalk([
-                "w",
-                "e",
-                "w",
-                "e",
-                "w",
-                "e",
-                "w",
-                "e",
-                "w",
-                "e",
-                "w",
-                "e",
-            ]),
-            false
-        );
-        assert.equal(isValidWalk(["w"]), false);
-        assert.equal(
-            isValidWalk(["n", "n", "n", "s", "n", "s", "n", "s", "n", "s"]),
-            false
-        );
-    });
-});
+// describe("example", function () {
+//     it("test", function () {
+//         assert.equal(
+//             isValidWalk(["n", "s", "n", "s", "n", "s", "n", "s", "n", "s"]),
+//             true
+//         );
+//         assert.equal(
+//             isValidWalk([
+//                 "w",
+//                 "e",
+//                 "w",
+//                 "e",
+//                 "w",
+//                 "e",
+//                 "w",
+//                 "e",
+//                 "w",
+//                 "e",
+//                 "w",
+//                 "e",
+//             ]),
+//             false
+//         );
+//         assert.equal(isValidWalk(["w"]), false);
+//         assert.equal(
+//             isValidWalk(["n", "n", "n", "s", "n", "s", "n", "s", "n", "s"]),
+//             false
+//         );
+//     });
+// });

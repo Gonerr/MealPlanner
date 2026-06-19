@@ -1,7 +1,7 @@
 import { apiClient } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 import { Badge, Button, Card } from "react-bootstrap";
-import SelectRecipeModal from "../SelectRecipeModal";
+import SelectRecipeModal from "../recipes/SelectRecipeModal";
 import { FiActivity, FiBox, FiClock, FiPlus, FiTrash2 } from "react-icons/fi";
 import { removeDish } from "@/features/menu/menuSlice";
 import "../../styles/dayMenuPlanner.css";

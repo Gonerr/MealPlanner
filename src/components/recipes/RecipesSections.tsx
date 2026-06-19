@@ -8,12 +8,12 @@ import {
     selectError,
     selectFilteredDishes,
     selectLoading,
-} from "../features/menu/menuSlice";
-import { RecipeCard } from "./Main/RecipeCard";
-import { CategoryNav } from "./shared/CategoryNav";
-import { EmptyState } from "./shared/EmptyState";
-import { ChefHatIcon, InfoIcon, SortAscIcon, SortDescIcon } from "./icons";
-import { Dish, DishCategory } from "../app/types/menu";
+} from "../../features/menu/menuSlice";
+import { RecipeCard } from "./RecipeCard";
+import { CategoryNav } from "../shared/CategoryNav";
+import { EmptyState } from "../shared/EmptyState";
+import { ChefHatIcon, InfoIcon, SortAscIcon, SortDescIcon } from "../icons";
+import { Dish, DishCategory } from "../../app/types/menu";
 import { LoaderIcon } from "lucide-react";
 
 interface Category {
