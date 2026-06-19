@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, Form, Modal, Table, Badge } from 'react-bootstrap';
-import { FaPlus, FaTrash } from 'react-icons/fa';
-import { createRecipe, selectAllDishes } from './menuSlice';
-import { createIngredient, deleteIngredient, fetchIngredients, selectAllIngredients } from '../ingredients/ingredientsSlice';
-import { nanoid } from '@reduxjs/toolkit';
-import { Dish, Ingredient, DishCategory } from '../../app/types/menu';
-import { AppDispatch } from '@/app/store';
-
-
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Card, Form, Modal, Table, Badge } from "react-bootstrap";
+import { FaPlus, FaTrash } from "react-icons/fa";
+import { createRecipe, selectAllDishes } from "./menuSlice";
+import {
+    createIngredient,
+    deleteIngredient,
+    fetchIngredients,
+    selectAllIngredients,
+} from "../ingredients/ingredientsSlice";
+import { nanoid } from "@reduxjs/toolkit";
+import { Dish, Ingredient, DishCategory } from "../../types/menu";
+import { AppDispatch } from "@/app/store";
 
 const AdminPanel: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -17,28 +20,28 @@ const AdminPanel: React.FC = () => {
 
     const [showAddDish, setShowAddDish] = useState(false);
     const [showAddIngredient, setShowAddIngredient] = useState(false);
-    
+
     useEffect(() => {
         dispatch(fetchIngredients() as any);
     }, [dispatch]);
 
-    const [newDish, setNewDish] = useState<Omit<Dish, 'id'>>({
-        name: '',
-        description: '',
+    const [newDish, setNewDish] = useState<Omit<Dish, "id">>({
+        name: "",
+        description: "",
         price: 0,
-        category: 'main',
+        category: "main",
         ingredients: [],
-        mealType: 'lunch',
+        mealType: "lunch",
         preparationTime: 35,
         isAvailable: true,
         isChefSpecial: false,
     });
 
-    const [newIngredient, setNewIngredient] = useState<Omit<Ingredient, 'id'>>({
-        name: '',
-        description: '',
+    const [newIngredient, setNewIngredient] = useState<Omit<Ingredient, "id">>({
+        name: "",
+        description: "",
         isAvailable: false,
-        category: 'other',
+        category: "other",
     });
 
     const handleAddDish = async () => {
@@ -46,19 +49,19 @@ const AdminPanel: React.FC = () => {
             try {
                 await dispatch(createRecipe(newDish) as any);
                 setNewDish({
-                    name: '',
-                    description: '',
+                    name: "",
+                    description: "",
                     price: 0,
-                    category: 'main',
+                    category: "main",
                     ingredients: [],
-                    mealType: 'lunch',
+                    mealType: "lunch",
                     preparationTime: 35,
                     isAvailable: true,
                     isChefSpecial: false,
                 });
                 setShowAddDish(false);
             } catch (err) {
-                console.error('Failed to create recipe');
+                console.error("Failed to create recipe");
             }
         }
     };
@@ -68,63 +71,61 @@ const AdminPanel: React.FC = () => {
             try {
                 await dispatch(createIngredient(newIngredient) as any);
                 setNewIngredient({
-                    name: '',
-                    description: '',
+                    name: "",
+                    description: "",
                     isAvailable: false,
-                    category: 'other',
+                    category: "other",
                 });
                 setShowAddIngredient(false);
             } catch (err) {
-                console.error('Failed to create ingredient');
+                console.error("Failed to create ingredient");
             }
         }
     };
 
     const handleDeleteIngredient = async (id: number) => {
-        if (window.confirm('Вы уверены, что хотите удалить этот ингредиент?')) {
+        if (window.confirm("Вы уверены, что хотите удалить этот ингредиент?")) {
             try {
                 await dispatch(deleteIngredient(id) as any);
             } catch (err) {
-                console.error('Failed to delete ingredient');
+                console.error("Failed to delete ingredient");
             }
         }
     };
 
-    const getIngredientCategoryLabel = (category: Ingredient['category']): string => {
+    const getIngredientCategoryLabel = (
+        category: Ingredient["category"]
+    ): string => {
         const labels: Record<string, string> = {
-            vegetable: 'Овощи',
-            meat: 'Мясо',
-            dairy: 'Молочные продукты',
-            spice: 'Специи',
-            other: 'Прочее'
+            vegetable: "Овощи",
+            meat: "Мясо",
+            dairy: "Молочные продукты",
+            spice: "Специи",
+            other: "Прочее",
         };
         return labels[category] || category;
     };
 
-    const getIngredientColor = (category: Ingredient['category']): string => {
+    const getIngredientColor = (category: Ingredient["category"]): string => {
         const colors: Record<string, string> = {
-            vegetable: 'success',
-            meat: 'danger',
-            dairy: 'info',
-            spice: 'warning',
-            other: 'secondary'
+            vegetable: "success",
+            meat: "danger",
+            dairy: "info",
+            spice: "warning",
+            other: "secondary",
         };
-        return colors[category] || 'secondary';
+        return colors[category] || "secondary";
     };
 
-
     return (
-
         // в панели администртора четыре основных секции
         // 1 секция "Управление блюдами" и кнопка "Добавить"
-            // Модальное окно - AddDishModal
-        
+        // Модальное окно - AddDishModal
 
         // 2 секция "Управление ингредиентами" (стоимость, наличием и тп)
-            // Модальное окно - AddIngredientModal
+        // Модальное окно - AddIngredientModal
 
-
-        // 3 Таблица ингредиентов 
+        // 3 Таблица ингредиентов
 
         // 4 блок статистики (?) внизу
 
@@ -139,11 +140,15 @@ const AdminPanel: React.FC = () => {
                         </Card.Header>
                         <Card.Body>
                             <p className="text-muted">
-                                Всего блюд: {dishes.length} |
-                                Доступно: {dishes.filter(d => d.isAvailable).length}
+                                Всего блюд: {dishes.length} | Доступно:{" "}
+                                {dishes.filter((d) => d.isAvailable).length}
                             </p>
-                            <Button variant="success" onClick={() => setShowAddDish(true)}>
-                                 {(FaPlus as any)({className: "me-2"})}Добавить новое блюдо
+                            <Button
+                                variant="success"
+                                onClick={() => setShowAddDish(true)}
+                            >
+                                {(FaPlus as any)({ className: "me-2" })}Добавить
+                                новое блюдо
                             </Button>
                         </Card.Body>
                     </Card>
@@ -157,10 +162,18 @@ const AdminPanel: React.FC = () => {
                         <Card.Body>
                             <p className="text-muted">
                                 Всего ингредиентов: {ingredients.length} |
-                                Аллергенов: {ingredients.filter(i => i.isAvailable).length}
+                                Аллергенов:{" "}
+                                {
+                                    ingredients.filter((i) => i.isAvailable)
+                                        .length
+                                }
                             </p>
-                            <Button variant="info" onClick={() => setShowAddIngredient(true)}>
-                                {(FaPlus as any)({className: "me-2"})}Добавить ингредиент
+                            <Button
+                                variant="info"
+                                onClick={() => setShowAddIngredient(true)}
+                            >
+                                {(FaPlus as any)({ className: "me-2" })}Добавить
+                                ингредиент
                             </Button>
                         </Card.Body>
                     </Card>
@@ -187,17 +200,30 @@ const AdminPanel: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {ingredients.map(ingredient => (
+                                {ingredients.map((ingredient) => (
                                     <tr key={ingredient.id}>
                                         <td>{ingredient.name}</td>
                                         <td>
-                                            <Badge bg={
-                                                ingredient.category === 'vegetable' ? 'success' :
-                                                    ingredient.category === 'meat' ? 'danger' :
-                                                        ingredient.category === 'dairy' ? 'info' :
-                                                            ingredient.category === 'spice' ? 'warning' : 'secondary'
-                                            }>
-                                                {getIngredientCategoryLabel(ingredient.category)}
+                                            <Badge
+                                                bg={
+                                                    ingredient.category ===
+                                                    "vegetable"
+                                                        ? "success"
+                                                        : ingredient.category ===
+                                                          "meat"
+                                                        ? "danger"
+                                                        : ingredient.category ===
+                                                          "dairy"
+                                                        ? "info"
+                                                        : ingredient.category ===
+                                                          "spice"
+                                                        ? "warning"
+                                                        : "secondary"
+                                                }
+                                            >
+                                                {getIngredientCategoryLabel(
+                                                    ingredient.category
+                                                )}
                                             </Badge>
                                         </td>
                                         <td>{ingredient.description}</td>
@@ -212,9 +238,17 @@ const AdminPanel: React.FC = () => {
                                             <Button
                                                 variant="outline-danger"
                                                 size="sm"
-                                                onClick={() => dispatch(deleteIngredient(ingredient.id))}
+                                                onClick={() =>
+                                                    dispatch(
+                                                        deleteIngredient(
+                                                            ingredient.id
+                                                        )
+                                                    )
+                                                }
                                             >
-                                                {(FaTrash as any)({className: "me-2"})}
+                                                {(FaTrash as any)({
+                                                    className: "me-2",
+                                                })}
                                             </Button>
                                         </td>
                                     </tr>
@@ -226,7 +260,11 @@ const AdminPanel: React.FC = () => {
             </Card>
 
             {/* Модальное окно добавления блюда */}
-            <Modal show={showAddDish} onHide={() => setShowAddDish(false)} size="lg">
+            <Modal
+                show={showAddDish}
+                onHide={() => setShowAddDish(false)}
+                size="lg"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Добавить новое блюдо</Modal.Title>
                 </Modal.Header>
@@ -236,7 +274,12 @@ const AdminPanel: React.FC = () => {
                             <Form.Label>Название блюда</Form.Label>
                             <Form.Control
                                 value={newDish.name}
-                                onChange={(e) => setNewDish({ ...newDish, name: e.target.value })}
+                                onChange={(e) =>
+                                    setNewDish({
+                                        ...newDish,
+                                        name: e.target.value,
+                                    })
+                                }
                                 placeholder="Например: Салат Цезарь"
                                 required
                             />
@@ -253,7 +296,12 @@ const AdminPanel: React.FC = () => {
                                 as="textarea"
                                 rows={3}
                                 value={newDish.description}
-                                onChange={(e) => setNewDish({ ...newDish, description: e.target.value })}
+                                onChange={(e) =>
+                                    setNewDish({
+                                        ...newDish,
+                                        description: e.target.value,
+                                    })
+                                }
                                 placeholder="Опишите блюдо..."
                             />
                         </Form.Group>
@@ -267,7 +315,12 @@ const AdminPanel: React.FC = () => {
                                         min="0"
                                         step="10"
                                         value={newDish.price}
-                                        onChange={(e) => setNewDish({ ...newDish, price: Number(e.target.value) })}
+                                        onChange={(e) =>
+                                            setNewDish({
+                                                ...newDish,
+                                                price: Number(e.target.value),
+                                            })
+                                        }
                                         required
                                     />
                                     {newDish.price <= 0 && (
@@ -282,13 +335,29 @@ const AdminPanel: React.FC = () => {
                                     <Form.Label>Категория</Form.Label>
                                     <Form.Select
                                         value={newDish.category}
-                                        onChange={(e) => setNewDish({ ...newDish, category: e.target.value as DishCategory })}
+                                        onChange={(e) =>
+                                            setNewDish({
+                                                ...newDish,
+                                                category: e.target
+                                                    .value as DishCategory,
+                                            })
+                                        }
                                     >
-                                        <option value="starters">🥗 Закуски</option>
-                                        <option value="main">🍖 Основное блюдо</option>
-                                        <option value="desserts">🍰 Десерты</option>
-                                        <option value="drinks">🥤 Напитки</option>
-                                        <option value="specials">⭐ Особые блюда</option>
+                                        <option value="starters">
+                                            🥗 Закуски
+                                        </option>
+                                        <option value="main">
+                                            🍖 Основное блюдо
+                                        </option>
+                                        <option value="desserts">
+                                            🍰 Десерты
+                                        </option>
+                                        <option value="drinks">
+                                            🥤 Напитки
+                                        </option>
+                                        <option value="specials">
+                                            ⭐ Особые блюда
+                                        </option>
                                     </Form.Select>
                                 </Form.Group>
                             </div>
@@ -297,13 +366,22 @@ const AdminPanel: React.FC = () => {
                         <div className="row">
                             <div className="col-md-6">
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Время приготовления (мин)</Form.Label>
+                                    <Form.Label>
+                                        Время приготовления (мин)
+                                    </Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="1"
                                         max="180"
                                         value={newDish.preparationTime}
-                                        onChange={(e) => setNewDish({ ...newDish, preparationTime: Number(e.target.value) })}
+                                        onChange={(e) =>
+                                            setNewDish({
+                                                ...newDish,
+                                                preparationTime: Number(
+                                                    e.target.value
+                                                ),
+                                            })
+                                        }
                                     />
                                     <Form.Text className="text-muted">
                                         Время в минутах
@@ -312,24 +390,44 @@ const AdminPanel: React.FC = () => {
                             </div>
                             <div className="col-md-6">
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Выберите ингредиенты</Form.Label>
+                                    <Form.Label>
+                                        Выберите ингредиенты
+                                    </Form.Label>
                                     <Form.Select
                                         multiple
-                                        value={newDish.ingredients.map(id => id.toString())}
+                                        value={newDish.ingredients.map((id) =>
+                                            id.toString()
+                                        )}
                                         onChange={(e) => {
-                                            const selectedIds = Array.from(e.target.selectedOptions, option => option.value);
-                                            const numericIds = selectedIds.map(id => parseInt(id, 10));
-                                            setNewDish({ ...newDish, ingredients: numericIds });
+                                            const selectedIds = Array.from(
+                                                e.target.selectedOptions,
+                                                (option) => option.value
+                                            );
+                                            const numericIds = selectedIds.map(
+                                                (id) => parseInt(id, 10)
+                                            );
+                                            setNewDish({
+                                                ...newDish,
+                                                ingredients: numericIds,
+                                            });
                                         }}
                                     >
-                                        {ingredients.map(ingredient => (
-                                            <option key={ingredient.id} value={ingredient.id}>
-                                                {ingredient.name} ({getIngredientCategoryLabel(ingredient.category)})
+                                        {ingredients.map((ingredient) => (
+                                            <option
+                                                key={ingredient.id}
+                                                value={ingredient.id}
+                                            >
+                                                {ingredient.name} (
+                                                {getIngredientCategoryLabel(
+                                                    ingredient.category
+                                                )}
+                                                )
                                             </option>
                                         ))}
                                     </Form.Select>
                                     <Form.Text className="text-muted">
-                                        Удерживайте Ctrl для выбора нескольких ингредиентов
+                                        Удерживайте Ctrl для выбора нескольких
+                                        ингредиентов
                                     </Form.Text>
                                 </Form.Group>
                             </div>
@@ -340,14 +438,24 @@ const AdminPanel: React.FC = () => {
                                 type="checkbox"
                                 label="Особое блюдо шефа"
                                 checked={newDish.isChefSpecial}
-                                onChange={(e) => setNewDish({ ...newDish, isChefSpecial: e.target.checked })}
+                                onChange={(e) =>
+                                    setNewDish({
+                                        ...newDish,
+                                        isChefSpecial: e.target.checked,
+                                    })
+                                }
                             />
 
                             <Form.Check
                                 type="checkbox"
                                 label="Доступно для заказа"
                                 checked={newDish.isAvailable}
-                                onChange={(e) => setNewDish({ ...newDish, isAvailable: e.target.checked })}
+                                onChange={(e) =>
+                                    setNewDish({
+                                        ...newDish,
+                                        isAvailable: e.target.checked,
+                                    })
+                                }
                             />
                         </div>
 
@@ -356,24 +464,35 @@ const AdminPanel: React.FC = () => {
                             <div className="border rounded p-2">
                                 {newDish.ingredients.length > 0 ? (
                                     <div className="d-flex flex-wrap gap-1">
-                                        {newDish.ingredients.map(ingId => {
-                                            const ingredient = ingredients.find(i => i.id === ingId);
+                                        {newDish.ingredients.map((ingId) => {
+                                            const ingredient = ingredients.find(
+                                                (i) => i.id === ingId
+                                            );
                                             return ingredient ? (
-                                                <Badge key={ingId} bg="secondary" className="me-1 mb-1">
+                                                <Badge
+                                                    key={ingId}
+                                                    bg="secondary"
+                                                    className="me-1 mb-1"
+                                                >
                                                     {ingredient.name}
                                                 </Badge>
                                             ) : null;
                                         })}
                                     </div>
                                 ) : (
-                                    <small className="text-muted">Ингредиенты не выбраны</small>
+                                    <small className="text-muted">
+                                        Ингредиенты не выбраны
+                                    </small>
                                 )}
                             </div>
                         </div>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowAddDish(false)}>
+                    <Button
+                        variant="secondary"
+                        onClick={() => setShowAddDish(false)}
+                    >
                         Отмена
                     </Button>
                     <Button
@@ -387,7 +506,10 @@ const AdminPanel: React.FC = () => {
             </Modal>
 
             {/* Модальное окно добавления ингредиента */}
-            <Modal show={showAddIngredient} onHide={() => setShowAddIngredient(false)}>
+            <Modal
+                show={showAddIngredient}
+                onHide={() => setShowAddIngredient(false)}
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Добавить ингредиент</Modal.Title>
                 </Modal.Header>
@@ -397,7 +519,12 @@ const AdminPanel: React.FC = () => {
                             <Form.Label>Название ингредиента</Form.Label>
                             <Form.Control
                                 value={newIngredient.name}
-                                onChange={(e) => setNewIngredient({ ...newIngredient, name: e.target.value })}
+                                onChange={(e) =>
+                                    setNewIngredient({
+                                        ...newIngredient,
+                                        name: e.target.value,
+                                    })
+                                }
                                 placeholder="Например: Помидор"
                                 required
                             />
@@ -414,7 +541,12 @@ const AdminPanel: React.FC = () => {
                                 as="textarea"
                                 rows={2}
                                 value={newIngredient.description}
-                                onChange={(e) => setNewIngredient({ ...newIngredient, description: e.target.value })}
+                                onChange={(e) =>
+                                    setNewIngredient({
+                                        ...newIngredient,
+                                        description: e.target.value,
+                                    })
+                                }
                                 placeholder="Опишите ингредиент..."
                             />
                         </Form.Group>
@@ -423,14 +555,19 @@ const AdminPanel: React.FC = () => {
                             <Form.Label>Категория ингредиента</Form.Label>
                             <Form.Select
                                 value={newIngredient.category}
-                                onChange={(e) => setNewIngredient({
-                                    ...newIngredient,
-                                    category: e.target.value as Ingredient['category']
-                                })}
+                                onChange={(e) =>
+                                    setNewIngredient({
+                                        ...newIngredient,
+                                        category: e.target
+                                            .value as Ingredient["category"],
+                                    })
+                                }
                             >
                                 <option value="vegetable">🥦 Овощи</option>
                                 <option value="meat">🥩 Мясо</option>
-                                <option value="dairy">🧀 Молочные продукты</option>
+                                <option value="dairy">
+                                    🧀 Молочные продукты
+                                </option>
                                 <option value="spice">🌿 Специи</option>
                                 <option value="other">📦 Прочее</option>
                             </Form.Select>
@@ -438,13 +575,18 @@ const AdminPanel: React.FC = () => {
 
                         <div className="alert alert-info">
                             <small>
-                                <strong>Примечание:</strong> После добавления ингредиента вы сможете использовать его при создании блюд.
+                                <strong>Примечание:</strong> После добавления
+                                ингредиента вы сможете использовать его при
+                                создании блюд.
                             </small>
                         </div>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowAddIngredient(false)}>
+                    <Button
+                        variant="secondary"
+                        onClick={() => setShowAddIngredient(false)}
+                    >
                         Отмена
                     </Button>
                     <Button
@@ -473,7 +615,7 @@ const AdminPanel: React.FC = () => {
                         <div className="col-md-3">
                             <div className="text-center">
                                 <h3 className="text-success">
-                                    {dishes.filter(d => d.isAvailable).length}
+                                    {dishes.filter((d) => d.isAvailable).length}
                                 </h3>
                                 <p className="text-muted">Доступно</p>
                             </div>
@@ -481,14 +623,19 @@ const AdminPanel: React.FC = () => {
                         <div className="col-md-3">
                             <div className="text-center">
                                 <h3 className="text-warning">
-                                    {dishes.filter(d => d.isChefSpecial).length}
+                                    {
+                                        dishes.filter((d) => d.isChefSpecial)
+                                            .length
+                                    }
                                 </h3>
                                 <p className="text-muted">Особые блюда</p>
                             </div>
                         </div>
                         <div className="col-md-3">
                             <div className="text-center">
-                                <h3 className="text-info">{ingredients.length}</h3>
+                                <h3 className="text-info">
+                                    {ingredients.length}
+                                </h3>
                                 <p className="text-muted">Ингредиентов</p>
                             </div>
                         </div>
@@ -500,4 +647,3 @@ const AdminPanel: React.FC = () => {
 };
 
 export default AdminPanel;
-

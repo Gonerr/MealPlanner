@@ -3,10 +3,10 @@
 // Главная страница
 import { Container, Row, Col, Badge } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import PlanBlock from "@/components/shared/PlanBlock";
+import PlanBlock from "@/features/menu-plan/ui/PlanBlock";
 import { AnimatePresence, motion } from "framer-motion";
-import DayMenuPlanner from "@/components/Main/DayMenuPlanner";
-import DaysSlider from "@/components/Main/DaysSlider";
+import DayMenuPlanner from "@/features/menu-plan/ui/DayMenuPlanner";
+import DaysSlider from "@/features/menu-plan/ui/DaysSlider";
 import "./global.css";
 import { useRouter } from "next/router";
 

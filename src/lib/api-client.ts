@@ -1,4 +1,4 @@
-import { Dish, DishCategory, Ingredient } from "@/app/types/menu";
+import { Dish, DishCategory, Ingredient } from "@/types/menu";
 import {
     convertDateToCustomFormat,
     formatDateForAPI,

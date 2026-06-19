@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Card, Badge, Button } from "react-bootstrap";
 import { getCategoryIcon } from "./RecipeList";
 import { RecipeModal } from "./RecipeModal";
-import { Dish } from "../../app/types/menu";
+import { Dish } from "../../../types/menu";
 import { useDispatch, useSelector } from "react-redux";
 import { PlusIcon, MinusIcon } from "lucide-react";
 import { addDish, removeDish } from "@/features/menu/menuSlice";

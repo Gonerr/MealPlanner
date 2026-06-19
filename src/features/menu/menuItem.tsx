@@ -8,7 +8,7 @@ import {
     selectError,
     selectIsAdminMode,
 } from "./menuSlice";
-import IngredientList from "../../components/ingredients/IngredientList";
+import IngredientList from "../ingredients/ui/IngredientList";
 import {
     FaClock,
     FaEdit,
@@ -17,7 +17,7 @@ import {
     FaStar,
     FaTrash,
 } from "react-icons/fa";
-import { Dish } from "../../app/types/menu";
+import { Dish } from "../../types/menu";
 import type { AppDispatch, RootState } from "../../app/store";
 import { number } from "framer-motion";
 import {

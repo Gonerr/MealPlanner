@@ -5,7 +5,7 @@ import {
     setSelectedCategory,
     selectSelectedCategory,
 } from "../../features/menu/menuSlice";
-import { DishCategory } from "../../app/types/menu";
+import { DishCategory } from "../../types/menu";
 
 const categories: {
     value: DishCategory | "all";

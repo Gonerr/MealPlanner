@@ -11,7 +11,7 @@ import {
     BookOpen,
     ShoppingBag,
 } from "lucide-react";
-import { Dish } from "../../app/types/menu";
+import { Dish } from "../../../types/menu";
 
 interface RecipeModalProps {
     dish: Dish;

@@ -4,12 +4,7 @@ import {
     createSlice,
     PayloadAction,
 } from "@reduxjs/toolkit";
-import {
-    Dish,
-    DishCategory,
-    MenuState,
-    SelectedItem,
-} from "../../app/types/menu";
+import { Dish, DishCategory, MenuState, SelectedItem } from "../../types/menu";
 import { apiClient } from "@/lib/api-client";
 
 /* =================

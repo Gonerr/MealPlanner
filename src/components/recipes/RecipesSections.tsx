@@ -9,11 +9,11 @@ import {
     selectFilteredDishes,
     selectLoading,
 } from "../../features/menu/menuSlice";
-import { RecipeCard } from "./RecipeCard";
+import { RecipeCard } from "../../features/recipes/ui/RecipeCard";
 import { CategoryNav } from "../shared/CategoryNav";
-import { EmptyState } from "../shared/EmptyState";
+import { EmptyState } from "../ui/EmptyState";
 import { ChefHatIcon, InfoIcon, SortAscIcon, SortDescIcon } from "../icons";
-import { Dish, DishCategory } from "../../app/types/menu";
+import { Dish, DishCategory } from "../../types/menu";
 import { LoaderIcon } from "lucide-react";
 
 interface Category {

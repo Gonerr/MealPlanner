@@ -1,6 +1,6 @@
-import { Dish } from "@/app/types/menu";
+import { Dish } from "@/types/menu";
 import { Button, Modal } from "react-bootstrap";
-import RecipesSection from "./RecipesSections";
+import RecipesSection from "../../../components/recipes/RecipesSections";
 import { useDispatch, useSelector } from "react-redux";
 import { apiClient } from "@/lib/api-client";
 import { clearSelection } from "@/features/menu/menuSlice";

@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Badge, Card, ListGroup } from "react-bootstrap";
-import { selectAllIngredients } from "../../features/ingredients/ingredientsSlice";
-import { Ingredient } from "../../app/types/menu";
+import { selectAllIngredients } from "../ingredientsSlice";
+import { Ingredient } from "../../../types/menu";
 
 interface IngredientListProps {
     ingredientIds: number[];
