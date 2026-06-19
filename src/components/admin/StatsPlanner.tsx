@@ -23,7 +23,7 @@ export default function StatsPanel() {
                     <div className="col-md-3">
                         <div className="text-center">
                             <h3 className="text-success">
-                                {dishes.filter(d => d.isAvailable).length}
+                                {dishes.filter((d) => d.isAvailable).length}
                             </h3>
                             <p className="text-muted">Доступно</p>
                         </div>
@@ -31,7 +31,7 @@ export default function StatsPanel() {
                     <div className="col-md-3">
                         <div className="text-center">
                             <h3 className="text-warning">
-                                {dishes.filter(d => d.isChefSpecial).length}
+                                {dishes.filter((d) => d.isChefSpecial).length}
                             </h3>
                             <p className="text-muted">Особые блюда</p>
                         </div>
@@ -45,5 +45,5 @@ export default function StatsPanel() {
                 </div>
             </Card.Body>
         </Card>
-    )
+    );
 }

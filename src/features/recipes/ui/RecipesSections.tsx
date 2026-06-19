@@ -10,14 +10,9 @@ import {
     selectLoading,
 } from "../../menu/menuSlice";
 import { RecipeCard } from "./RecipeCard";
-import { CategoryNav } from "../../../components/shared/CategoryNav";
+import { CategoryNav } from "../../categories/ui/CategoryNav";
 import { EmptyState } from "../../../components/ui/EmptyState";
-import {
-    ChefHatIcon,
-    InfoIcon,
-    SortAscIcon,
-    SortDescIcon,
-} from "../../../components/icons";
+import { InfoIcon, SortAscIcon, SortDescIcon } from "../../../components/icons";
 import { Dish, DishCategory } from "../../../types/menu";
 import { LoaderIcon } from "lucide-react";
 

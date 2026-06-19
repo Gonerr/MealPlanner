@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, Form, Modal, Table, Badge } from "react-bootstrap";
 import { FaPlus, FaTrash } from "react-icons/fa";
-import { createRecipe, selectAllDishes } from "./menuSlice";
+import { createRecipe, selectAllDishes } from "../../menu/menuSlice";
 import {
     createIngredient,
     deleteIngredient,
     fetchIngredients,
     selectAllIngredients,
-} from "../ingredients/ingredientsSlice";
+} from "../../ingredients/ingredientsSlice";
 import { nanoid } from "@reduxjs/toolkit";
-import { Dish, Ingredient, DishCategory } from "../../types/menu";
+import { Dish, Ingredient, DishCategory } from "../../../types/menu";
 import { AppDispatch } from "@/app/store";
 
 const AdminPanel: React.FC = () => {
@@ -119,14 +119,12 @@ const AdminPanel: React.FC = () => {
 
     return (
         // в панели администртора четыре основных секции
+
         // 1 секция "Управление блюдами" и кнопка "Добавить"
         // Модальное окно - AddDishModal
-
         // 2 секция "Управление ингредиентами" (стоимость, наличием и тп)
         // Модальное окно - AddIngredientModal
-
         // 3 Таблица ингредиентов
-
         // 4 блок статистики (?) внизу
 
         <div className="mb-5">

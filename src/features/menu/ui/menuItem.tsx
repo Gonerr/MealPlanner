@@ -7,8 +7,8 @@ import {
     selectLoading,
     selectError,
     selectIsAdminMode,
-} from "./menuSlice";
-import IngredientList from "../ingredients/ui/IngredientList";
+} from "../menuSlice";
+import IngredientList from "../../ingredients/ui/IngredientList";
 import {
     FaClock,
     FaEdit,
@@ -17,8 +17,8 @@ import {
     FaStar,
     FaTrash,
 } from "react-icons/fa";
-import { Dish } from "../../types/menu";
-import type { AppDispatch, RootState } from "../../app/store";
+import { Dish } from "../../../types/menu";
+import type { AppDispatch, RootState } from "../../../app/store";
 import { number } from "framer-motion";
 import {
     CakeSlice,

@@ -3,7 +3,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import WeeklyPlan from "./WeeklyPlan";
-import Sidebar from "../../../components/shared/Sidebar";
+import Sidebar from "../../../components/layout/Sidebar";
 
 interface PlanBlockProps {
     user?: {

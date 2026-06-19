@@ -81,38 +81,33 @@ class ApiClient {
 
     // Создать новый рецепт (пока что только админ)
     async createRecipe(recipe: Omit<Dish, "id">): Promise<Dish | null> {
-        try {
-            const response = await fetch(`${this.baseUrl}/recipes`, {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: recipe.name,
-                    description: recipe.description,
-                    price: recipe.price,
-                    category: recipe.category,
-                    preparationTime: recipe.preparationTime,
-                    isAvailable: recipe.isAvailable,
-                    isChefSpecial: recipe.isChefSpecial,
-                    calories: recipe.calories,
-                    mealType: recipe.mealType,
-                    ingredientIds: recipe.ingredients,
-                }),
-            });
-            if (!response.ok) {
-                throw new Error("Failed to fetch recipe");
-            }
-            const data = await response.json();
-            if (data.recipes !== null && data.recipes.length !== 0) {
-                return mapRecipeToDish(data.recipe);
-            }
-            console.error("Error fetching recipes: recipes dont exists");
-            return null;
-        } catch (error) {
-            console.error("Error fetching recipe:", error);
-            return null;
+        const response = await fetch(`${this.baseUrl}/recipes`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+                name: recipe.name,
+                description: recipe.description,
+                price: recipe.price,
+                category: recipe.category,
+                preparationTime: recipe.preparationTime,
+                isAvailable: recipe.isAvailable,
+                isChefSpecial: recipe.isChefSpecial,
+                calories: recipe.calories,
+                mealType: recipe.mealType,
+                ingredientIds: recipe.ingredients,
+            }),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to fetch recipe");
         }
+        const data = await response.json();
+        if (data.recipe) {
+            return mapRecipeToDish(data.recipe);
+        }
+
+        throw new Error(data.error || "Не удалось создать рецепт");
     }
 
     // Обновить рецепт (пока что только админ)

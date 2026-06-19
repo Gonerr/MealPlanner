@@ -4,7 +4,7 @@ import { Badge, Button, Card } from "react-bootstrap";
 import SelectRecipeModal from "../../recipes/ui/SelectRecipeModal";
 import { FiActivity, FiBox, FiClock, FiPlus, FiTrash2 } from "react-icons/fi";
 import { removeDish } from "@/features/menu/menuSlice";
-import "../../styles/dayMenuPlanner.css";
+import "../../../styles/dayMenuPlanner.css";
 
 const MEALS = [
     { key: "breakfast", label: "Завтрак", color: "warning" },

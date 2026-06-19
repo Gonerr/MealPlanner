@@ -1,9 +1,14 @@
 import { AppDispatch } from "@/app/store";
-import { deleteIngredient, selectAllIngredients } from "@/features/ingredients/ingredientsSlice"
+import {
+    deleteIngredient,
+    selectAllIngredients,
+} from "@/features/ingredients/ingredientsSlice";
 import { useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 
+// 2 секция "Управление ингредиентами" (стоимость, наличием и тп)
+// Модальное окно - AddIngredientModal
 export default function IngredientsManager() {
     const ingredients = useSelector(selectAllIngredients);
     const dispatch = useDispatch<AppDispatch>();
@@ -21,10 +26,12 @@ export default function IngredientsManager() {
                         <tr key={i.id}>
                             <td>{i.name}</td>
                             <td>
-                                <Button 
-                                    size="sm" 
-                                    variant="outline-danger" 
-                                    onClick={() => dispatch(deleteIngredient(i.id))}
+                                <Button
+                                    size="sm"
+                                    variant="outline-danger"
+                                    onClick={() =>
+                                        dispatch(deleteIngredient(i.id))
+                                    }
                                 >
                                     Удалить
                                 </Button>
@@ -34,5 +41,5 @@ export default function IngredientsManager() {
                 </tbody>
             </Table>
         </div>
-    )
+    );
 }
