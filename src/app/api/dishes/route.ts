@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const newDish = {
         ...body,
         id: Date.now(),
-    }
+    };
 
     dishes.push(newDish);
 

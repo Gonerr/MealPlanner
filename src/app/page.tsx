@@ -7,8 +7,8 @@ import PlanBlock from "@/features/menu-plan/ui/PlanBlock";
 import { AnimatePresence, motion } from "framer-motion";
 import DayMenuPlanner from "@/features/menu-plan/ui/DayMenuPlanner";
 import DaysSlider from "@/features/menu-plan/ui/DaysSlider";
-import "./global.css";
-import { useRouter } from "next/router";
+import "../styles/global.css";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
     const [user, setUser] = useState<any>(null);

@@ -1,15 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import { initDB } from "@/lib/db/db";  // ← Используем initDB вместо openDB
+import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { initDB } from "@/lib/db/db"; // ← Используем initDB вместо openDB
 
 const checkEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-}
+};
 
 const checkPassword = (password: string) => {
     return password.length < 6;
-}
+};
 
 export async function POST(request: NextRequest) {
     try {
@@ -18,37 +18,37 @@ export async function POST(request: NextRequest) {
         // Валидация
         if (!email || !password) {
             return NextResponse.json(
-                { error: 'Email and password are required' },
+                { error: "Email and password are required" },
                 { status: 400 }
             );
         }
 
         if (!checkEmail(email)) {
             return NextResponse.json(
-                { error: 'Invalid email format' },
+                { error: "Invalid email format" },
                 { status: 400 }
             );
         }
 
         if (checkPassword(password)) {
             return NextResponse.json(
-                { error: 'Password must be at least 6 characters' },
+                { error: "Password must be at least 6 characters" },
                 { status: 400 }
             );
         }
 
         // Инициализируем БД (создаст таблицу если её нет)
         const db = await initDB();
-        
+
         // Проверяем, существует ли пользователь
         const existingUser = await db.get(
-            'SELECT * FROM users WHERE email = ?',
+            "SELECT * FROM users WHERE email = ?",
             [email.toLowerCase()]
         );
 
         if (existingUser) {
             return NextResponse.json(
-                { error: 'User with this email already exists' },
+                { error: "User with this email already exists" },
                 { status: 400 }
             );
         }
@@ -61,25 +61,27 @@ export async function POST(request: NextRequest) {
         const result = await db.run(
             `INSERT INTO users (email, password_hash, role, created_at)
              VALUES (?, ?, ?, datetime('now'))`,
-            [email.toLowerCase(), hashedPassword, 'user']
+            [email.toLowerCase(), hashedPassword, "user"]
         );
 
-        // Получаем созданного пользователя 
+        // Получаем созданного пользователя
         const newUser = await db.get(
-            'SELECT id, email, role, created_at FROM users WHERE id = ?',
+            "SELECT id, email, role, created_at FROM users WHERE id = ?",
             [result.lastID]
         );
 
-        return NextResponse.json({
-            success: true,
-            message: 'User registered successfully',
-            user: newUser
-        }, { status: 201 });
-        
-    } catch (error) {
-        console.error('Signup error:', error);
         return NextResponse.json(
-            { error: 'Internal server error' },
+            {
+                success: true,
+                message: "User registered successfully",
+                user: newUser,
+            },
+            { status: 201 }
+        );
+    } catch (error) {
+        console.error("Signup error:", error);
+        return NextResponse.json(
+            { error: "Internal server error" },
             { status: 500 }
         );
     }
