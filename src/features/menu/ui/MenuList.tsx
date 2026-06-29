@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Row, Col, Alert, Button, ButtonGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { FaFilter, FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
-import MenuItem from "./ui/menuItem";
+import MenuItem from "./menuItem";
 import {
     selectFilteredDishes,
     selectSelectedCategory,
     setSelectedCategory,
-} from "./menuSlice";
-import { DishCategory } from "../../types/menu";
+} from "../menuSlice";
+import { DishCategory } from "../../../types/menu";
 
 const MenuList: React.FC = () => {
     const dispatch = useDispatch();

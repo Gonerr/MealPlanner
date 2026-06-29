@@ -4,8 +4,8 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import {
     setSelectedCategory,
     selectSelectedCategory,
-} from "../../features/menu/menuSlice";
-import { DishCategory } from "../../types/menu";
+} from "../../menu/menuSlice";
+import { DishCategory } from "../../../types/menu";
 
 const categories: {
     value: DishCategory | "all";

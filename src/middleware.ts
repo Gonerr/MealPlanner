@@ -27,6 +27,22 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
+    function search(node, value) {
+        while (node !== null) {
+            if (node.value === value) {
+                return node;
+            }
+
+            if (value < node.value) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+
+        return null;
+    }
+
     if (
         !isPublicPath &&
         !pathname.startsWith("_next") &&
