@@ -15,12 +15,14 @@
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "cookie": "^1.1.1",
+    "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
     "jose": "^6.2.2",
     "jsonwebtoken": "^9.0.3",
     "lodash": "^4.17.23",
     "lucide-react": "^0.563.0",
     "next": "^16.2.4",
+    "openai": "^6.45.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^18.2.0",
@@ -41,5 +43,18 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "typescript": "^5.0.0"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gonerr/MenuReact.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gonerr/MenuReact/issues"
+  },
+  "homepage": "https://github.com/Gonerr/MenuReact#readme"
 }
