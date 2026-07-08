@@ -145,7 +145,7 @@ JSX также позволяет описывать пользовательс�
 
 ```jsx
 function Greeting(props) {
-    return <p>Hello, {props.name}!</p>;
+  return <p>Hello, {props.name}!</p>;
 }
 ```
 
@@ -237,25 +237,25 @@ Virtual DOM (виртуальное DOM) - это концепция, испол
 import React, { Component } from "react";
 
 class Counter extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            count: 0, // Начальное состояние
-        };
-    }
-
-    increment = () => {
-        this.setState({ count: this.state.count + 1 });
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0, // Начальное состояние
     };
+  }
 
-    render() {
-        return (
-            <div>
-                <p>Счетчик: {this.state.count}</p>
-                <button onClick={this.increment}>Увеличить</button>
-            </div>
-        );
-    }
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    return (
+      <div>
+        <p>Счетчик: {this.state.count}</p>
+        <button onClick={this.increment}>Увеличить</button>
+      </div>
+    );
+  }
 }
 
 export default Counter;
@@ -277,34 +277,34 @@ export default Counter;
 import React, { Component } from "react";
 
 class Counter extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            count: 0,
-        };
-    }
-
-    increment = () => {
-        // Обновление состояния с использованием объекта
-        this.setState({ count: this.state.count + 1 });
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0,
     };
+  }
 
-    decrement = () => {
-        // Обновление состояния с использованием функции
-        this.setState((prevState) => {
-            return { count: prevState.count - 1 };
-        });
-    };
+  increment = () => {
+    // Обновление состояния с использованием объекта
+    this.setState({ count: this.state.count + 1 });
+  };
 
-    render() {
-        return (
-            <div>
-                <p>Счетчик: {this.state.count}</p>
-                <button onClick={this.increment}>Увеличить</button>
-                <button onClick={this.decrement}>Уменьшить</button>
-            </div>
-        );
-    }
+  decrement = () => {
+    // Обновление состояния с использованием функции
+    this.setState((prevState) => {
+      return { count: prevState.count - 1 };
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <p>Счетчик: {this.state.count}</p>
+        <button onClick={this.increment}>Увеличить</button>
+        <button onClick={this.decrement}>Уменьшить</button>
+      </div>
+    );
+  }
 }
 
 export default Counter;
@@ -326,11 +326,11 @@ export default Counter;
 import React from "react";
 
 function Welcome(props) {
-    return <h1>Привет, {props.name}!</h1>;
+  return <h1>Привет, {props.name}!</h1>;
 }
 
 const App = () => {
-    return <Welcome name="Алиса" />;
+  return <Welcome name="Алиса" />;
 };
 
 export default App;
@@ -389,13 +389,13 @@ export default App;
 import React, { Component } from "react";
 
 class Button extends Component {
-    handleClick = () => {
-        console.log("Кнопка была нажата");
-    };
+  handleClick = () => {
+    console.log("Кнопка была нажата");
+  };
 
-    render() {
-        return <button onClick={this.handleClick}>Нажми меня</button>;
-    }
+  render() {
+    return <button onClick={this.handleClick}>Нажми меня</button>;
+  }
 }
 
 export default Button;
@@ -417,15 +417,15 @@ export default Button;
 import React, { Component } from "react";
 
 class Greeting extends Component {
-    render() {
-        const isLoggedIn = this.props.isLoggedIn;
+  render() {
+    const isLoggedIn = this.props.isLoggedIn;
 
-        if (isLoggedIn) {
-            return <h1>Привет, пользователь!</h1>;
-        } else {
-            return <h1>Пожалуйста, войдите в систему.</h1>;
-        }
+    if (isLoggedIn) {
+      return <h1>Привет, пользователь!</h1>;
+    } else {
+      return <h1>Пожалуйста, войдите в систему.</h1>;
     }
+  }
 }
 
 export default Greeting;
@@ -439,19 +439,19 @@ export default Greeting;
 
 ```jsx
 class Greeting extends Component {
-    render() {
-        const isLoggedIn = this.props.isLoggedIn;
+  render() {
+    const isLoggedIn = this.props.isLoggedIn;
 
-        return (
-            <div>
-                {isLoggedIn ? (
-                    <h1>Привет, пользователь!</h1>
-                ) : (
-                    <h1>Пожалуйста, войдите в систему.</h1>
-                )}
-            </div>
-        );
-    }
+    return (
+      <div>
+        {isLoggedIn ? (
+          <h1>Привет, пользователь!</h1>
+        ) : (
+          <h1>Пожалуйста, войдите в систему.</h1>
+        )}
+      </div>
+    );
+  }
 }
 ```
 
@@ -475,16 +475,16 @@ import React from "react";
 import ChildComponent from "./ChildComponent";
 
 const ParentComponent = () => {
-    const data = "Данные для дочернего компонента";
+  const data = "Данные для дочернего компонента";
 
-    return <ChildComponent dataProp={data} />;
+  return <ChildComponent dataProp={data} />;
 };
 
 // Дочерний компонент
 import React from "react";
 
 const ChildComponent = (props) => {
-    return <p>{props.dataProp}</p>;
+  return <p>{props.dataProp}</p>;
 };
 
 export default ChildComponent;
@@ -502,29 +502,29 @@ import React, { useState } from "react";
 import ChildComponent from "./ChildComponent";
 
 const ParentComponent = () => {
-    const [receivedData, setReceivedData] = useState("");
+  const [receivedData, setReceivedData] = useState("");
 
-    const handleDataChange = (data) => {
-        setReceivedData(data);
-    };
+  const handleDataChange = (data) => {
+    setReceivedData(data);
+  };
 
-    return (
-        <div>
-            <p>Полученные данные: {receivedData}</p>
-            <ChildComponent onDataChange={handleDataChange} />
-        </div>
-    );
+  return (
+    <div>
+      <p>Полученные данные: {receivedData}</p>
+      <ChildComponent onDataChange={handleDataChange} />
+    </div>
+  );
 };
 
 // Дочерний компонент
 import React from "react";
 
 const ChildComponent = (props) => {
-    const sendDataToParent = () => {
-        props.onDataChange("Данные от дочернего компонента");
-    };
+  const sendDataToParent = () => {
+    props.onDataChange("Данные от дочернего компонента");
+  };
 
-    return <button onClick={sendDataToParent}>Отправить данные</button>;
+  return <button onClick={sendDataToParent}>Отправить данные</button>;
 };
 
 export default ChildComponent;
@@ -626,30 +626,30 @@ const UserContext = createContext();
 
 // Компонент-поставщик данных
 const UserProvider = ({ children }) => {
-    const user = { name: "John", role: "admin" };
+  const user = { name: "John", role: "admin" };
 
-    return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
 // Компонент, использующий контекст
 const UserInfo = () => {
-    const user = useContext(UserContext);
+  const user = useContext(UserContext);
 
-    return (
-        <div>
-            <p>Name: {user.name}</p>
-            <p>Role: {user.role}</p>
-        </div>
-    );
+  return (
+    <div>
+      <p>Name: {user.name}</p>
+      <p>Role: {user.role}</p>
+    </div>
+  );
 };
 
 // Главный компонент, который оборачивает приложение в провайдер данных
 const App = () => {
-    return (
-        <UserProvider>
-            <UserInfo />
-        </UserProvider>
-    );
+  return (
+    <UserProvider>
+      <UserInfo />
+    </UserProvider>
+  );
 };
 
 export default App;
@@ -670,9 +670,9 @@ export default App;
 import React, { PureComponent } from "react";
 
 class MyPureComponent extends PureComponent {
-    render() {
-        return <div>{/* Ваш код компонента */}</div>;
-    }
+  render() {
+    return <div>{/* Ваш код компонента */}</div>;
+  }
 }
 
 export default MyPureComponent;
@@ -684,7 +684,7 @@ export default MyPureComponent;
 import React, { memo } from "react";
 
 const MyPureComponent = () => {
-    return <div>{/* Ваш код компонента */}</div>;
+  return <div>{/* Ваш код компонента */}</div>;
 };
 
 export default memo(MyPureComponent);
@@ -706,13 +706,13 @@ export default memo(MyPureComponent);
 import React from "react";
 
 const TodoList = ({ todos }) => {
-    return (
-        <ul>
-            {todos.map((todo) => (
-                <li key={todo.id}>{todo.text}</li>
-            ))}
-        </ul>
-    );
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <li key={todo.id}>{todo.text}</li>
+      ))}
+    </ul>
+  );
 };
 
 export default TodoList;
@@ -736,14 +736,14 @@ export default TodoList;
 import React from "react";
 
 const MyComponent = () => {
-    const styles = {
-        backgroundColor: "blue",
-        color: "white",
-        padding: "10px",
-        borderRadius: "5px",
-    };
+  const styles = {
+    backgroundColor: "blue",
+    color: "white",
+    padding: "10px",
+    borderRadius: "5px",
+  };
 
-    return <div style={styles}>Стилизованный компонент</div>;
+  return <div style={styles}>Стилизованный компонент</div>;
 };
 
 export default MyComponent;
@@ -783,14 +783,14 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-    background-color: blue;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
 `;
 
 const MyComponent = () => {
-    return <StyledDiv>Стилизованный компонент</StyledDiv>;
+  return <StyledDiv>Стилизованный компонент</StyledDiv>;
 };
 
 export default MyComponent;
@@ -812,22 +812,18 @@ export default MyComponent;
 import React, { useState } from "react";
 
 const ControlledComponent = () => {
-    const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
-    const handleInputChange = (event) => {
-        setInputValue(event.target.value);
-    };
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
-    return (
-        <div>
-            <input
-                type="text"
-                value={inputValue}
-                onChange={handleInputChange}
-            />
-            <p>Введенное значение: {inputValue}</p>
-        </div>
-    );
+  return (
+    <div>
+      <input type="text" value={inputValue} onChange={handleInputChange} />
+      <p>Введенное значение: {inputValue}</p>
+    </div>
+  );
 };
 
 export default ControlledComponent;
@@ -851,18 +847,18 @@ export default ControlledComponent;
 import React, { useRef } from "react";
 
 const UncontrolledComponent = () => {
-    const inputRef = useRef(null);
+  const inputRef = useRef(null);
 
-    const handleButtonClick = () => {
-        alert("Значение в поле ввода: " + inputRef.current.value);
-    };
+  const handleButtonClick = () => {
+    alert("Значение в поле ввода: " + inputRef.current.value);
+  };
 
-    return (
-        <div>
-            <input type="text" ref={inputRef} />
-            <button onClick={handleButtonClick}>Показать значение</button>
-        </div>
-    );
+  return (
+    <div>
+      <input type="text" ref={inputRef} />
+      <button onClick={handleButtonClick}>Показать значение</button>
+    </div>
+  );
 };
 
 export default UncontrolledComponent;
@@ -886,52 +882,52 @@ export default UncontrolledComponent;
 import React, { useState } from "react";
 
 const MyForm = () => {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        // другие поля
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    // другие поля
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
+  };
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formData);
+    // Здесь можно отправить данные на сервер или выполнить другие операции
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(formData);
-        // Здесь можно отправить данные на сервер или выполнить другие операции
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Имя:
-                <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                />
-            </label>
-            <br />
-            <label>
-                Email:
-                <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                />
-            </label>
-            <br />
-            {/* Другие поля формы */}
-            <button type="submit">Отправить</button>
-        </form>
-    );
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Имя:
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+        />
+      </label>
+      <br />
+      <label>
+        Email:
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+        />
+      </label>
+      <br />
+      {/* Другие поля формы */}
+      <button type="submit">Отправить</button>
+    </form>
+  );
 };
 
 export default MyForm;
@@ -967,45 +963,45 @@ export default MyForm;
 import React, { useState } from "react";
 
 const TemperatureInput = ({ scale, temperature, onTemperatureChange }) => {
-    return (
-        <fieldset>
-            <legend>Введите температуру в градусах {scale}:</legend>
-            <input
-                value={temperature}
-                onChange={(e) => onTemperatureChange(e.target.value)}
-            />
-        </fieldset>
-    );
+  return (
+    <fieldset>
+      <legend>Введите температуру в градусах {scale}:</legend>
+      <input
+        value={temperature}
+        onChange={(e) => onTemperatureChange(e.target.value)}
+      />
+    </fieldset>
+  );
 };
 
 const Calculator = () => {
-    const [celsius, setCelsius] = useState("");
-    const [fahrenheit, setFahrenheit] = useState("");
+  const [celsius, setCelsius] = useState("");
+  const [fahrenheit, setFahrenheit] = useState("");
 
-    const handleCelsiusChange = (value) => {
-        setCelsius(value);
-        setFahrenheit((value * 9) / 5 + 32);
-    };
+  const handleCelsiusChange = (value) => {
+    setCelsius(value);
+    setFahrenheit((value * 9) / 5 + 32);
+  };
 
-    const handleFahrenheitChange = (value) => {
-        setFahrenheit(value);
-        setCelsius(((value - 32) * 5) / 9);
-    };
+  const handleFahrenheitChange = (value) => {
+    setFahrenheit(value);
+    setCelsius(((value - 32) * 5) / 9);
+  };
 
-    return (
-        <div>
-            <TemperatureInput
-                scale="C"
-                temperature={celsius}
-                onTemperatureChange={handleCelsiusChange}
-            />
-            <TemperatureInput
-                scale="F"
-                temperature={fahrenheit}
-                onTemperatureChange={handleFahrenheitChange}
-            />
-        </div>
-    );
+  return (
+    <div>
+      <TemperatureInput
+        scale="C"
+        temperature={celsius}
+        onTemperatureChange={handleCelsiusChange}
+      />
+      <TemperatureInput
+        scale="F"
+        temperature={fahrenheit}
+        onTemperatureChange={handleFahrenheitChange}
+      />
+    </div>
+  );
 };
 
 export default Calculator;
@@ -1027,11 +1023,11 @@ export default Calculator;
 import React from "react";
 
 const MyComponent = ({ isActive }) => {
-    return (
-        <div className={isActive ? "active" : "inactive"}>
-            Содержимое компонента
-        </div>
-    );
+  return (
+    <div className={isActive ? "active" : "inactive"}>
+      Содержимое компонента
+    </div>
+  );
 };
 
 export default MyComponent;
@@ -1045,11 +1041,11 @@ export default MyComponent;
 import React from "react";
 
 const MyComponent = ({ isActive }) => {
-    const getClassNames = () => {
-        return isActive ? "active" : "inactive";
-    };
+  const getClassNames = () => {
+    return isActive ? "active" : "inactive";
+  };
 
-    return <div className={getClassNames()}>Содержимое компонента</div>;
+  return <div className={getClassNames()}>Содержимое компонента</div>;
 };
 
 export default MyComponent;
@@ -1064,12 +1060,12 @@ import React from "react";
 import classnames from "classnames";
 
 const MyComponent = ({ isActive, isHighlighted }) => {
-    const classNames = classnames({
-        active: isActive,
-        highlighted: isHighlighted,
-    });
+  const classNames = classnames({
+    active: isActive,
+    highlighted: isHighlighted,
+  });
 
-    return <div className={classNames}>Содержимое компонента</div>;
+  return <div className={classNames}>Содержимое компонента</div>;
 };
 
 export default MyComponent;
@@ -1091,13 +1087,13 @@ export default MyComponent;
 import React from "react";
 
 const MyComponent = () => {
-    return (
-        <>
-            <h1>Заголовок</h1>
-            <p>Параграф 1</p>
-            <p>Параграф 2</p>
-        </>
-    );
+  return (
+    <>
+      <h1>Заголовок</h1>
+      <p>Параграф 1</p>
+      <p>Параграф 2</p>
+    </>
+  );
 };
 
 export default MyComponent;
@@ -1149,19 +1145,19 @@ HOC - это функция, которая принимает компонен�
 import React from "react";
 
 const withLogger = (WrappedComponent) => {
-    return class WithLogger extends React.Component {
-        componentDidMount() {
-            console.log("Компонент был отрисован");
-        }
+  return class WithLogger extends React.Component {
+    componentDidMount() {
+      console.log("Компонент был отрисован");
+    }
 
-        render() {
-            return <WrappedComponent {...this.props} />;
-        }
-    };
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
 };
 
 const MyComponent = () => {
-    return <div>Содержимое компонента</div>;
+  return <div>Содержимое компонента</div>;
 };
 
 const EnhancedComponent = withLogger(MyComponent);
@@ -1173,9 +1169,9 @@ export default EnhancedComponent;
 
 HOC позволяют:
 
--   Расширять функциональность компонентов без изменения самих компонентов.
--   Переиспользовать код и логику между разными компонентами.
--   Создавать общие паттерны для логирования, аутентификации, обработки ошибок и других аспектов.
+- Расширять функциональность компонентов без изменения самих компонентов.
+- Переиспользовать код и логику между разными компонентами.
+- Создавать общие паттерны для логирования, аутентификации, обработки ошибок и других аспектов.
 
 Однако, с развитием React и появлением хуков, часть функциональности HOC теперь может быть реализована с использованием хуков, таких как `useEffect`, `useContext` и других. В большинстве случаев, использование хуков более предпочтительно.
 
@@ -1221,14 +1217,14 @@ Refs полезны, когда вам нужно взаимодействова
 import React, { Component } from "react";
 
 class MyComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.myRef = React.createRef();
-    }
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
 
-    render() {
-        return <div ref={this.myRef}>Содержимое компонента</div>;
-    }
+  render() {
+    return <div ref={this.myRef}>Содержимое компонента</div>;
+  }
 }
 ```
 
@@ -1238,9 +1234,9 @@ class MyComponent extends Component {
 import React, { useRef } from "react";
 
 const MyComponent = () => {
-    const myRef = useRef();
+  const myRef = useRef();
 
-    return <div ref={myRef}>Содержимое компонента</div>;
+  return <div ref={myRef}>Содержимое компонента</div>;
 };
 ```
 
@@ -1250,43 +1246,43 @@ const MyComponent = () => {
 
 ```jsx
 class MyComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.myInputRef = React.createRef();
-    }
+  constructor(props) {
+    super(props);
+    this.myInputRef = React.createRef();
+  }
 
-    focusInput() {
-        this.myInputRef.current.focus(); // Фокус на input элементе
-    }
+  focusInput() {
+    this.myInputRef.current.focus(); // Фокус на input элементе
+  }
 
-    render() {
-        return <input ref={this.myInputRef} />;
-    }
+  render() {
+    return <input ref={this.myInputRef} />;
+  }
 }
 ```
 
 ```jsx
 const MyComponent = () => {
-    const myButtonRef = useRef();
+  const myButtonRef = useRef();
 
-    const handleClick = () => {
-        myButtonRef.current.textContent = "Кнопка нажата";
-    };
+  const handleClick = () => {
+    myButtonRef.current.textContent = "Кнопка нажата";
+  };
 
-    return (
-        <div>
-            <button ref={myButtonRef} onClick={handleClick}>
-                Нажми меня
-            </button>
-        </div>
-    );
+  return (
+    <div>
+      <button ref={myButtonRef} onClick={handleClick}>
+        Нажми меня
+      </button>
+    </div>
+  );
 };
 ```
 
 **Подводные камни:**
 
--   Используйте рефы с осторожностью, так как это может нарушить концепцию управления состоянием в React.
--   В большинстве случаев лучше избегать использования рефов и предпочитать работу с данными через состояние и пропсы.
+- Используйте рефы с осторожностью, так как это может нарушить концепцию управления состоянием в React.
+- В большинстве случаев лучше избегать использования рефов и предпочитать работу с данными через состояние и пропсы.
 
 **[⬆ Наверх](#содержание)**
 
@@ -1314,11 +1310,11 @@ import { CSSTransition } from "react-transition-group";
 import "./MyComponent.css";
 
 const MyComponent = ({ show }) => {
-    return (
-        <CSSTransition in={show} timeout={300} classNames="fade" unmountOnExit>
-            <div className="my-component">Содержимое компонента</div>
-        </CSSTransition>
-    );
+  return (
+    <CSSTransition in={show} timeout={300} classNames="fade" unmountOnExit>
+      <div className="my-component">Содержимое компонента</div>
+    </CSSTransition>
+  );
 };
 
 export default MyComponent;
@@ -1353,27 +1349,25 @@ const MyContext = createContext();
 
 // Поставщик данных
 const MyProvider = ({ children }) => {
-    const sharedData = { message: "Привет из контекста" };
+  const sharedData = { message: "Привет из контекста" };
 
-    return (
-        <MyContext.Provider value={sharedData}>{children}</MyContext.Provider>
-    );
+  return <MyContext.Provider value={sharedData}>{children}</MyContext.Provider>;
 };
 
 // Компонент-потребитель
 const MyComponent = () => {
-    const data = useContext(MyContext);
+  const data = useContext(MyContext);
 
-    return <div>{data.message}</div>;
+  return <div>{data.message}</div>;
 };
 
 // Внутри компонента App
 function App() {
-    return (
-        <MyProvider>
-            <MyComponent />
-        </MyProvider>
-    );
+  return (
+    <MyProvider>
+      <MyComponent />
+    </MyProvider>
+  );
 }
 ```
 
@@ -1396,19 +1390,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const Modal = ({ children }) => {
-    const modalRoot = document.getElementById("modal-root");
-    return ReactDOM.createPortal(children, modalRoot);
+  const modalRoot = document.getElementById("modal-root");
+  return ReactDOM.createPortal(children, modalRoot);
 };
 
 const App = () => {
-    return (
-        <div>
-            <p>Содержимое основного компонента</p>
-            <Modal>
-                <p>Содержимое модального окна</p>
-            </Modal>
-        </div>
-    );
+  return (
+    <div>
+      <p>Содержимое основного компонента</p>
+      <Modal>
+        <p>Содержимое модального окна</p>
+      </Modal>
+    </div>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));
@@ -1435,7 +1429,7 @@ ReactDOM.render(<App />, document.getElementById("root"));
 import React from "react";
 
 const LazyComponent = () => {
-    return <div>Лениво загруженный компонент</div>;
+  return <div>Лениво загруженный компонент</div>;
 };
 
 export default LazyComponent;
@@ -1449,14 +1443,14 @@ import React, { Suspense } from "react";
 const LazyComponent = React.lazy(() => import("./LazyComponent"));
 
 const App = () => {
-    return (
-        <div>
-            <p>Содержимое основного компонента</p>
-            <Suspense fallback={<div>Загрузка...</div>}>
-                <LazyComponent />
-            </Suspense>
-        </div>
-    );
+  return (
+    <div>
+      <p>Содержимое основного компонента</p>
+      <Suspense fallback={<div>Загрузка...</div>}>
+        <LazyComponent />
+      </Suspense>
+    </div>
+  );
 };
 
 export default App;
@@ -1510,39 +1504,39 @@ React DevTools - это инструмент для разработчиков, 
 
 1. **Установка и настройка**:
 
-    - Убедитесь, что вы установили React DevTools в вашем браузере. Вы можете найти его в магазине расширений браузера.
-    - После установки перезапустите браузер, чтобы изменения вступили в силу.
+   - Убедитесь, что вы установили React DevTools в вашем браузере. Вы можете найти его в магазине расширений браузера.
+   - После установки перезапустите браузер, чтобы изменения вступили в силу.
 
 2. **Открытие DevTools**:
 
-    - Откройте веб-приложение, которое вы хотите отладить.
-    - Нажмите правой кнопкой мыши в любом месте страницы и выберите "Исследовать элемент" или "Просмотреть код" (в зависимости от браузера). Это откроет инструменты разработчика.
+   - Откройте веб-приложение, которое вы хотите отладить.
+   - Нажмите правой кнопкой мыши в любом месте страницы и выберите "Исследовать элемент" или "Просмотреть код" (в зависимости от браузера). Это откроет инструменты разработчика.
 
 3. **Вкладка React**:
 
-    - В инструментах разработчика найдите вкладку с названием "React" или "React" (в зависимости от браузера и версии DevTools). Обычно она находится рядом с вкладками "Элементы" и "Консоль".
-    - Перейдите на эту вкладку.
+   - В инструментах разработчика найдите вкладку с названием "React" или "React" (в зависимости от браузера и версии DevTools). Обычно она находится рядом с вкладками "Элементы" и "Консоль".
+   - Перейдите на эту вкладку.
 
 4. **Инспектирование компонентов**:
 
-    - В React DevTools вы увидите иерархию компонентов вашего приложения.
-    - Вы можете раскрывать компоненты, чтобы видеть их состояние и свойства.
-    - Выделите компонент, чтобы видеть его текущее состояние и пропсы справа.
+   - В React DevTools вы увидите иерархию компонентов вашего приложения.
+   - Вы можете раскрывать компоненты, чтобы видеть их состояние и свойства.
+   - Выделите компонент, чтобы видеть его текущее состояние и пропсы справа.
 
 5. **Изменение состояния**:
 
-    - Если вы работаете с компонентами, основанными на классах, вы можете взаимодействовать с компонентами, изменяя их состояния и пропсы, нажимая на них в DevTools.
+   - Если вы работаете с компонентами, основанными на классах, вы можете взаимодействовать с компонентами, изменяя их состояния и пропсы, нажимая на них в DevTools.
 
 6. **Отслеживание обновлений**:
 
-    - React DevTools позволяет отслеживать, какие компоненты были обновлены при изменении состояния или пропсов. Вы увидите, какие компоненты перерисовываются, а какие нет.
+   - React DevTools позволяет отслеживать, какие компоненты были обновлены при изменении состояния или пропсов. Вы увидите, какие компоненты перерисовываются, а какие нет.
 
 7. **Профилирование**:
 
-    - React DevTools также предоставляет инструменты для профилирования производительности вашего приложения, что позволяет выявить узкие места в производительности и оптимизировать код.
+   - React DevTools также предоставляет инструменты для профилирования производительности вашего приложения, что позволяет выявить узкие места в производительности и оптимизировать код.
 
 8. **Отслеживание ошибок**:
-    - Если в вашем приложении возникают ошибки, React DevTools может помочь вам их легко отследить и проследить до конкретных компонентов.
+   - Если в вашем приложении возникают ошибки, React DevTools может помочь вам их легко отследить и проследить до конкретных компонентов.
 
 Использование React DevTools существенно облегчает отладку и анализ React-приложений, помогая разработчикам легко понимать, как компоненты взаимодействуют и как изменения состояния влияют на интерфейс.
 
@@ -1560,14 +1554,14 @@ React DevTools - это инструмент для разработчиков, 
 import React, { useState } from "react";
 
 function Counter() {
-    const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
-    return (
-        <div>
-            <p>Count: {count}</p>
-            <button onClick={() => setCount(count + 1)}>Increment</button>
-        </div>
-    );
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
 }
 ```
 
@@ -1577,19 +1571,19 @@ function Counter() {
 import React, { useState, useEffect } from "react";
 
 function DataFetching() {
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-    useEffect(() => {
-        fetchData(); // Здесь может быть код для получения данных
-    }, []);
+  useEffect(() => {
+    fetchData(); // Здесь может быть код для получения данных
+  }, []);
 
-    return (
-        <ul>
-            {data.map((item) => (
-                <li key={item.id}>{item.name}</li>
-            ))}
-        </ul>
-    );
+  return (
+    <ul>
+      {data.map((item) => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
 }
 ```
 
@@ -1600,13 +1594,13 @@ import React, { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 
 function ThemedButton() {
-    const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
 
-    return (
-        <button style={{ background: theme.background, color: theme.color }}>
-            Themed Button
-        </button>
-    );
+  return (
+    <button style={{ background: theme.background, color: theme.color }}>
+      Themed Button
+    </button>
+  );
 }
 ```
 
@@ -1620,18 +1614,18 @@ function ThemedButton() {
 
 1. **Создание функции хука**:
 
-    - Создайте функцию, которая будет представлять ваш хук. Название хука обычно начинается с "use", чтобы соответствовать соглашению и чтобы React правильно его распознавал как хук.
-    - Эта функция может содержать любую логику, которую вы хотите разделить между компонентами.
+   - Создайте функцию, которая будет представлять ваш хук. Название хука обычно начинается с "use", чтобы соответствовать соглашению и чтобы React правильно его распознавал как хук.
+   - Эта функция может содержать любую логику, которую вы хотите разделить между компонентами.
 
 2. **Определение состояния и функций обновления (при необходимости)**:
-    - Если ваш хук должен управлять состоянием, используйте `useState` для создания состояния и функций для его обновления.
+   - Если ваш хук должен управлять состоянием, используйте `useState` для создания состояния и функций для его обновления.
 3. **Возвращение данных и функций**:
 
-    - Верните данные и функции, которые компоненты будут использовать. Обычно это делается в виде объекта.
+   - Верните данные и функции, которые компоненты будут использовать. Обычно это делается в виде объекта.
 
 4. **Использование хука в компоненте**:
-    - Импортируйте ваш хук в компонент, где вы хотите использовать эту логику.
-    - Вызовите функцию хука в компоненте и получите необходимые данные и функции.
+   - Импортируйте ваш хук в компонент, где вы хотите использовать эту логику.
+   - Вызовите функцию хука в компоненте и получите необходимые данные и функции.
 
 Вот пример, как это может выглядеть:
 
@@ -1640,34 +1634,34 @@ import { useState } from "react";
 
 // Создаем собственный хук
 function useCounter(initialCount) {
-    const [count, setCount] = useState(initialCount);
+  const [count, setCount] = useState(initialCount);
 
-    const increment = () => {
-        setCount(count + 1);
-    };
+  const increment = () => {
+    setCount(count + 1);
+  };
 
-    const decrement = () => {
-        setCount(count - 1);
-    };
+  const decrement = () => {
+    setCount(count - 1);
+  };
 
-    return {
-        count,
-        increment,
-        decrement,
-    };
+  return {
+    count,
+    increment,
+    decrement,
+  };
 }
 
 // Используем хук в компоненте
 function CounterComponent() {
-    const { count, increment, decrement } = useCounter(0);
+  const { count, increment, decrement } = useCounter(0);
 
-    return (
-        <div>
-            <p>Count: {count}</p>
-            <button onClick={increment}>Increment</button>
-            <button onClick={decrement}>Decrement</button>
-        </div>
-    );
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  );
 }
 ```
 
@@ -1685,14 +1679,14 @@ Error Boundary (граничные ошибки) в React - это компон�
 
 1. **Создание Error Boundary компонента**:
 
-    - Создайте новый компонент, который будет служить вам в качестве Error Boundary.
-    - Он должен реализовать методы `componentDidCatch(error, info)`.
+   - Создайте новый компонент, который будет служить вам в качестве Error Boundary.
+   - Он должен реализовать методы `componentDidCatch(error, info)`.
 
 2. **Обработка ошибок в методе `componentDidCatch`**:
-    - В методе `componentDidCatch` вы можете обработать ошибку, например, показав пользователю уведомление или записав детали ошибки в логи.
+   - В методе `componentDidCatch` вы можете обработать ошибку, например, показав пользователю уведомление или записав детали ошибки в логи.
 3. **Использование Error Boundary**:
-    - Оберните компоненты, которые вы хотите защитить, внутри созданного Error Boundary компонента.
-    - Когда ошибка произойдет внутри дочерних компонентов, Error Boundary перехватит ее и сработает метод `componentDidCatch`.
+   - Оберните компоненты, которые вы хотите защитить, внутри созданного Error Boundary компонента.
+   - Когда ошибка произойдет внутри дочерних компонентов, Error Boundary перехватит ее и сработает метод `componentDidCatch`.
 
 Пример:
 
@@ -1700,40 +1694,38 @@ Error Boundary (граничные ошибки) в React - это компон�
 import React, { Component } from "react";
 
 class ErrorBoundary extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            hasError: false,
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false,
+    };
+  }
 
-    componentDidCatch(error, info) {
-        this.setState({ hasError: true });
-        // Здесь можно выполнить логирование или другие действия по обработке ошибки
-    }
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true });
+    // Здесь можно выполнить логирование или другие действия по обработке ошибки
+  }
 
-    render() {
-        if (this.state.hasError) {
-            return (
-                <div>Что-то пошло не так. Мы работаем над этой проблемой.</div>
-            );
-        }
-        return this.props.children;
+  render() {
+    if (this.state.hasError) {
+      return <div>Что-то пошло не так. Мы работаем над этой проблемой.</div>;
     }
+    return this.props.children;
+  }
 }
 
 // Использование Error Boundary
 class App extends Component {
-    render() {
-        return (
-            <div>
-                <h1>Мое приложение</h1>
-                <ErrorBoundary>
-                    {/* Компоненты, которые будут защищены от ошибок */}
-                </ErrorBoundary>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <h1>Мое приложение</h1>
+        <ErrorBoundary>
+          {/* Компоненты, которые будут защищены от ошибок */}
+        </ErrorBoundary>
+      </div>
+    );
+  }
 }
 ```
 
@@ -1748,33 +1740,33 @@ class App extends Component {
 Вот как работает алгоритм согласования:
 
 1. **Создание виртуального DOM**:
-    - При первом рендеринге компонента React создает виртуальное дерево элементов (виртуальный DOM), представляющее структуру компонентов и их свойства.
+   - При первом рендеринге компонента React создает виртуальное дерево элементов (виртуальный DOM), представляющее структуру компонентов и их свойства.
 2. **Сравнение виртуальных DOM**:
 
-    - Когда компонент перерисовывается, React создает новое виртуальное дерево для нового состояния.
-    - Затем сравнивает новое виртуальное дерево с предыдущим, учитывая иерархию и ключи элементов.
+   - Когда компонент перерисовывается, React создает новое виртуальное дерево для нового состояния.
+   - Затем сравнивает новое виртуальное дерево с предыдущим, учитывая иерархию и ключи элементов.
 
 3. **Определение изменений**:
 
-    - В результате сравнения React определяет, какие элементы изменились, какие добавились или удалены.
-    - Ключи элементов помогают React определить, какие элементы переместились, а какие изменены.
+   - В результате сравнения React определяет, какие элементы изменились, какие добавились или удалены.
+   - Ключи элементов помогают React определить, какие элементы переместились, а какие изменены.
 
 4. **Генерация пакета изменений (diff)**:
 
-    - На основе определенных изменений React генерирует пакет изменений (diff), который описывает, какие изменения нужно внести в реальный DOM.
+   - На основе определенных изменений React генерирует пакет изменений (diff), который описывает, какие изменения нужно внести в реальный DOM.
 
 5. **Применение изменений в DOM**:
 
-    - React применяет пакет изменений к реальному DOM.
-    - Это может включать вставку, обновление или удаление элементов в зависимости от типа изменений.
+   - React применяет пакет изменений к реальному DOM.
+   - Это может включать вставку, обновление или удаление элементов в зависимости от типа изменений.
 
 6. **Вызов методов жизненного цикла**:
 
-    - После обновления реального DOM React вызывает соответствующие методы жизненного цикла компонентов (например, `componentDidUpdate`).
+   - После обновления реального DOM React вызывает соответствующие методы жизненного цикла компонентов (например, `componentDidUpdate`).
 
 7. **Асинхронность и пакетная обработка**:
-    - React может группировать несколько обновлений в одну операцию, чтобы уменьшить количество изменений в DOM и оптимизировать производительность.
-    - React также может оптимизировать порядок обновлений для более эффективного применения изменений.
+   - React может группировать несколько обновлений в одну операцию, чтобы уменьшить количество изменений в DOM и оптимизировать производительность.
+   - React также может оптимизировать порядок обновлений для более эффективного применения изменений.
 
 Алгоритм согласования позволяет React рендерить компоненты эффективно, минимизируя количество дорогостоящих операций обновления DOM. Это делает React мощной библиотекой для создания быстрых и отзывчивых пользовательских интерфейсов.
 
@@ -1809,41 +1801,41 @@ keys
 
 1. **Использование ключей (Keys)**:
 
-    - При отображении списков элементов в React, уделяйте внимание уникальным ключам (`key`).
-    - Ключи помогают React определить, какие элементы были добавлены, изменены или удалены, что помогает сократить количество изменений в DOM.
+   - При отображении списков элементов в React, уделяйте внимание уникальным ключам (`key`).
+   - Ключи помогают React определить, какие элементы были добавлены, изменены или удалены, что помогает сократить количество изменений в DOM.
 
 2. **Избегание ненужных рендеров**:
 
-    - Используйте методы `shouldComponentUpdate` (в классовых компонентах) или `React.memo` (в функциональных компонентах) для предотвращения ненужных перерисовок.
-    - Они позволяют проверить, действительно ли компонент нужно обновлять при изменении состояния или пропсов.
+   - Используйте методы `shouldComponentUpdate` (в классовых компонентах) или `React.memo` (в функциональных компонентах) для предотвращения ненужных перерисовок.
+   - Они позволяют проверить, действительно ли компонент нужно обновлять при изменении состояния или пропсов.
 
 3. **Использование PureComponent и memo**:
 
-    - Воспользуйтесь `PureComponent` (в классовых компонентах) или `React.memo` (в функциональных компонентах) для автоматической проверки изменений пропсов и состояния перед обновлением компонента.
+   - Воспользуйтесь `PureComponent` (в классовых компонентах) или `React.memo` (в функциональных компонентах) для автоматической проверки изменений пропсов и состояния перед обновлением компонента.
 
 4. **Разделение компонентов**:
 
-    - Разбейте большие компоненты на более мелкие, чтобы уменьшить область обновления и сделать код более модульным.
+   - Разбейте большие компоненты на более мелкие, чтобы уменьшить область обновления и сделать код более модульным.
 
 5. **Использование хуков**:
 
-    - Хуки, такие как `useMemo` и `useCallback`, позволяют кэшировать значения и колбэки, что уменьшает избыточные вычисления и обновления.
+   - Хуки, такие как `useMemo` и `useCallback`, позволяют кэшировать значения и колбэки, что уменьшает избыточные вычисления и обновления.
 
 6. **Ленивая загрузка (Lazy Loading)**:
 
-    - Используйте ленивую загрузку для отдельных компонентов с помощью `React.lazy` и `Suspense`, чтобы загружать компоненты только тогда, когда они действительно понадобятся.
+   - Используйте ленивую загрузку для отдельных компонентов с помощью `React.lazy` и `Suspense`, чтобы загружать компоненты только тогда, когда они действительно понадобятся.
 
 7. **Оптимизированные список**:
 
-    - Для отображения больших списков используйте библиотеки, такие как `react-virtualized` или `react-window`, чтобы рендерить только видимые элементы.
+   - Для отображения больших списков используйте библиотеки, такие как `react-virtualized` или `react-window`, чтобы рендерить только видимые элементы.
 
 8. **Пакетное обновление (Batching)**:
 
-    - React автоматически группирует несколько обновлений состояния или пропсов в одну операцию, чтобы уменьшить количество изменений в DOM.
+   - React автоматически группирует несколько обновлений состояния или пропсов в одну операцию, чтобы уменьшить количество изменений в DOM.
 
 9. **Использование Production Build**:
 
-    - При развертывании приложения используйте оптимизированный "production" билд React, который включает минимизированный код и другие оптимизации.
+   - При развертывании приложения используйте оптимизированный "production" билд React, который включает минимизированный код и другие оптимизации.
 
 10. **Профилирование**:
     - Используйте инструменты профилирования React, такие как React DevTools Profiler, чтобы выявить узкие места в производительности и оптимизировать их.
@@ -1861,13 +1853,13 @@ deep comparison - используется для сравнения состо�
 
 Чтобы избежать избыточных перерисовок, React использует механизмы оптимизации, такие как "поверхностное сравнение" (shallow comparison) и "глубокое сравнение" (deep comparison).
 
--   **Поверхностное сравнение (Shallow Comparison)**:
+- **Поверхностное сравнение (Shallow Comparison)**:
 
-    -   При поверхностном сравнении React сравнивает значения пропсов и состояния компонентов. Если значения не изменились, React предполагает, что компонент можно не перерисовывать.
+  - При поверхностном сравнении React сравнивает значения пропсов и состояния компонентов. Если значения не изменились, React предполагает, что компонент можно не перерисовывать.
 
--   **Глубокое сравнение (Deep Comparison)**:
-    -   Глубокое сравнение используется, когда данные представляют собой сложные структуры, например, вложенные объекты или массивы. В этом случае React проверяет не только ссылки на объекты, но и их содержимое.
-    -   Если какие-либо вложенные данные изменились, компонент будет перерисован.
+- **Глубокое сравнение (Deep Comparison)**:
+  - Глубокое сравнение используется, когда данные представляют собой сложные структуры, например, вложенные объекты или массивы. В этом случае React проверяет не только ссылки на объекты, но и их содержимое.
+  - Если какие-либо вложенные данные изменились, компонент будет перерисован.
 
 Однако глубокое сравнение может быть ресурсоемким, особенно для больших структур данных. Поэтому, в определенных случаях, полезно использовать методы оптимизации, такие как `React.memo` (в функциональных компонентах) или `shouldComponentUpdate` (в классовых компонентах), чтобы управлять поведением перерисовок на основе глубокого сравнения.
 
@@ -1885,8 +1877,8 @@ Memoization - это техника оптимизации, которая по�
 const memoize = require("memoizee");
 
 const expensiveFunction = (param) => {
-    // Some expensive computation...
-    return result;
+  // Some expensive computation...
+  return result;
 };
 
 const memoizedFunction = memoize(expensiveFunction);
@@ -1963,9 +1955,9 @@ CSR (Client-Side Rendering) - это подход, при котором вся 
 
 Основные различия:
 
--   **Загрузка страницы:** В SSR большая часть контента уже есть в исходном HTML, поэтому страница быстрее отображается. В CSR контент генерируется браузером после загрузки скриптов, что может вызвать медленную начальную загрузку.
--   **SEO:** SSR имеет преимущество для SEO, так как поисковые системы могут легко проиндексировать контент на странице, так как он уже присутствует в исходном HTML. В CSR это требует дополнительных усилий для индексации.
--   **Интерактивность:** CSR может предоставлять более плавные переходы и интерактивность, так как большая часть работы происходит на стороне клиента. В SSR интерактивность ограничена тем, что было предварительно сгенерировано на сервере.
+- **Загрузка страницы:** В SSR большая часть контента уже есть в исходном HTML, поэтому страница быстрее отображается. В CSR контент генерируется браузером после загрузки скриптов, что может вызвать медленную начальную загрузку.
+- **SEO:** SSR имеет преимущество для SEO, так как поисковые системы могут легко проиндексировать контент на странице, так как он уже присутствует в исходном HTML. В CSR это требует дополнительных усилий для индексации.
+- **Интерактивность:** CSR может предоставлять более плавные переходы и интерактивность, так как большая часть работы происходит на стороне клиента. В SSR интерактивность ограничена тем, что было предварительно сгенерировано на сервере.
 
 Оба подхода имеют свои плюсы и минусы, и выбор между ними зависит от конкретных требований проекта и приоритетов веб-разработчиков.
 
@@ -1978,53 +1970,53 @@ CSR (Client-Side Rendering) - это подход, при котором вся 
 1. **Использование `React.lazy()`:**
    Вы можете использовать функцию `React.lazy()` для асинхронной загрузки компонентов. Эта функция принимает функцию, возвращающую промис, который разрешается в модуль с компонентом. Например:
 
-    ```jsx
-    const MyComponent = React.lazy(() => import("./MyComponent"));
-    ```
+   ```jsx
+   const MyComponent = React.lazy(() => import("./MyComponent"));
+   ```
 
 2. **Добавление `Suspense`:**
    Когда вы используете асинхронную загрузку, вы также должны использовать компонент `Suspense`, который будет ожидать загрузки асинхронных компонентов. Оберните точку входа вашего приложения (обычно вокруг компонента `<Router>`) в `<Suspense>` и укажите `fallback` - компонент, который будет отображаться во время загрузки:
 
-    ```jsx
-    import {
-        BrowserRouter as Router,
-        Route,
-        Switch,
-        Link,
-    } from "react-router-dom";
+   ```jsx
+   import {
+     BrowserRouter as Router,
+     Route,
+     Switch,
+     Link,
+   } from "react-router-dom";
 
-    const MyComponent = React.lazy(() => import("./MyComponent"));
+   const MyComponent = React.lazy(() => import("./MyComponent"));
 
-    function App() {
-        return (
-            <Router>
-                <div>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="/lazy">Lazy Component</Link>
-                            </li>
-                        </ul>
-                    </nav>
+   function App() {
+     return (
+       <Router>
+         <div>
+           <nav>
+             <ul>
+               <li>
+                 <Link to="/">Home</Link>
+               </li>
+               <li>
+                 <Link to="/lazy">Lazy Component</Link>
+               </li>
+             </ul>
+           </nav>
 
-                    <hr />
+           <hr />
 
-                    <Suspense fallback={<div>Loading...</div>}>
-                        <Switch>
-                            <Route exact path="/">
-                                {/* Рендер компонента для главной страницы */}
-                            </Route>
-                            <Route path="/lazy" component={MyComponent} />
-                        </Switch>
-                    </Suspense>
-                </div>
-            </Router>
-        );
-    }
-    ```
+           <Suspense fallback={<div>Loading...</div>}>
+             <Switch>
+               <Route exact path="/">
+                 {/* Рендер компонента для главной страницы */}
+               </Route>
+               <Route path="/lazy" component={MyComponent} />
+             </Switch>
+           </Suspense>
+         </div>
+       </Router>
+     );
+   }
+   ```
 
 Теперь, когда пользователь перейдет на маршрут `/lazy`, компонент `MyComponent` будет асинхронно загружаться только в момент его действительного отображения на экране. В это время отобразится fallback (в данном случае "Loading...").
 
@@ -2078,8 +2070,8 @@ Redux Thunk - это middleware (промежуточное программно
 
 ```javascript
 const action = {
-    type: "SOME_ACTION",
-    payload: someData,
+  type: "SOME_ACTION",
+  payload: someData,
 };
 ```
 
@@ -2087,15 +2079,15 @@ const action = {
 
 ```javascript
 const asyncAction = () => (dispatch, getState) => {
-    // Выполняем асинхронные операции, например, запрос к серверу
-    fetch("https://api.example.com/data")
-        .then((response) => response.json())
-        .then((data) => {
-            dispatch({ type: "FETCH_SUCCESS", payload: data });
-        })
-        .catch((error) => {
-            dispatch({ type: "FETCH_FAILURE", payload: error });
-        });
+  // Выполняем асинхронные операции, например, запрос к серверу
+  fetch("https://api.example.com/data")
+    .then((response) => response.json())
+    .then((data) => {
+      dispatch({ type: "FETCH_SUCCESS", payload: data });
+    })
+    .catch((error) => {
+      dispatch({ type: "FETCH_FAILURE", payload: error });
+    });
 };
 ```
 
@@ -2160,11 +2152,11 @@ Redux Saga предоставляет более сложный, но мощны
 ```javascript
 // Модуль "counter"
 export const loadCounterReducers = () =>
-    import("./counter/reducers").then((module) => module.default);
+  import("./counter/reducers").then((module) => module.default);
 
 // Модуль "user"
 export const loadUserReducers = () =>
-    import("./user/reducers").then((module) => module.default);
+  import("./user/reducers").then((module) => module.default);
 ```
 
 4. **Динамически подключите редьюсеры:**
@@ -2175,28 +2167,28 @@ import { createStore } from "redux";
 import { loadCounterReducers, loadUserReducers } from "./lazyReducers";
 
 const rootReducer = combineReducers({
-    // Ваши начальные редьюсеры
+  // Ваши начальные редьюсеры
 });
 
 const store = createStore(rootReducer);
 
 // Грузим редьюсеры по мере необходимости
 loadCounterReducers().then((counterReducers) => {
-    store.replaceReducer(
-        combineReducers({
-            ...rootReducer,
-            ...counterReducers,
-        })
-    );
+  store.replaceReducer(
+    combineReducers({
+      ...rootReducer,
+      ...counterReducers,
+    })
+  );
 });
 
 loadUserReducers().then((userReducers) => {
-    store.replaceReducer(
-        combineReducers({
-            ...rootReducer,
-            ...userReducers,
-        })
-    );
+  store.replaceReducer(
+    combineReducers({
+      ...rootReducer,
+      ...userReducers,
+    })
+  );
 });
 ```
 
@@ -2244,49 +2236,49 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import "./styles.css";
 
 function App() {
-    return (
-        <Router>
-            <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/about">About</Link>
-                        </li>
-                    </ul>
-                </nav>
+  return (
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+          </ul>
+        </nav>
 
-                <hr />
+        <hr />
 
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route path="/about">
-                        <About />
-                    </Route>
-                </Switch>
-            </div>
-        </Router>
-    );
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 function Home() {
-    return (
-        <CSSTransition in={true} appear={true} timeout={300} classNames="fade">
-            <div className="home">Home Page</div>
-        </CSSTransition>
-    );
+  return (
+    <CSSTransition in={true} appear={true} timeout={300} classNames="fade">
+      <div className="home">Home Page</div>
+    </CSSTransition>
+  );
 }
 
 function About() {
-    return (
-        <CSSTransition in={true} appear={true} timeout={300} classNames="fade">
-            <div className="about">About Page</div>
-        </CSSTransition>
-    );
+  return (
+    <CSSTransition in={true} appear={true} timeout={300} classNames="fade">
+      <div className="about">About Page</div>
+    </CSSTransition>
+  );
 }
 ```
 
@@ -2305,18 +2297,18 @@ CSS-модули представляют собой подход к орган�
 
 2. **Использование стилей**: В компоненте React вы можете импортировать стили из модуля, как обычный объект. Например:
 
-    ```javascript
-    import React from "react";
-    import styles from "./Button.module.css";
+   ```javascript
+   import React from "react";
+   import styles from "./Button.module.css";
 
-    const Button = () => {
-        return <button className={styles.button}>Нажми меня</button>;
-    };
+   const Button = () => {
+     return <button className={styles.button}>Нажми меня</button>;
+   };
 
-    export default Button;
-    ```
+   export default Button;
+   ```
 
-    Здесь `styles.button` - это уникальное имя класса из модуля стилей.
+   Здесь `styles.button` - это уникальное имя класса из модуля стилей.
 
 3. **Автоматическая локализация имен классов**: При сборке проекта инструмент CSS-модулей автоматически генерирует уникальные имена классов для каждого компонента. Это предотвращает пересечение стилей между разными компонентами.
 
@@ -2338,48 +2330,48 @@ Styled Components - это библиотека для стилизации ко
 
 2. **Создание стилизованных компонентов**: Для создания стилизованных компонентов используйте функции из Styled Components. Например:
 
-    ```javascript
-    import styled from "styled-components";
+   ```javascript
+   import styled from "styled-components";
 
-    const Button = styled.button`
-        background-color: #3498db;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-    `;
-    ```
+   const Button = styled.button`
+     background-color: #3498db;
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     cursor: pointer;
+   `;
+   ```
 
-    Здесь `styled.button` создает компонент `<button>`, к которому применены указанные стили.
+   Здесь `styled.button` создает компонент `<button>`, к которому применены указанные стили.
 
 3. **Использование стилизованных компонентов**: Теперь вы можете использовать стилизованный компонент `Button` так же, как и обычный компонент:
 
-    ```javascript
-    import React from "react";
-    import Button from "./Button";
+   ```javascript
+   import React from "react";
+   import Button from "./Button";
 
-    const App = () => {
-        return (
-            <div>
-                <Button>Нажми меня</Button>
-            </div>
-        );
-    };
+   const App = () => {
+     return (
+       <div>
+         <Button>Нажми меня</Button>
+       </div>
+     );
+   };
 
-    export default App;
-    ```
+   export default App;
+   ```
 
 4. **Передача пропсов**: Вы также можете передавать пропсы в стилизованные компоненты и использовать их внутри шаблонных строк:
 
-    ```javascript
-    const Button = styled.button`
-        background-color: ${(props) => (props.primary ? "#3498db" : "#e74c3c")};
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-    `;
-    ```
+   ```javascript
+   const Button = styled.button`
+     background-color: ${(props) => (props.primary ? "#3498db" : "#e74c3c")};
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     cursor: pointer;
+   `;
+   ```
 
 5. **Глобальные стили**: Вы можете использовать `createGlobalStyle` из Styled Components для определения глобальных стилей, которые будут применяться ко всему приложению.
 
@@ -2409,10 +2401,10 @@ import fetchInitialData from "./fetchInitialData"; // Функция для за
 const app = express();
 
 app.get("/", async (req, res) => {
-    try {
-        const initialData = await fetchInitialData(); // Загрузка данных с сервера
-        const appMarkup = renderToString(<App initialData={initialData} />);
-        const html = `
+  try {
+    const initialData = await fetchInitialData(); // Загрузка данных с сервера
+    const appMarkup = renderToString(<App initialData={initialData} />);
+    const html = `
       <html>
         <head>
           <title>SSR React App</title>
@@ -2426,16 +2418,16 @@ app.get("/", async (req, res) => {
         </body>
       </html>
     `;
-        res.send(html);
-    } catch (error) {
-        console.error("Error during server rendering:", error);
+    res.send(html);
+  } catch (error) {
+    console.error("Error during server rendering:", error);
 
-        res.status(500).send("Internal Server Error");
-    }
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.listen(3000, () => {
-    console.log("Server is listening on port 3000");
+  console.log("Server is listening on port 3000");
 });
 ```
 
@@ -2477,21 +2469,21 @@ app.listen(3000, () => {
 
 1. **Время выполнения:**
 
-    - `useEffect`: Этот хук выполняет побочные эффекты после того, как браузер обновил экран (после того, как произошел рендеринг и компонент отобразился на экране). Он не блокирует браузер и выполняется асинхронно.
+   - `useEffect`: Этот хук выполняет побочные эффекты после того, как браузер обновил экран (после того, как произошел рендеринг и компонент отобразился на экране). Он не блокирует браузер и выполняется асинхронно.
 
-    - `useLayoutEffect`: Этот хук выполняет побочные эффекты **синхронно**, немедленно после завершения рендеринга компонента и перед отображением изменений на экране. Он блокирует браузер до тех пор, пока все эффекты не будут выполнены.
+   - `useLayoutEffect`: Этот хук выполняет побочные эффекты **синхронно**, немедленно после завершения рендеринга компонента и перед отображением изменений на экране. Он блокирует браузер до тех пор, пока все эффекты не будут выполнены.
 
 2. **Использование:**
 
-    - Оба хука используются для выполнения побочных эффектов, таких как отправка сетевых запросов, подписка на события или изменение DOM.
+   - Оба хука используются для выполнения побочных эффектов, таких как отправка сетевых запросов, подписка на события или изменение DOM.
 
-    - Разница заключается в том, что если вам нужно выполнить действия, зависящие от макета (layout) до того, как пользователь увидит обновленный интерфейс, вы можете использовать `useLayoutEffect`.
+   - Разница заключается в том, что если вам нужно выполнить действия, зависящие от макета (layout) до того, как пользователь увидит обновленный интерфейс, вы можете использовать `useLayoutEffect`.
 
 3. **Рекомендации:**
 
-    - В большинстве случаев предпочтительно использовать `useEffect`, так как он не блокирует браузер и обычно достаточно эффективен для большинства сценариев.
+   - В большинстве случаев предпочтительно использовать `useEffect`, так как он не блокирует браузер и обычно достаточно эффективен для большинства сценариев.
 
-    - `useLayoutEffect` стоит использовать тогда, когда вам **действительно** нужно выполнить побочные эффекты синхронно после рендеринга компонента.
+   - `useLayoutEffect` стоит использовать тогда, когда вам **действительно** нужно выполнить побочные эффекты синхронно после рендеринга компонента.
 
 Выбор между `useEffect` и `useLayoutEffect` зависит от конкретных требований вашего приложения и времени, в которое вы хотите, чтобы эффекты выполнились.
 
@@ -2511,33 +2503,31 @@ import React, { useState, useEffect } from "react";
 
 ```jsx
 function MyComponent() {
-    const [data, setData] = useState(null);
+  const [data, setData] = useState(null);
 
-    useEffect(() => {
-        // Выполнение асинхронной операции (например, запрос на сервер)
-        fetchData().then((result) => {
-            // После выполнения асинхронной операции обновите состояние
-            setData(result);
-        });
-    }, []); // Пустой массив зависимостей означает, что эффект выполнится только один раз при монтировании компонента
+  useEffect(() => {
+    // Выполнение асинхронной операции (например, запрос на сервер)
+    fetchData().then((result) => {
+      // После выполнения асинхронной операции обновите состояние
+      setData(result);
+    });
+  }, []); // Пустой массив зависимостей означает, что эффект выполнится только один раз при монтировании компонента
 
-    return (
-        <div>{data ? <p>Данные: {data}</p> : <p>Загрузка данных...</p>}</div>
-    );
+  return <div>{data ? <p>Данные: {data}</p> : <p>Загрузка данных...</p>}</div>;
 }
 ```
 
 3. **Обратите внимание на зависимость массива в `useEffect`:**
 
-    В примере выше мы передали пустой массив зависимостей (`[]`) в `useEffect`. Это означает, что эффект будет выполнен только один раз при монтировании компонента. Если вы хотите, чтобы эффект выполнился при изменении определенных значений, добавьте их в массив зависимостей. Например:
+   В примере выше мы передали пустой массив зависимостей (`[]`) в `useEffect`. Это означает, что эффект будет выполнен только один раз при монтировании компонента. Если вы хотите, чтобы эффект выполнился при изменении определенных значений, добавьте их в массив зависимостей. Например:
 
 ```jsx
 useEffect(() => {
-    // Выполнение асинхронной операции, зависящей от каких-то значений
-    fetchData(someValue).then((result) => {
-        // Обновление состояния
-        setData(result);
-    });
+  // Выполнение асинхронной операции, зависящей от каких-то значений
+  fetchData(someValue).then((result) => {
+    // Обновление состояния
+    setData(result);
+  });
 }, [someValue]); // Зависимость от someValue
 ```
 
@@ -2584,16 +2574,16 @@ CSS-in-JS - это подход к стилизации веб-приложен�
 3. **Обработка событий:**
    В компонентах перетаскиваемых элементов, добавьте обработчики событий `onDragStart`, `onDrag`, и `onDragEnd`:
 
-    ```jsx
-    <div
-        draggable
-        onDragStart={(e) => handleDragStart(e, item)}
-        onDrag={(e) => handleDrag(e)}
-        onDragEnd={(e) => handleDragEnd(e)}
-    >
-        {/* Содержимое перетаскиваемого элемента */}
-    </div>
-    ```
+   ```jsx
+   <div
+     draggable
+     onDragStart={(e) => handleDragStart(e, item)}
+     onDrag={(e) => handleDrag(e)}
+     onDragEnd={(e) => handleDragEnd(e)}
+   >
+     {/* Содержимое перетаскиваемого элемента */}
+   </div>
+   ```
 
 4. **Реализация функций обработчиков:**
    Создайте функции обработчики для событий перетаскивания. В них вы будете обновлять состояние компонентов и манипулировать данными о перетаскиваемом элементе.
@@ -2601,14 +2591,14 @@ CSS-in-JS - это подход к стилизации веб-приложен�
 5. **Определение областей для перетаскивания:**
    В целевых компонентах определите зоны, на которые можно бросить перетаскиваемый элемент. Добавьте обработчики событий `onDragOver` и `onDrop`:
 
-    ```jsx
-    <div
-        onDragOver={(e) => handleDragOver(e)}
-        onDrop={(e) => handleDrop(e, target)}
-    >
-        {/* Содержимое целевой области */}
-    </div>
-    ```
+   ```jsx
+   <div
+     onDragOver={(e) => handleDragOver(e)}
+     onDrop={(e) => handleDrop(e, target)}
+   >
+     {/* Содержимое целевой области */}
+   </div>
+   ```
 
 6. **Реализация обработчиков для областей перетаскивания:**
    Аналогично создайте функции обработчики для событий `onDragOver` и `onDrop`, где вы будете предотвращать стандартное поведение браузера и обновлять состояние компонентов в соответствии с действиями пользователя.
@@ -2631,9 +2621,9 @@ CSS Grid - это мощная техника верстки веб-страни
 
 ```css
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
 }
 ```
 
@@ -2646,14 +2636,14 @@ import React from "react";
 import "./GridExample.css"; // Подключение стилей
 
 function GridExample() {
-    return (
-        <div className="grid-container">
-            <div className="grid-item">Элемент 1</div>
-            <div className="grid-item">Элемент 2</div>
-            <div className="grid-item">Элемент 3</div>
-            {/* ... */}
-        </div>
-    );
+  return (
+    <div className="grid-container">
+      <div className="grid-item">Элемент 1</div>
+      <div className="grid-item">Элемент 2</div>
+      <div className="grid-item">Элемент 3</div>
+      {/* ... */}
+    </div>
+  );
 }
 
 export default GridExample;
@@ -2665,8 +2655,8 @@ export default GridExample;
 
 ```css
 .grid-item {
-    background-color: lightgray;
-    padding: 20px;
+  background-color: lightgray;
+  padding: 20px;
 }
 ```
 
@@ -2686,44 +2676,44 @@ CSS Grid также поддерживает вложенные сетки и м
 
 1. **Аутентификация:**
 
-    Аутентификация обычно включает в себя проверку подлинности пользователя, например, с использованием пары логин-пароль или токена.
+   Аутентификация обычно включает в себя проверку подлинности пользователя, например, с использованием пары логин-пароль или токена.
 
-    - **Локальная аутентификация:**
-      Вы можете использовать библиотеки для управления аутентификацией, такие как `bcrypt` для хэширования паролей. При успешной аутентификации создайте токен сессии или JWT (JSON Web Token), который будет использоваться для последующих запросов.
+   - **Локальная аутентификация:**
+     Вы можете использовать библиотеки для управления аутентификацией, такие как `bcrypt` для хэширования паролей. При успешной аутентификации создайте токен сессии или JWT (JSON Web Token), который будет использоваться для последующих запросов.
 
-    - **Сторонние сервисы:**
-      Для аутентификации через сторонние сервисы, такие как Google или Facebook, используйте библиотеки, предоставляемые этими сервисами, чтобы получить токены доступа.
+   - **Сторонние сервисы:**
+     Для аутентификации через сторонние сервисы, такие как Google или Facebook, используйте библиотеки, предоставляемые этими сервисами, чтобы получить токены доступа.
 
 2. **Авторизация:**
 
-    Авторизация определяет, какие ресурсы и действия доступны авторизованным пользователям.
+   Авторизация определяет, какие ресурсы и действия доступны авторизованным пользователям.
 
-    - **Роль и права:**
-      Создайте систему ролей и прав доступа для разграничения доступа. Это может быть реализовано в виде базы данных с ролями и правами, связанными с пользователями.
+   - **Роль и права:**
+     Создайте систему ролей и прав доступа для разграничения доступа. Это может быть реализовано в виде базы данных с ролями и правами, связанными с пользователями.
 
 3. **Хранение состояния:**
 
-    Для управления состоянием аутентификации и авторизации, используйте `Context API` или библиотеки управления состоянием, такие как `Redux`. Состояние должно включать информацию о текущем пользователе, его ролях и правах, а также токена аутентификации.
+   Для управления состоянием аутентификации и авторизации, используйте `Context API` или библиотеки управления состоянием, такие как `Redux`. Состояние должно включать информацию о текущем пользователе, его ролях и правах, а также токена аутентификации.
 
 4. **Защита маршрутов:**
 
-    В зависимости от авторизации, вы можете защитить определенные маршруты в вашем приложении. Это можно сделать с помощью высокоуровневых компонентов, обертывающих маршруты, которые проверяют наличие и соответствие прав доступа.
+   В зависимости от авторизации, вы можете защитить определенные маршруты в вашем приложении. Это можно сделать с помощью высокоуровневых компонентов, обертывающих маршруты, которые проверяют наличие и соответствие прав доступа.
 
 5. **Обработка запросов:**
 
-    При выполнении запросов к вашему серверу, включайте токен аутентификации в заголовок `Authorization`, чтобы сервер мог проверить легитимность запроса.
+   При выполнении запросов к вашему серверу, включайте токен аутентификации в заголовок `Authorization`, чтобы сервер мог проверить легитимность запроса.
 
 6. **Разлогинивание:**
 
-    Создайте механизм разлогинивания, который будет удалять данные аутентификации из состояния приложения и, возможно, удалять токен из клиентского хранилища.
+   Создайте механизм разлогинивания, который будет удалять данные аутентификации из состояния приложения и, возможно, удалять токен из клиентского хранилища.
 
 7. **Обработка ошибок:**
 
-    При реализации аутентификации и авторизации обязательно предусмотрите обработку ошибок, таких как недействительные токены или отсутствие доступа.
+   При реализации аутентификации и авторизации обязательно предусмотрите обработку ошибок, таких как недействительные токены или отсутствие доступа.
 
 8. **Безопасность:**
 
-    Обязательно следите за безопасностью, храня токены в безопасных местах (например, HttpOnly cookies для токенов сессий) и обеспечивая защищенное соединение (HTTPS).
+   Обязательно следите за безопасностью, храня токены в безопасных местах (например, HttpOnly cookies для токенов сессий) и обеспечивая защищенное соединение (HTTPS).
 
 Это лишь базовый обзор процесса реализации аутентификации и авторизации в React-приложении. Важно также учитывать спецификации и рекомендации для безопасности в вашем контексте. **[⬆ Наверх](#содержание)**
 
@@ -2733,81 +2723,81 @@ CSS Grid также поддерживает вложенные сетки и м
 
 1. **Установка и настройка `react-router`:**
 
-    Сначала установите `react-router-dom` с помощью npm или yarn:
+   Сначала установите `react-router-dom` с помощью npm или yarn:
 
-    ```bash
-    npm install react-router-dom
-    ```
+   ```bash
+   npm install react-router-dom
+   ```
 
-    Затем вы можете настроить маршруты в вашем приложении.
+   Затем вы можете настроить маршруты в вашем приложении.
 
 2. **Определение маршрутов:**
 
-    В вашем компоненте, отвечающем за маршрутизацию, определите маршруты с помощью компонента `Route`. Каждый `Route` может иметь путь и соответствующий компонент, который будет отображаться при совпадении маршрута.
+   В вашем компоненте, отвечающем за маршрутизацию, определите маршруты с помощью компонента `Route`. Каждый `Route` может иметь путь и соответствующий компонент, который будет отображаться при совпадении маршрута.
 
-    ```jsx
-    import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+   ```jsx
+   import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-    function App() {
-        return (
-            <Router>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/about" component={About} />
-                    <Route path="/contact" component={Contact} />
-                </Switch>
-            </Router>
-        );
-    }
-    ```
+   function App() {
+     return (
+       <Router>
+         <Switch>
+           <Route exact path="/" component={Home} />
+           <Route path="/about" component={About} />
+           <Route path="/contact" component={Contact} />
+         </Switch>
+       </Router>
+     );
+   }
+   ```
 
 3. **Создание навигации:**
 
-    Для перехода между различными маршрутами используйте компонент `Link` или `NavLink`. Эти компоненты создают ссылки, которые обновляют URL, но не выполняют полную перезагрузку страницы.
+   Для перехода между различными маршрутами используйте компонент `Link` или `NavLink`. Эти компоненты создают ссылки, которые обновляют URL, но не выполняют полную перезагрузку страницы.
 
-    ```jsx
-    import { Link } from "react-router-dom";
+   ```jsx
+   import { Link } from "react-router-dom";
 
-    function Navigation() {
-        return (
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/about">About</Link>
-                    </li>
-                    <li>
-                        <Link to="/contact">Contact</Link>
-                    </li>
-                </ul>
-            </nav>
-        );
-    }
-    ```
+   function Navigation() {
+     return (
+       <nav>
+         <ul>
+           <li>
+             <Link to="/">Home</Link>
+           </li>
+           <li>
+             <Link to="/about">About</Link>
+           </li>
+           <li>
+             <Link to="/contact">Contact</Link>
+           </li>
+         </ul>
+       </nav>
+     );
+   }
+   ```
 
 4. **Динамические параметры маршрутов:**
 
-    Вы можете использовать динамические параметры в маршрутах, чтобы обрабатывать различные значения в URL.
+   Вы можете использовать динамические параметры в маршрутах, чтобы обрабатывать различные значения в URL.
 
-    ```jsx
-    <Route path="/user/:id" component={UserProfile} />
-    ```
+   ```jsx
+   <Route path="/user/:id" component={UserProfile} />
+   ```
 
-    В этом примере, при переходе на `/user/123`, компонент `UserProfile` будет отображаться с параметром `id` равным `123`.
+   В этом примере, при переходе на `/user/123`, компонент `UserProfile` будет отображаться с параметром `id` равным `123`.
 
 5. **Вложенные маршруты:**
 
-    Маршруты могут быть вложенными, позволяя вам создавать сложные структуры маршрутизации для разных частей приложения.
+   Маршруты могут быть вложенными, позволяя вам создавать сложные структуры маршрутизации для разных частей приложения.
 
 6. **Обработка 404:**
 
-    Для отображения страницы 404 (не найдено), вы можете добавить маршрут без указания `path`, который будет срабатывать в случае, если не найдено совпадений с другими маршрутами.
+   Для отображения страницы 404 (не найдено), вы можете добавить маршрут без указания `path`, который будет срабатывать в случае, если не найдено совпадений с другими маршрутами.
 
-    ```jsx
-    <Route component={NotFound} />
-    ```
+   ```jsx
+   <Route component={NotFound} />
+   ```
 
 Маршрутизация на стороне клиента с помощью `react-router` позволяет создавать более динамичные и удобные для пользователей интерфейсы, где контент обновляется без перезагрузки всей страницы. **[⬆ Наверх](#содержание)**
 
@@ -2835,13 +2825,13 @@ import React, { lazy, Suspense } from "react";
 const DynamicComponent = lazy(() => import("./DynamicComponent"));
 
 function App() {
-    return (
-        <div>
-            <Suspense fallback={<div>Loading...</div>}>
-                <DynamicComponent />
-            </Suspense>
-        </div>
-    );
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <DynamicComponent />
+      </Suspense>
+    </div>
+  );
 }
 ```
 
@@ -2916,13 +2906,13 @@ import React, { lazy, Suspense } from "react";
 const LazyComponent = lazy(() => import("./LazyComponent"));
 
 function App() {
-    return (
-        <div>
-            <Suspense fallback={<div>Loading...</div>}>
-                <LazyComponent />
-            </Suspense>
-        </div>
-    );
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyComponent />
+      </Suspense>
+    </div>
+  );
 }
 ```
 
@@ -2932,9 +2922,9 @@ function App() {
 
 Примечания:
 
--   Ленивая загрузка работает в основном с компонентами, но также может быть применена к другим модулям JavaScript.
--   Ленивая загрузка хорошо сочетается с "code splitting", позволяя разделять и загружать только те части приложения, которые действительно требуются для текущего представления.
--   Не рекомендуется использовать ленивую загрузку для всех компонентов, так как это может привести к чрезмерной сложности. Вместо этого, применяйте ее там, где это действительно оправдано с точки зрения оптимизации.
+- Ленивая загрузка работает в основном с компонентами, но также может быть применена к другим модулям JavaScript.
+- Ленивая загрузка хорошо сочетается с "code splitting", позволяя разделять и загружать только те части приложения, которые действительно требуются для текущего представления.
+- Не рекомендуется использовать ленивую загрузку для всех компонентов, так как это может привести к чрезмерной сложности. Вместо этого, применяйте ее там, где это действительно оправдано с точки зрения оптимизации.
 
 **[⬆ Наверх](#содержание)**
 
@@ -2950,14 +2940,14 @@ function App() {
 import React from "react";
 
 class Button extends React.Component {
-    handleClick = (event) => {
-        event.preventDefault();
-        console.log("Button clicked!");
-    };
+  handleClick = (event) => {
+    event.preventDefault();
+    console.log("Button clicked!");
+  };
 
-    render() {
-        return <button onClick={this.handleClick}>Click me</button>;
-    }
+  render() {
+    return <button onClick={this.handleClick}>Click me</button>;
+  }
 }
 ```
 
@@ -3008,19 +2998,19 @@ import React from "react";
 
 // HOC принимает компонент WrappedComponent в качестве аргумента
 const withLogger = (WrappedComponent) => {
-    // Новый компонент, возвращаемый HOC
-    class WithLogger extends React.Component {
-        componentDidMount() {
-            console.log(`Component ${WrappedComponent.name} mounted`);
-        }
-
-        render() {
-            // Прокидываем пропсы в обернутый компонент
-            return <WrappedComponent {...this.props} />;
-        }
+  // Новый компонент, возвращаемый HOC
+  class WithLogger extends React.Component {
+    componentDidMount() {
+      console.log(`Component ${WrappedComponent.name} mounted`);
     }
 
-    return WithLogger;
+    render() {
+      // Прокидываем пропсы в обернутый компонент
+      return <WrappedComponent {...this.props} />;
+    }
+  }
+
+  return WithLogger;
 };
 
 // Используем HOC для оборачивания другого компонента
@@ -3039,11 +3029,11 @@ import React from "react";
 import ComponentWithLogger from "./ComponentWithLogger";
 
 function App() {
-    return (
-        <div>
-            <ComponentWithLogger />
-        </div>
-    );
+  return (
+    <div>
+      <ComponentWithLogger />
+    </div>
+  );
 }
 ```
 
@@ -3094,88 +3084,88 @@ const UserProfile = ({ username, avatar }) => {...}
 
 1. **Установка зависимостей:**
 
-    Установите библиотеку `react-transition-group` с помощью npm или yarn:
+   Установите библиотеку `react-transition-group` с помощью npm или yarn:
 
-    ```
-    npm install react-transition-group
-    ```
+   ```
+   npm install react-transition-group
+   ```
 
 2. **Создание компонентов анимации:**
 
-    Создайте компоненты, которые будут управлять анимацией входа и выхода. Например, `FadeIn` и `FadeOut`.
+   Создайте компоненты, которые будут управлять анимацией входа и выхода. Например, `FadeIn` и `FadeOut`.
 
-    ```jsx
-    import React from "react";
-    import { CSSTransition } from "react-transition-group";
-    import "./FadeTransition.css"; // Подключите стили для анимации
+   ```jsx
+   import React from "react";
+   import { CSSTransition } from "react-transition-group";
+   import "./FadeTransition.css"; // Подключите стили для анимации
 
-    const FadeTransition = ({ children, ...props }) => (
-        <CSSTransition {...props} timeout={500} classNames="fade">
-            {children}
-        </CSSTransition>
-    );
+   const FadeTransition = ({ children, ...props }) => (
+     <CSSTransition {...props} timeout={500} classNames="fade">
+       {children}
+     </CSSTransition>
+   );
 
-    export default FadeTransition;
-    ```
+   export default FadeTransition;
+   ```
 
 3. **Создание CSS-транзиций:**
 
-    В папке вашего проекта создайте файл `FadeTransition.css` и определите стили для анимации:
+   В папке вашего проекта создайте файл `FadeTransition.css` и определите стили для анимации:
 
-    ```css
-    .fade-enter {
-        opacity: 0;
-    }
+   ```css
+   .fade-enter {
+     opacity: 0;
+   }
 
-    .fade-enter-active {
-        opacity: 1;
-        transition: opacity 500ms ease-in;
-    }
+   .fade-enter-active {
+     opacity: 1;
+     transition: opacity 500ms ease-in;
+   }
 
-    .fade-exit {
-        opacity: 1;
-    }
+   .fade-exit {
+     opacity: 1;
+   }
 
-    .fade-exit-active {
-        opacity: 0;
-        transition: opacity 500ms ease-out;
-    }
-    ```
+   .fade-exit-active {
+     opacity: 0;
+     transition: opacity 500ms ease-out;
+   }
+   ```
 
 4. **Использование анимации:**
 
-    В вашем компоненте, где вы используете `React Router`, оберните маршрут в компонент `FadeTransition`:
+   В вашем компоненте, где вы используете `React Router`, оберните маршрут в компонент `FadeTransition`:
 
-    ```jsx
-    import React from "react";
-    import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-    import FadeTransition from "./FadeTransition";
-    import Home from "./Home";
-    import About from "./About";
+   ```jsx
+   import React from "react";
+   import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+   import FadeTransition from "./FadeTransition";
+   import Home from "./Home";
+   import About from "./About";
 
-    const App = () => {
-        return (
-            <Router>
-                <Switch>
-                    <Route path="/about">
-                        <FadeTransition>
-                            <About />
-                        </FadeTransition>
-                    </Route>
-                    <Route path="/">
-                        <FadeTransition>
-                            <Home />
-                        </FadeTransition>
-                    </Route>
-                </Switch>
-            </Router>
-        );
-    };
+   const App = () => {
+     return (
+       <Router>
+         <Switch>
+           <Route path="/about">
+             <FadeTransition>
+               <About />
+             </FadeTransition>
+           </Route>
+           <Route path="/">
+             <FadeTransition>
+               <Home />
+             </FadeTransition>
+           </Route>
+         </Switch>
+       </Router>
+     );
+   };
 
-    export default App;
-    ```
+   export default App;
+   ```
 
-    В этом примере, при переходе между маршрутами, компоненты будут появляться и исчезать с анимацией.
+   В этом примере, при переходе между маршрутами, компоненты будут появляться и исчезать с анимацией.
 
 Обратите внимание, что это только один из способов реализации анимации переходов. Существуют и другие библиотеки, такие как `framer-motion` и `react-router-transitions`, которые также могут помочь в реализации анимаций между компонентами при использовании React Router.
 **[⬆ Наверх](#содержание)**
@@ -3207,87 +3197,87 @@ const UserProfile = ({ username, avatar }) => {...}
 
 1. **Создание компонента модального окна:**
 
-    Создайте компонент для модального окна, который будет управлять его отображением и содержанием.
+   Создайте компонент для модального окна, который будет управлять его отображением и содержанием.
 
-    ```jsx
-    import React from "react";
+   ```jsx
+   import React from "react";
 
-    const Modal = ({ isOpen, onClose, children }) => {
-        if (!isOpen) return null;
+   const Modal = ({ isOpen, onClose, children }) => {
+     if (!isOpen) return null;
 
-        return (
-            <div className="modal-overlay">
-                <div className="modal">
-                    <button className="modal-close" onClick={onClose}>
-                        Закрыть
-                    </button>
-                    {children}
-                </div>
-            </div>
-        );
-    };
+     return (
+       <div className="modal-overlay">
+         <div className="modal">
+           <button className="modal-close" onClick={onClose}>
+             Закрыть
+           </button>
+           {children}
+         </div>
+       </div>
+     );
+   };
 
-    export default Modal;
-    ```
+   export default Modal;
+   ```
 
 2. **Создание стилей для модального окна:**
 
-    Создайте стили для модального окна с помощью CSS или любой CSS-препроцессор.
+   Создайте стили для модального окна с помощью CSS или любой CSS-препроцессор.
 
-    ```css
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+   ```css
+   .modal-overlay {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.5);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
 
-    .modal {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    }
+   .modal {
+     background-color: white;
+     padding: 20px;
+     border-radius: 8px;
+     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+   }
 
-    .modal-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-    ```
+   .modal-close {
+     position: absolute;
+     top: 10px;
+     right: 10px;
+   }
+   ```
 
 3. **Использование модального окна:**
 
-    Используйте созданный компонент модального окна в вашем приложении.
+   Используйте созданный компонент модального окна в вашем приложении.
 
-    ```jsx
-    import React, { useState } from "react";
-    import Modal from "./Modal";
+   ```jsx
+   import React, { useState } from "react";
+   import Modal from "./Modal";
 
-    const App = () => {
-        const [isModalOpen, setModalOpen] = useState(false);
+   const App = () => {
+     const [isModalOpen, setModalOpen] = useState(false);
 
-        const openModal = () => setModalOpen(true);
-        const closeModal = () => setModalOpen(false);
+     const openModal = () => setModalOpen(true);
+     const closeModal = () => setModalOpen(false);
 
-        return (
-            <div>
-                <button onClick={openModal}>Открыть модальное окно</button>
-                <Modal isOpen={isModalOpen} onClose={closeModal}>
-                    <h2>Модальное окно</h2>
-                    <p>Содержимое модального окна...</p>
-                </Modal>
-            </div>
-        );
-    };
+     return (
+       <div>
+         <button onClick={openModal}>Открыть модальное окно</button>
+         <Modal isOpen={isModalOpen} onClose={closeModal}>
+           <h2>Модальное окно</h2>
+           <p>Содержимое модального окна...</p>
+         </Modal>
+       </div>
+     );
+   };
 
-    export default App;
-    ```
+   export default App;
+   ```
 
 Это базовый пример реализации модального окна в React-приложении. Вы можете настроить его дизайн и поведение в зависимости от ваших требований. Для более сложных сценариев и анимаций также могут потребоваться дополнительные библиотеки или подходы.
 **[⬆ Наверх](#содержание)**
@@ -3349,64 +3339,64 @@ CSS-модули могут быть особенно полезны в боль
 
 1. **react-virtualized:**
 
-    `react-virtualized` предоставляет компоненты для виртуализации списка, такие как `List` и `Grid`. Он следит за прокруткой и рендерит только те элементы, которые находятся в пределах видимой области. Это позволяет снизить количество отрисованных элементов и улучшить производительность.
+   `react-virtualized` предоставляет компоненты для виртуализации списка, такие как `List` и `Grid`. Он следит за прокруткой и рендерит только те элементы, которые находятся в пределах видимой области. Это позволяет снизить количество отрисованных элементов и улучшить производительность.
 
-    Пример использования `List` из `react-virtualized`:
+   Пример использования `List` из `react-virtualized`:
 
-    ```jsx
-    import React from "react";
-    import { List } from "react-virtualized";
+   ```jsx
+   import React from "react";
+   import { List } from "react-virtualized";
 
-    const MyList = ({ items }) => {
-        const rowRenderer = ({ index, key, style }) => (
-            <div key={key} style={style}>
-                {items[index]}
-            </div>
-        );
+   const MyList = ({ items }) => {
+     const rowRenderer = ({ index, key, style }) => (
+       <div key={key} style={style}>
+         {items[index]}
+       </div>
+     );
 
-        return (
-            <List
-                width={300}
-                height={400}
-                rowCount={items.length}
-                rowHeight={30}
-                rowRenderer={rowRenderer}
-            />
-        );
-    };
+     return (
+       <List
+         width={300}
+         height={400}
+         rowCount={items.length}
+         rowHeight={30}
+         rowRenderer={rowRenderer}
+       />
+     );
+   };
 
-    export default MyList;
-    ```
+   export default MyList;
+   ```
 
 2. **react-window:**
 
-    `react-window` предоставляет более легковесные компоненты для виртуализации. Он разбивает список на более мелкие фрагменты, что позволяет снизить накладные расходы на память и производительность.
+   `react-window` предоставляет более легковесные компоненты для виртуализации. Он разбивает список на более мелкие фрагменты, что позволяет снизить накладные расходы на память и производительность.
 
-    Пример использования `FixedSizeList` из `react-window`:
+   Пример использования `FixedSizeList` из `react-window`:
 
-    ```jsx
-    import React from "react";
-    import { FixedSizeList } from "react-window";
+   ```jsx
+   import React from "react";
+   import { FixedSizeList } from "react-window";
 
-    const MyList = ({ items }) => {
-        const rowRenderer = ({ index, style }) => (
-            <div style={style}>{items[index]}</div>
-        );
+   const MyList = ({ items }) => {
+     const rowRenderer = ({ index, style }) => (
+       <div style={style}>{items[index]}</div>
+     );
 
-        return (
-            <FixedSizeList
-                height={400}
-                width={300}
-                itemCount={items.length}
-                itemSize={30}
-            >
-                {rowRenderer}
-            </FixedSizeList>
-        );
-    };
+     return (
+       <FixedSizeList
+         height={400}
+         width={300}
+         itemCount={items.length}
+         itemSize={30}
+       >
+         {rowRenderer}
+       </FixedSizeList>
+     );
+   };
 
-    export default MyList;
-    ```
+   export default MyList;
+   ```
 
 Обе библиотеки позволяют эффективно рендерить большие списки элементов и значительно улучшить производительность вашего React-приложения. Выбор между `react-virtualized` и `react-window` зависит от ваших конкретных требований и предпочтений.
 **[⬆ Наверх](#содержание)**
@@ -3422,17 +3412,17 @@ import React from "react";
 
 // Допустим, у нас есть компонент ChildComponent
 const ChildComponent = () => {
-    return <p>Это дочерний компонент</p>;
+  return <p>Это дочерний компонент</p>;
 };
 
 // Затем мы можем использовать ChildComponent внутри ParentComponent
 const ParentComponent = () => {
-    return (
-        <div>
-            <h1>Родительский компонент</h1>
-            <ChildComponent /> {/* Включение дочернего компонента */}
-        </div>
-    );
+  return (
+    <div>
+      <h1>Родительский компонент</h1>
+      <ChildComponent /> {/* Включение дочернего компонента */}
+    </div>
+  );
 };
 
 export default ParentComponent;
@@ -3474,44 +3464,44 @@ React стремится минимизировать количество ре�
 import React, { useState } from "react";
 
 const FormExample = () => {
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
+  };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Здесь можно выполнить действия с данными формы, например, отправить на сервер
+    console.log(formData);
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Здесь можно выполнить действия с данными формы, например, отправить на сервер
-        console.log(formData);
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                placeholder="Имя пользователя"
-            />
-            <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Пароль"
-            />
-            <button type="submit">Отправить</button>
-        </form>
-    );
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+        placeholder="Имя пользователя"
+      />
+      <input
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        placeholder="Пароль"
+      />
+      <button type="submit">Отправить</button>
+    </form>
+  );
 };
 
 export default FormExample;
@@ -3575,8 +3565,8 @@ export default FormExample;
 import React from "react";
 
 const MyComponent = React.memo(({ prop1, prop2 }) => {
-    // Компонент будет перерисован только при изменении prop1 или prop2
-    return <div>{/* Ваш код компонента */}</div>;
+  // Компонент будет перерисован только при изменении prop1 или prop2
+  return <div>{/* Ваш код компонента */}</div>;
 });
 ```
 
@@ -3588,12 +3578,12 @@ const MyComponent = React.memo(({ prop1, prop2 }) => {
 import React, { useMemo } from "react";
 
 const MyComponent = ({ data }) => {
-    const processedData = useMemo(() => {
-        // Выполнение дорогостоящей операции на основе data
-        return processData(data);
-    }, [data]);
+  const processedData = useMemo(() => {
+    // Выполнение дорогостоящей операции на основе data
+    return processData(data);
+  }, [data]);
 
-    return <div>{/* Использование processedData */}</div>;
+  return <div>{/* Использование processedData */}</div>;
 };
 ```
 
@@ -3617,29 +3607,29 @@ const MyComponent = ({ data }) => {
 import React, { Component } from "react";
 
 class DataBindingExample extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            inputValue: "",
-        };
-    }
-
-    handleInputChange = (event) => {
-        this.setState({ inputValue: event.target.value });
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: "",
     };
+  }
 
-    render() {
-        return (
-            <div>
-                <input
-                    type="text"
-                    value={this.state.inputValue}
-                    onChange={this.handleInputChange}
-                />
-                <p>Введенное значение: {this.state.inputValue}</p>
-            </div>
-        );
-    }
+  handleInputChange = (event) => {
+    this.setState({ inputValue: event.target.value });
+  };
+
+  render() {
+    return (
+      <div>
+        <input
+          type="text"
+          value={this.state.inputValue}
+          onChange={this.handleInputChange}
+        />
+        <p>Введенное значение: {this.state.inputValue}</p>
+      </div>
+    );
+  }
 }
 
 export default DataBindingExample;
@@ -3673,17 +3663,17 @@ const ThemeContext = createContext();
 
 // Компонент-поставщик
 function App() {
-    return (
-        <ThemeContext.Provider value="dark">
-            <Toolbar />
-        </ThemeContext.Provider>
-    );
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
 }
 
 // Компонент-потребитель
 function Toolbar() {
-    const theme = useContext(ThemeContext);
-    return <div>Тема: {theme}</div>;
+  const theme = useContext(ThemeContext);
+  return <div>Тема: {theme}</div>;
 }
 
 export default App;
@@ -3699,16 +3689,16 @@ export default App;
 
 1. **Создание компонентов:**
 
-    - Создайте компоненты, которые вы планируете перемещать.
-    - Определите обработчики событий для начала и завершения перетаскивания.
+   - Создайте компоненты, которые вы планируете перемещать.
+   - Определите обработчики событий для начала и завершения перетаскивания.
 
 2. **Управление состоянием:**
 
-    - Создайте состояние, которое будет хранить информацию о перетаскиваемом элементе, его начальных координатах и т.д.
+   - Создайте состояние, которое будет хранить информацию о перетаскиваемом элементе, его начальных координатах и т.д.
 
 3. **Добавление обработчиков событий:**
-    - Добавьте обработчик события `onDragStart` для элемента, который будет перетаскиваться. В этом обработчике установите данные о перетаскиваемом элементе в состояние, используя функцию `setData` и `event.dataTransfer`.
-    - Добавьте обработчики `onDragOver` и `onDrop` для контейнера, куда вы собираетесь перемещать элементы. В обработчике `onDragOver` предотвратите действие по умолчанию, чтобы разрешить перетаскивание, и в обработчике `onDrop` обработайте перетаскивание элемента.
+   - Добавьте обработчик события `onDragStart` для элемента, который будет перетаскиваться. В этом обработчике установите данные о перетаскиваемом элементе в состояние, используя функцию `setData` и `event.dataTransfer`.
+   - Добавьте обработчики `onDragOver` и `onDrop` для контейнера, куда вы собираетесь перемещать элементы. В обработчике `onDragOver` предотвратите действие по умолчанию, чтобы разрешить перетаскивание, и в обработчике `onDrop` обработайте перетаскивание элемента.
 
 Пример:
 
@@ -3716,54 +3706,50 @@ export default App;
 import React, { useState } from "react";
 
 function DraggableElement({ text }) {
-    const handleDragStart = (event) => {
-        event.dataTransfer.setData("text/plain", text);
-    };
+  const handleDragStart = (event) => {
+    event.dataTransfer.setData("text/plain", text);
+  };
 
-    return (
-        <div
-            draggable
-            onDragStart={handleDragStart}
-            className="draggable-element"
-        >
-            {text}
-        </div>
-    );
+  return (
+    <div draggable onDragStart={handleDragStart} className="draggable-element">
+      {text}
+    </div>
+  );
 }
 
 function DroppableArea() {
-    const [droppedItems, setDroppedItems] = useState([]);
+  const [droppedItems, setDroppedItems] = useState([]);
 
-    const handleDragOver = (event) => {
-        event.preventDefault();
-    };
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
 
-    const handleDrop = (event) => {
-        event.preventDefault();
-        const droppedText = event.dataTransfer.getData("text/plain");
-        setDroppedItems([...droppedItems, droppedText]);
-    };
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const droppedText = event.dataTransfer.getData("text/plain");
+    setDroppedItems([...droppedItems, droppedText]);
+  };
 
-    return (
-        <div
-            className="droppable-area"
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-        >
-            {droppedItems.map((item, index) => (
-                <div key={index}>{item}</div>
-            ))}
-        </div>
-    );
+  return (
+    <div
+      className="droppable-area"
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      {droppedItems.map((item, index) => (
+        <div key={index}>{item}</div>
+      ))}
+    </div>
+  );
 }
 
 function App() {
-    return (
-        <div className="app">
-            <DraggableElement text="Перетащи меня!" />
-            <DroppableArea />
-        </div>
-    );
+  return (
+    <div className="app">
+      <DraggableElement text="Перетащи меня!" />
+      <DroppableArea />
+    </div>
+  );
 }
 
 export default App;
@@ -3795,32 +3781,32 @@ import React, { createContext, useContext } from "react";
 const UserContext = createContext();
 
 function UserProfile() {
-    const user = useContext(UserContext);
+  const user = useContext(UserContext);
 
-    // Вычисляемое свойство для генерации полного имени пользователя
-    const fullName = `${user.firstName} ${user.lastName}`;
+  // Вычисляемое свойство для генерации полного имени пользователя
+  const fullName = `${user.firstName} ${user.lastName}`;
 
-    return (
-        <div>
-            <h1>Профиль пользователя</h1>
-            <p>Имя: {fullName}</p>
-            <p>Возраст: {user.age}</p>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Профиль пользователя</h1>
+      <p>Имя: {fullName}</p>
+      <p>Возраст: {user.age}</p>
+    </div>
+  );
 }
 
 function App() {
-    const user = {
-        firstName: "Иван",
-        lastName: "Иванов",
-        age: 30,
-    };
+  const user = {
+    firstName: "Иван",
+    lastName: "Иванов",
+    age: 30,
+  };
 
-    return (
-        <UserContext.Provider value={user}>
-            <UserProfile />
-        </UserContext.Provider>
-    );
+  return (
+    <UserContext.Provider value={user}>
+      <UserProfile />
+    </UserContext.Provider>
+  );
 }
 
 export default App;
@@ -3876,7 +3862,7 @@ import LazyLoad from "react-lazyload";
 // ...
 
 <LazyLoad height={200} offset={100}>
-    <img src="your-image-src.jpg" alt="Image" />
+  <img src="your-image-src.jpg" alt="Image" />
 </LazyLoad>;
 ```
 
@@ -3892,14 +3878,14 @@ import React, { Suspense } from "react";
 const LazyImage = React.lazy(() => import("./LazyImage"));
 
 function App() {
-    return (
-        <div>
-            {/* Внутри компонента Suspense указываем компонент, который мы ждем */}
-            <Suspense fallback={<div>Loading...</div>}>
-                <LazyImage src="your-image-src.jpg" alt="Image" />
-            </Suspense>
-        </div>
-    );
+  return (
+    <div>
+      {/* Внутри компонента Suspense указываем компонент, который мы ждем */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyImage src="your-image-src.jpg" alt="Image" />
+      </Suspense>
+    </div>
+  );
 }
 
 export default App;
@@ -3925,37 +3911,37 @@ export default App;
 import React from "react";
 
 class MouseTracker extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { x: 0, y: 0 };
-    }
+  constructor(props) {
+    super(props);
+    this.state = { x: 0, y: 0 };
+  }
 
-    handleMouseMove = (event) => {
-        this.setState({ x: event.clientX, y: event.clientY });
-    };
+  handleMouseMove = (event) => {
+    this.setState({ x: event.clientX, y: event.clientY });
+  };
 
-    render() {
-        return (
-            <div onMouseMove={this.handleMouseMove}>
-                {/* Рендер-пропс используется здесь */}
-                {this.props.render(this.state)}
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div onMouseMove={this.handleMouseMove}>
+        {/* Рендер-пропс используется здесь */}
+        {this.props.render(this.state)}
+      </div>
+    );
+  }
 }
 
 // Использование компонента с рендер-пропсом
 const App = () => (
-    <div>
-        <h1>Mouse Position Tracker</h1>
-        <MouseTracker
-            render={(mouse) => (
-                <p>
-                    Mouse position: {mouse.x}, {mouse.y}
-                </p>
-            )}
-        />
-    </div>
+  <div>
+    <h1>Mouse Position Tracker</h1>
+    <MouseTracker
+      render={(mouse) => (
+        <p>
+          Mouse position: {mouse.x}, {mouse.y}
+        </p>
+      )}
+    />
+  </div>
 );
 
 export default App;
@@ -3975,40 +3961,40 @@ export default App;
 
 1. **Динамический импорт**: Вместо стандартного импорта библиотеки в начале файла, вы используете динамический импорт, который оборачивает импорт в функцию, вызывающуюся только по необходимости. Это создает код-разделитель, который будет загружен асинхронно при выполнении.
 
-    Пример:
+   Пример:
 
-    ```jsx
-    const MyComponent = () => {
-        const handleClick = async () => {
-            // Динамический импорт библиотеки
-            const library = await import("my-library");
-            // Теперь вы можете использовать библиотеку
-            library.doSomething();
-        };
+   ```jsx
+   const MyComponent = () => {
+     const handleClick = async () => {
+       // Динамический импорт библиотеки
+       const library = await import("my-library");
+       // Теперь вы можете использовать библиотеку
+       library.doSomething();
+     };
 
-        return <button onClick={handleClick}>Load Library</button>;
-    };
-    ```
+     return <button onClick={handleClick}>Load Library</button>;
+   };
+   ```
 
 2. **React.lazy() и Suspense**: Если вы хотите лениво загрузить компонент React из сторонней библиотеки, вы можете использовать `React.lazy()` вместе с компонентом `Suspense`. `React.lazy()` принимает функцию, которая возвращает динамический импорт компонента. `Suspense` используется для ожидания загрузки ленивого компонента.
 
-    Пример:
+   Пример:
 
-    ```jsx
-    import React, { lazy, Suspense } from "react";
+   ```jsx
+   import React, { lazy, Suspense } from "react";
 
-    const LazyComponent = lazy(() => import("./LazyComponent"));
+   const LazyComponent = lazy(() => import("./LazyComponent"));
 
-    const App = () => (
-        <div>
-            <Suspense fallback={<div>Loading...</div>}>
-                <LazyComponent />
-            </Suspense>
-        </div>
-    );
+   const App = () => (
+     <div>
+       <Suspense fallback={<div>Loading...</div>}>
+         <LazyComponent />
+       </Suspense>
+     </div>
+   );
 
-    export default App;
-    ```
+   export default App;
+   ```
 
 3. **Webpack или другой инструмент сборки**: При сборке проекта инструменты типа Webpack будут анализировать код и обнаруживать динамические импорты. Они создадут отдельные файлы для этих частей кода, которые будут загружаться по мере необходимости.
 
@@ -4078,22 +4064,22 @@ function MyComponent() {
 import React, { Component } from "react";
 
 class ErrorBoundary extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { hasError: false };
-    }
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-    componentDidCatch(error, info) {
-        this.setState({ hasError: true });
-        console.error("Error:", error);
-    }
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true });
+    console.error("Error:", error);
+  }
 
-    render() {
-        if (this.state.hasError) {
-            return <p>Something went wrong.</p>;
-        }
-        return this.props.children;
+  render() {
+    if (this.state.hasError) {
+      return <p>Something went wrong.</p>;
     }
+    return this.props.children;
+  }
 }
 
 export default ErrorBoundary;
@@ -4109,18 +4095,18 @@ export default ErrorBoundary;
 import { useState } from "react";
 
 function useErrorHandler() {
-    const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
 
-    const handleError = (error) => {
-        setError(error);
-        console.error("Error:", error);
-    };
+  const handleError = (error) => {
+    setError(error);
+    console.error("Error:", error);
+  };
 
-    const clearError = () => {
-        setError(null);
-    };
+  const clearError = () => {
+    setError(null);
+  };
 
-    return [error, handleError, clearError];
+  return [error, handleError, clearError];
 }
 
 export default useErrorHandler;
@@ -4150,52 +4136,52 @@ export default useErrorHandler;
 1. **React Navigation с анимациями:**
    React Navigation - это популярная библиотека для навигации в React Native, которая также поддерживает анимированные переходы между экранами. Вы можете использовать различные типы анимаций, такие как стандартные переходы, карусельные анимации и т.д. Вот как это может выглядеть:
 
-    ```javascript
-    import { createAppContainer, createStackNavigator } from "react-navigation";
+   ```javascript
+   import { createAppContainer, createStackNavigator } from "react-navigation";
 
-    const StackNavigator = createStackNavigator(
-        {
-            Screen1: { screen: Screen1Component },
-            Screen2: { screen: Screen2Component },
-        },
-        {
-            transitionConfig: () => ({
-                screenInterpolator: (sceneProps) => {
-                    // Здесь вы можете определить свою кастомную анимацию
-                    // на основе sceneProps (информация о текущем и предыдущем экранах)
-                },
-            }),
-        }
-    );
+   const StackNavigator = createStackNavigator(
+     {
+       Screen1: { screen: Screen1Component },
+       Screen2: { screen: Screen2Component },
+     },
+     {
+       transitionConfig: () => ({
+         screenInterpolator: (sceneProps) => {
+           // Здесь вы можете определить свою кастомную анимацию
+           // на основе sceneProps (информация о текущем и предыдущем экранах)
+         },
+       }),
+     }
+   );
 
-    const AppContainer = createAppContainer(StackNavigator);
-    export default AppContainer;
-    ```
+   const AppContainer = createAppContainer(StackNavigator);
+   export default AppContainer;
+   ```
 
 2. **React Native Navigation с анимациями:**
    React Native Navigation - это другая популярная библиотека для навигации в React Native. Она также предоставляет возможность настраивать анимации при переходах между экранами. Пример:
 
-    ```javascript
-    import { Navigation } from "react-native-navigation";
+   ```javascript
+   import { Navigation } from "react-native-navigation";
 
-    Navigation.setRoot({
-        root: {
-            stack: {
-                children: [
-                    {
-                        component: {
-                            name: "Screen1",
-                        },
-                    },
-                ],
-            },
-        },
-    });
+   Navigation.setRoot({
+     root: {
+       stack: {
+         children: [
+           {
+             component: {
+               name: "Screen1",
+             },
+           },
+         ],
+       },
+     },
+   });
 
-    // В другом месте, где вы настраиваете экраны
-    Navigation.registerComponent("Screen1", () => Screen1Component);
-    Navigation.registerComponent("Screen2", () => Screen2Component);
-    ```
+   // В другом месте, где вы настраиваете экраны
+   Navigation.registerComponent("Screen1", () => Screen1Component);
+   Navigation.registerComponent("Screen2", () => Screen2Component);
+   ```
 
 Оба этих способа предоставляют множество возможностей для настройки анимаций. Вы можете задавать свои собственные анимации, используя CSS-подобные свойства, или даже подключать библиотеки для более сложных анимаций. Важно ознакомиться с документацией каждой библиотеки, чтобы понять, как реализовать конкретные анимации, которые вы хотите использовать.
 
@@ -4211,13 +4197,13 @@ export default useErrorHandler;
 
 ```jsx
 function ItemList({ items }) {
-    return (
-        <ul>
-            {items.map((item) => (
-                <li key={item.id}>{item.name}</li>
-            ))}
-        </ul>
-    );
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
 }
 ```
 
@@ -4233,42 +4219,42 @@ function ItemList({ items }) {
 
 1. **componentDidUpdate(prevProps):** Метод `componentDidUpdate()` вызывается после обновления компонента. Вы можете сравнить предыдущие и текущие props с помощью параметра `prevProps` и `this.props`, и при необходимости обновить состояние:
 
-    ```jsx
-    componentDidUpdate(prevProps) {
-      if (this.props.someProp !== prevProps.someProp) {
-        this.setState({ someState: newValue });
-      }
-    }
-    ```
+   ```jsx
+   componentDidUpdate(prevProps) {
+     if (this.props.someProp !== prevProps.someProp) {
+       this.setState({ someState: newValue });
+     }
+   }
+   ```
 
 2. **getDerivedStateFromProps(nextProps, prevState):** Этот статический метод вызывается перед рендерингом и каждый раз, когда происходит обновление props. Вы можете вернуть новое состояние на основе новых props:
 
-    ```jsx
-    static getDerivedStateFromProps(nextProps, prevState) {
-      if (nextProps.someProp !== prevState.prevPropValue) {
-        return { someState: newValue };
-      }
-      return null;
-    }
-    ```
+   ```jsx
+   static getDerivedStateFromProps(nextProps, prevState) {
+     if (nextProps.someProp !== prevState.prevPropValue) {
+       return { someState: newValue };
+     }
+     return null;
+   }
+   ```
 
 3. **useState с useEffect:** Если вы используете функциональные компоненты, вы можете использовать `useState` для хранения состояния и `useEffect` для реагирования на изменения props:
 
-    ```jsx
-    import React, { useState, useEffect } from "react";
+   ```jsx
+   import React, { useState, useEffect } from "react";
 
-    function MyComponent(props) {
-        const [state, setState] = useState(initialState);
+   function MyComponent(props) {
+     const [state, setState] = useState(initialState);
 
-        useEffect(() => {
-            if (props.someProp !== state.someState) {
-                setState({ someState: newValue });
-            }
-        }, [props.someProp]);
+     useEffect(() => {
+       if (props.someProp !== state.someState) {
+         setState({ someState: newValue });
+       }
+     }, [props.someProp]);
 
-        //...
-    }
-    ```
+     //...
+   }
+   ```
 
 Выбор подхода зависит от версии React и архитектуры компонента. Например, в React 16.3 и новее, рекомендуется использовать `getDerivedStateFromProps` для таких сценариев, но для функциональных компонентов с React Hooks, `useState` и `useEffect` могут быть более удобными.
 
@@ -4285,17 +4271,15 @@ function ItemList({ items }) {
 ```jsx
 // Пример HOC, который добавляет обертку вокруг компонента и логику обработки клика
 function withClickHandling(WrappedComponent) {
-    return class WithClickHandling extends React.Component {
-        handleClick = () => {
-            // Общая логика обработки клика
-        };
-
-        render() {
-            return (
-                <WrappedComponent onClick={this.handleClick} {...this.props} />
-            );
-        }
+  return class WithClickHandling extends React.Component {
+    handleClick = () => {
+      // Общая логика обработки клика
     };
+
+    render() {
+      return <WrappedComponent onClick={this.handleClick} {...this.props} />;
+    }
+  };
 }
 
 // Использование HOC для оборачивания компонента
@@ -4439,10 +4423,10 @@ O(n log n + log n) = O(n log n)
 
 То есть бинарный поиск особенно выгоден, когда:
 
--   массив уже отсортирован;
--   нужно выполнять много поисков по одним и тем же данным;
--   данные редко меняются.
-    Например, загрузили каталог товаров, отсортировали по ID один раз, а потом ищем товары много раз.
+- массив уже отсортирован;
+- нужно выполнять много поисков по одним и тем же данным;
+- данные редко меняются.
+  Например, загрузили каталог товаров, отсортировали по ID один раз, а потом ищем товары много раз.
 
 #### Пример с объектами:
 
@@ -4450,10 +4434,10 @@ O(n log n + log n) = O(n log n)
 
 ```js
 const users = [
-    { id: 101, name: "Аня" },
-    { id: 205, name: "Миша" },
-    { id: 308, name: "Саша" },
-    { id: 412, name: "Лера" },
+  { id: 101, name: "Аня" },
+  { id: 205, name: "Миша" },
+  { id: 308, name: "Саша" },
+  { id: 412, name: "Лера" },
 ];
 ```
 
@@ -4461,25 +4445,25 @@ const users = [
 
 ```js
 function findUserById(users, targetId) {
-    let left = 0;
-    let right = users.length - 1;
+  let left = 0;
+  let right = users.length - 1;
 
-    while (left <= right) {
-        const middle = Math.floor((left + right) / 2);
-        const currentId = users[middle].id;
+  while (left <= right) {
+    const middle = Math.floor((left + right) / 2);
+    const currentId = users[middle].id;
 
-        if (currentId === targetId) {
-            return users[middle];
-        }
-
-        if (currentId < targetId) {
-            left = middle + 1;
-        } else {
-            right = middle - 1;
-        }
+    if (currentId === targetId) {
+      return users[middle];
     }
 
-    return null;
+    if (currentId < targetId) {
+      left = middle + 1;
+    } else {
+      right = middle - 1;
+    }
+  }
+
+  return null;
 }
 ```
 
@@ -4493,38 +4477,38 @@ _Бинарный поиск применяется для поиска элем
 
 Стек - принцип LIFO (последний зашел, первый вышел)
 
--   push
--   pop
--   peek (просмотр верхнего элемента без удаления)
-    (откат истории, вычисление выражений, обход дерева в глубину DFS, проверка скобок)
+- push
+- pop
+- peek (просмотр верхнего элемента без удаления)
+  (откат истории, вычисление выражений, обход дерева в глубину DFS, проверка скобок)
 
 ```js
 function hasValidBrackets(text) {
-    const stack = [];
+  const stack = [];
 
-    for (const char of text) {
-        if (char === "(") {
-            stack.push(char);
-        }
-
-        if (char === ")") {
-            if (stack.length === 0) {
-                return false;
-            }
-
-            stack.pop();
-        }
+  for (const char of text) {
+    if (char === "(") {
+      stack.push(char);
     }
 
-    return stack.length === 0;
+    if (char === ")") {
+      if (stack.length === 0) {
+        return false;
+      }
+
+      stack.pop();
+    }
+  }
+
+  return stack.length === 0;
 }
 ```
 
 Очередь - принцип FIFO первый зашел, первый и вышел
 
--   enqueue, push - добавить в конец
--   dequeue, shift - извлечь из начала
--   front - посмотреть первый элемент
+- enqueue, push - добавить в конец
+- dequeue, shift - извлечь из начала
+- front - посмотреть первый элемент
 
 Использование: очередь запросов на сервер, задачи на печать, обработка сообщений, ожидание в колл-центре, планировщик задач, обход графа в ширину BFS
 
@@ -4542,8 +4526,8 @@ _Стек — это структура данных, работающая по 
 
 ```js
 const user = {
-    name: "Настя",
-    role: "developer",
+  name: "Настя",
+  role: "developer",
 };
 ```
 
@@ -4576,21 +4560,21 @@ object.name = "Настя";
 const map = new Map();
 map.set("name", "Настя");
 
--   Map удобнее, когда ты строишь именно словарь или динамическое хранилище ключей.
+- Map удобнее, когда ты строишь именно словарь или динамическое хранилище ключей.
 
 ```js
 function countWords(words) {
-    const counts = new Map();
+  const counts = new Map();
 
-    for (const word of words) {
-        counts.set(word, (counts.get(word) ?? 0) + 1);
-    }
+  for (const word of words) {
+    counts.set(word, (counts.get(word) ?? 0) + 1);
+  }
 
-    return counts;
+  return counts;
 }
 ```
 
--   map удобнее когда ключи не только строки
+- map удобнее когда ключи не только строки
 
 ```js
 const map = new Map();
@@ -4599,7 +4583,7 @@ map.set(user, "данные пользователя");
 console.log(map.get(user)); // "данные пользователя"
 ```
 
--   map удобнее когда нужен точный размер
+- map удобнее когда нужен точный размер
 
 ```js
 // У объекта
@@ -4608,14 +4592,14 @@ console.log(Object.keys(obj).length); // 2
 
 // У map
 const map = new Map([
-    ["a", 1],
-    ["b", 2],
+  ["a", 1],
+  ["b", 2],
 ]);
 
 console.log(map.size); // 2
 ```
 
--   map удобнее когда нужно часто вставлять и удалять ключи
+- map удобнее когда нужно часто вставлять и удалять ключи
 
 ```js
 const cache = new Map();
@@ -4639,7 +4623,7 @@ delete obj[key];
 key in obj;
 Object.keys(obj).length;
 
--   map удобнее если не нужны свойства из прототипа
+- map удобнее если не нужны свойства из прототипа
 
 ```js
 const obj = {};
@@ -4670,38 +4654,38 @@ _Хеш-таблица хранит пары «ключ–значение». П
 
 #### Куча - полное бинарное дерево, где выполняется правило порядка
 
--   min-heap - родитель меньше или равен своим детям
--   max-heap - родитель всегда больше или равен своим детям (наверху всегда максимальный элемент)
+- min-heap - родитель меньше или равен своим детям
+- max-heap - родитель всегда больше или равен своим детям (наверху всегда максимальный элемент)
 
-*   Куча хороша, когда нужно много раз добавлять элементы и извлекать самый приоритетный. Отсортированный массив хорош, когда важен полный отсортированный порядок и быстрый поиск по значению.\*
+* Куча хороша, когда нужно много раз добавлять элементы и извлекать самый приоритетный. Отсортированный массив хорош, когда важен полный отсортированный порядок и быстрый поиск по значению.\*
 
 Используются в: планировщике задач, очередях печати, обработке срочных запросов, симуляции событий, поиск k самых больших или самых маленьких элементов
 
--   Приоритетная очередь — это структура данных, в которой извлекается не первый добавленный элемент, а элемент с наивысшим или наименьшим приоритетом. Обычно она реализуется на основе двоичной кучи. В min-heap каждый родитель меньше или равен своим детям, поэтому минимальный элемент всегда находится в корне. Просмотр минимального элемента выполняется за O(1), а добавление и удаление — за O(log n), так как элемент перемещается только по высоте дерева. В отличие от отсортированного массива, куча не хранит все элементы в полном порядке, зато вставка в неё быстрее: O(log n) вместо O(n). \*
+- Приоритетная очередь — это структура данных, в которой извлекается не первый добавленный элемент, а элемент с наивысшим или наименьшим приоритетом. Обычно она реализуется на основе двоичной кучи. В min-heap каждый родитель меньше или равен своим детям, поэтому минимальный элемент всегда находится в корне. Просмотр минимального элемента выполняется за O(1), а добавление и удаление — за O(log n), так как элемент перемещается только по высоте дерева. В отличие от отсортированного массива, куча не хранит все элементы в полном порядке, зато вставка в неё быстрее: O(log n) вместо O(n). \*
 
 # 6. Что такое бинарное дерево поиска
 
--   это дерево, у которого у каждого узла максимум два потомка (левый и правый), при этом действует правило:
-    -   все значения слева от узла < значения узла
-    -   все значения справа от узла > значения узла
+- это дерево, у которого у каждого узла максимум два потомка (левый и правый), при этом действует правило:
+  - все значения слева от узла < значения узла
+  - все значения справа от узла > значения узла
 
 Операции которые поддерживает дерево: поиск, вставка, удалеие, обход дерева
 
 ```js
 function search(node, value) {
-    while (node !== null) {
-        if (node.value === value) {
-            return node;
-        }
-
-        if (value < node.value) {
-            node = node.left;
-        } else {
-            node = node.right;
-        }
+  while (node !== null) {
+    if (node.value === value) {
+      return node;
     }
 
-    return null;
+    if (value < node.value) {
+      node = node.left;
+    } else {
+      node = node.right;
+    }
+  }
+
+  return null;
 }
 ```
 
@@ -4719,25 +4703,25 @@ DFS - идем как можно глубже, потом возвращаемс
 
 ```js
 function dfsIterative(graph, start) {
-    const visited = new Set();
-    const stack = [start];
+  const visited = new Set();
+  const stack = [start];
 
-    while (stack.length > 0) {
-        const node = stack.pop();
+  while (stack.length > 0) {
+    const node = stack.pop();
 
-        if (visited.has(node)) {
-            continue;
-        }
-
-        visited.add(node);
-        console.log(node);
-
-        for (const neighbor of graph[node]) {
-            if (!visited.has(neighbor)) {
-                stack.push(neighbor);
-            }
-        }
+    if (visited.has(node)) {
+      continue;
     }
+
+    visited.add(node);
+    console.log(node);
+
+    for (const neighbor of graph[node]) {
+      if (!visited.has(neighbor)) {
+        stack.push(neighbor);
+      }
+    }
+  }
 }
 ```
 
@@ -4745,23 +4729,23 @@ BFS - идем слоями: сначала все ближайшие верши
 
 ```js
 function bfs(graph, start) {
-    const visited = new Set([start]);
-    const queue = [start];
-    let head = 0;
+  const visited = new Set([start]);
+  const queue = [start];
+  let head = 0;
 
-    while (head < queue.length) {
-        const node = queue[head];
-        head++;
+  while (head < queue.length) {
+    const node = queue[head];
+    head++;
 
-        console.log(node);
+    console.log(node);
 
-        for (const neighbor of graph[node]) {
-            if (!visited.has(neighbor)) {
-                visited.add(neighbor);
-                queue.push(neighbor);
-            }
-        }
+    for (const neighbor of graph[node]) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor);
+      }
     }
+  }
 }
 ```
 
@@ -4776,17 +4760,17 @@ _DFS и BFS — это алгоритмы обхода графа или дер�
 
 ```js
 function bubbleSort(arr) {
-    const result = [...arr];
+  const result = [...arr];
 
-    for (let i = 0; i < result.length; i++) {
-        for (let j = 0; j < result.length - j - i; j++) {
-            if (result[j] > result[j + 1]) {
-                result[j], (result[j + 1] = result[j + 1]), result[j];
-            }
-        }
+  for (let i = 0; i < result.length; i++) {
+    for (let j = 0; j < result.length - j - i; j++) {
+      if (result[j] > result[j + 1]) {
+        result[j], (result[j + 1] = result[j + 1]), result[j];
+      }
     }
+  }
 
-    return result;
+  return result;
 }
 ```
 
@@ -4794,21 +4778,21 @@ function bubbleSort(arr) {
 
 ```js
 function selectionSort(arr) {
-    const result = [...arr];
+  const result = [...arr];
 
-    for (let i = 0; i < result.length; i++) {
-        let minIndex = i;
+  for (let i = 0; i < result.length; i++) {
+    let minIndex = i;
 
-        for (let j = i + 1; j < result.length; j++) {
-            if (result[j] < result[j + 1]) {
-                minIndex = j;
-            }
-        }
-
-        [result[i], result[minIndex]] = [result[minIndex], result[i]];
+    for (let j = i + 1; j < result.length; j++) {
+      if (result[j] < result[j + 1]) {
+        minIndex = j;
+      }
     }
 
-    return result;
+    [result[i], result[minIndex]] = [result[minIndex], result[i]];
+  }
+
+  return result;
 }
 ```
 
@@ -4816,25 +4800,25 @@ function selectionSort(arr) {
 
 ```js
 function insertionSort(arr) {
-    const result = [...arr];
+  const result = [...arr];
 
-    for (let i = 1; i < result.length; i++) {
-        const current = result[i];
-        let j = i - 1;
+  for (let i = 1; i < result.length; i++) {
+    const current = result[i];
+    let j = i - 1;
 
-        while (j >= 0 && result[j] > current) {
-            result[j + 1] = result[j];
-            j--;
-        }
-
-        result[j + 1] = current;
+    while (j >= 0 && result[j] > current) {
+      result[j + 1] = result[j];
+      j--;
     }
 
-    return result;
+    result[j + 1] = current;
+  }
+
+  return result;
 }
 ```
 
--   Merge Sort — сортировка слиянием;
+- Merge Sort — сортировка слиянием;
 
 1.  Делим массив пополам
 2.  Сортируем каждую половину рекурсивно
@@ -4842,40 +4826,40 @@ function insertionSort(arr) {
 
 ```js
 function mergeSort(arr) {
-    if (arr.length <= 1) {
-        return arr;
-    }
+  if (arr.length <= 1) {
+    return arr;
+  }
 
-    const middle = Math.floor(arr.length / 2);
+  const middle = Math.floor(arr.length / 2);
 
-    const left = mergeSort(arr.slice(0, middle));
-    const right = mergeSort(arr.slice(middle));
+  const left = mergeSort(arr.slice(0, middle));
+  const right = mergeSort(arr.slice(middle));
 
-    return merge(left, right);
+  return merge(left, right);
 }
 
 function merge(left, right) {
-    const result = [];
-    let leftIndex = 0;
-    let rightIndex = 0;
+  const result = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
 
-    while (leftIndex < left.length && rightIndex < right.length) {
-        if (left[leftIndex] <= right[rightIndex]) {
-            result.push(left[leftIndex]);
-            leftIndex++;
-        } else {
-            result.push(right[rightIndex]);
-            rightIndex++;
-        }
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] <= right[rightIndex]) {
+      result.push(left[leftIndex]);
+      leftIndex++;
+    } else {
+      result.push(right[rightIndex]);
+      rightIndex++;
     }
+  }
 
-    return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
 }
 ```
 
--   Heap Sort — пирамидальная сортировка;
--   Quick Sort — быстрая сортировка, в среднем;
--   TimSort — гибридный алгоритм, используемый во многих языках и рантаймах.
+- Heap Sort — пирамидальная сортировка;
+- Quick Sort — быстрая сортировка, в среднем;
+- TimSort — гибридный алгоритм, используемый во многих языках и рантаймах.
 
 _К простым алгоритмам сортировки относятся пузырьковая сортировка,
 сортировка выбором и вставками. В худшем и среднем случае они имеют
@@ -4890,7 +4874,7 @@ Quick Sort обычно очень быстрый, но в худшем случ
 
 # Вопрос 9 Что такое рекурсия?
 
--   это программа, вызывающая саму себя
+- это программа, вызывающая саму себя
 
 Например факториал числа
 Сумма чисел от 1 до n и так далее
@@ -4905,7 +4889,7 @@ _Рекурсия — это подход, при котором функция 
 
 ## Массив
 
--   позволяет быстро обращаться к элементам по индексу.
+- позволяет быстро обращаться к элементам по индексу.
 
 Дорого вставить в середину, так как надо подвинуть элементы. Но если нужно быстро получить элементы, перебирать данные по порядку и добавлять их в конец, а размер данных умеренный или порядок важен - это идеально подойдет.
 
@@ -4913,16 +4897,16 @@ _Рекурсия — это подход, при котором функция 
 
 ## Связный список
 
--   состоит из узлов, где каждый хранит значение и ссылку на следующий узел. В двусвязном списке есть ссылка и на предыдущий элемент.
+- состоит из узлов, где каждый хранит значение и ссылку на следующий узел. В двусвязном списке есть ссылка и на предыдущий элемент.
 
-*   если у тебя есть ссылка на нужный узел, ты можешь быстро вставить или удалить элемент, не сдвигая всю структуру.
+* если у тебя есть ссылка на нужный узел, ты можешь быстро вставить или удалить элемент, не сдвигая всю структуру.
 
--   нельзя мгновенно взять list[500] - нужно обойти весь список.
+- нельзя мгновенно взять list[500] - нужно обойти весь список.
 
 ## Хеш-таблица: map, set, объект
 
--   нужны, когда важен быстрый поиск по ключу
-    Но очень неудобно получать элементы в отсортированном порядке.
+- нужны, когда важен быстрый поиск по ключу
+  Но очень неудобно получать элементы в отсортированном порядке.
 
 Пример: поиск по id, логину и тп, быстрая проверка уникальности, кэш, подсчитать частоту значений
 
@@ -4932,8 +4916,8 @@ _Рекурсия — это подход, при котором функция 
 const clientsByEmail = new Map();
 
 clientsByEmail.set("anna@example.com", {
-    id: 42,
-    name: "Аня",
+  id: 42,
+  name: "Аня",
 });
 
 const client = clientsByEmail.get("anna@example.com");
@@ -4941,7 +4925,7 @@ const client = clientsByEmail.get("anna@example.com");
 
 ## Куча/ приоритетная очередь
 
--   кучу выбирают когда нужно получить самый маленький, самый большой или самый приоритетный элемент
+- кучу выбирают когда нужно получить самый маленький, самый большой или самый приоритетный элемент
 
 Например: сначала обработать самые важные заявки, показывать топ-10 товаров, брать ближайшее событие по времени и тп. Обычно сложность вставки/извлечения - O(log n)
 
@@ -4949,7 +4933,7 @@ const client = clientsByEmail.get("anna@example.com");
 
 ## Бинарное дерево поиска
 
--   когда нужны отсортированные данные для вставки, поиска и удаления
+- когда нужны отсортированные данные для вставки, поиска и удаления
 
 Почти все операции имеют сложность O(log n)
 
@@ -5009,8 +4993,8 @@ Cache-Control: max-age=3600
 
 ```js
 <body>
-    <h1>Каталог</h1>
-    <button>Купить</button>
+  <h1>Каталог</h1>
+  <button>Купить</button>
 </body>
 ```
 
@@ -5086,9 +5070,9 @@ _HTTP-запрос состоит из метода, URL, заголовков �
 
 ## 3. Как выбирать HTTP-статусы для REST API? Объясните разницу между 200, 201, 204, 400, 401, 403, 404, 409, 422 и 500
 
--   2xx - всё успешно
--   4хх - проблема в запросе клинта
--   5хх - сервер сломался или не смог обработать запрос
+- 2xx - всё успешно
+- 4хх - проблема в запросе клинта
+- 5хх - сервер сломался или не смог обработать запрос
 
 200 - ок
 
@@ -5101,10 +5085,10 @@ _HTTP-запрос состоит из метода, URL, заголовков �
 401 - unathorized
 не выполнена аутентификация. Например если:
 
--   токен не передан;
--   токен истек;
--   токен поддельный;
--   логин/пароль неверные.
+- токен не передан;
+- токен истек;
+- токен поддельный;
+- логин/пароль неверные.
 
 403 - Forbidden - доступ запрещен.
 То есть пользователь авторизован, но не имеет разрешение на действие.
@@ -5182,11 +5166,11 @@ JS не начинает следующую задачу пока стек не 
 
 2. Task Queue - очередь задач.
 
--   туда попадают setTimeOut, SetInterval, события клика, ввода, загрузки... Обработчики некоторых сетевых операций, сообщения postMessage.
+- туда попадают setTimeOut, SetInterval, события клика, ввода, загрузки... Обработчики некоторых сетевых операций, сообщения postMessage.
 
 3. Microtask queue - очередь микрозадач
 
--   они имеют более высокий приоритет, чем обычные задачи. Туда попадают: Promise.then, catch, finally, queueMicrotask, продолжение await/async после await, Mutatuion Observer.
+- они имеют более высокий приоритет, чем обычные задачи. Туда попадают: Promise.then, catch, finally, queueMicrotask, продолжение await/async после await, Mutatuion Observer.
 
 ```js
 console.log("1");
@@ -5194,7 +5178,7 @@ console.log("1");
 Promise.resolve().then(() => console.log("Promise"));
 
 SetTimeOut(() => {
-    console.log("Timeout");
+  console.log("Timeout");
 }, 0);
 
 console.log("2");
@@ -5210,43 +5194,43 @@ _JavaScript в браузере выполняет синхронный код �
 
 cookies - браузер может автоматически отправлять их на сервер - это небольшие пары "ключ-значение" которые браузер прикладывает к настройкам
 
--   используются для серверных сессий
--   аутентификаций
--   хранения настроек
--   аналитики и трекинга
+- используются для серверных сессий
+- аутентификаций
+- хранения настроек
+- аналитики и трекинга
 
 localStorage - данные хранятся на компе пользователя, доступны в JS. Хранятся пока пользователь или браузер не удалит данные. Он привязан к origin - то есть к сочетанию протокола, домена и порта
 
--   используется для темы сайта
--   выбранного языка
--   черновика формы
--   настроек интерфейса
--   небольшого кэша данных
+- используется для темы сайта
+- выбранного языка
+- черновика формы
+- настроек интерфейса
+- небольшого кэша данных
 
 sessionStorage - живут в пределах одной сессии
 
--   текущий шаг многошаговой формы
--   временные фильтры
--   данные, которые не надо хранить между посещениями
--   состояния "пользователь проходит оформление заказа"
+- текущий шаг многошаговой формы
+- временные фильтры
+- данные, которые не надо хранить между посещениями
+- состояния "пользователь проходит оформление заказа"
 
 _Cookies, localStorage и sessionStorage — механизмы хранения данных в браузере. Cookies могут автоматически отправляться на сервер с HTTP-запросами, поэтому их часто используют для серверных сессий и авторизации. У cookies есть параметры безопасности: HttpOnly, Secure и SameSite. localStorage доступен JavaScript и хранит данные долго, пока их явно не удалят; он подходит для пользовательских настроек и небольшого кэша. sessionStorage похож на localStorage, но существует только в рамках одной вкладки и удаляется после её закрытия. localStorage и sessionStorage не отправляются серверу автоматически — JavaScript должен передать данные вручную._
 
 # Вопрос 8. Чем Docker-контейнер отличается от виртуальной машины и зачем нужна контейнеризация
 
--   и контейнер и виртуальная машина позволяют запускать приложение в изолированный среде, но делают это на разных уровнях
+- и контейнер и виртуальная машина позволяют запускать приложение в изолированный среде, но делают это на разных уровнях
 
 Виртуальная машина - отдельная ос внутри основной ос или сервера. У нее есть: физический сервер -> гипервизор -> виртуальная машина -> своя гостевая ос -> свои библиотеки -> приложение
 
 У виртуальной машины свое ядро ОС, собственная файловая система, свои процессы и выделенная память.
 
--   сильная изоляция
--   можно запускать другую ОС
--   удобно, когда нужны особые системные настройки или разные ядра ОС
+- сильная изоляция
+- можно запускать другую ОС
+- удобно, когда нужны особые системные настройки или разные ядра ОС
 
-*   больше потребление памяти и диска
-*   запуск обычно медленнее
-*   на одном сервере помещается меньше виртуальных машин.
+* больше потребление памяти и диска
+* запуск обычно медленнее
+* на одном сервере помещается меньше виртуальных машин.
 
 Контейнер изолирует не целую операционную систему, а только приложение и всё, что нужно ему для работы:
 
@@ -5257,13 +5241,13 @@ _Cookies, localStorage и sessionStorage — механизмы хранения
 → зависимости
 → нужные библиотеки
 
--   они используют ядро хостовой ОС, а не запускают отдельное.
+- они используют ядро хостовой ОС, а не запускают отдельное.
 
 Важное различие:
 
--   Виртуальная машина изолирует целую ОС, весит много. Для полноценных изолированных окружений
+- Виртуальная машина изолирует целую ОС, весит много. Для полноценных изолированных окружений
 
--   Docker-контейнер изолирует приложение и его окружение, но использует ядро хостовой ОС. Изоляция только на уровне процессов. ДЛЯ ЗАПУСКА И ДОСТАВКИ ПРИЛОЖЕНИЙ
+- Docker-контейнер изолирует приложение и его окружение, но использует ядро хостовой ОС. Изоляция только на уровне процессов. ДЛЯ ЗАПУСКА И ДОСТАВКИ ПРИЛОЖЕНИЙ
 
 пример Docker для Node.js приложения:
 
@@ -5306,7 +5290,7 @@ CONST Глобавльная видимость - переменная дост�
 const appName = "Menu";
 
 function showName() {
-    console.log(appName);
+  console.log(appName);
 }
 
 showName();
@@ -5316,9 +5300,9 @@ showName();
 
 ```js
 function calculate() {
-    var total = 100;
+  var total = 100;
 
-    console.log(total);
+  console.log(total);
 }
 
 calculate();
@@ -5333,9 +5317,9 @@ var - функциональную
 
 ```js
 function calculate() {
-    if (true) var a = 10;
+  if (true) var a = 10;
 
-    console.log(a); // 10
+  console.log(a); // 10
 }
 ```
 
@@ -5347,14 +5331,14 @@ hosting - это поведение JavaScript, при котором объяв
 sayHello(); // всё норм
 
 function sayHello() {
-    console.log("Тест");
+  console.log("Тест");
 }
 
 // НО!
 sayHello(); //TypeError
 
 const sayHello = function () {
-    console.log("Привет");
+  console.log("Привет");
 };
 ```
 
@@ -5378,12 +5362,12 @@ _Область видимости определяет, где доступна
 
 ```js
 function createCounter() {
-    let count = 0;
+  let count = 0;
 
-    return function () {
-        count += 1;
-        return count;
-    };
+  return function () {
+    count += 1;
+    return count;
+  };
 }
 
 const counter = createCounter();
@@ -5445,9 +5429,9 @@ console.log(account.balance);       // undefined
 
 ```js
 for (var i = 0; i < 3; i++) {
-    setTimeout(() => {
-        console.log(i);
-    }, 0);
+  setTimeout(() => {
+    console.log(i);
+  }, 0);
 }
 ```
 
@@ -5457,11 +5441,11 @@ for (var i = 0; i < 3; i++) {
 
 ```js
 function createHundler() {
-    const hugeData = new Array(1_000_000).fill("data");
+  const hugeData = new Array(1_000_000).fill("data");
 
-    return () => {
-        console.log(hugeData.length);
-    };
+  return () => {
+    console.log(hugeData.length);
+  };
 }
 
 const handler = createHandler();
@@ -5479,9 +5463,9 @@ _Замыкание — это функция, которая сохраняет
 
 Promise - объект который представляет будущий результат асинхронной операции
 
--   pending - операция все еще выполняется
--   fulfilled - успешно завершилось
--   rejected - завершилась ошибкой
+- pending - операция все еще выполняется
+- fulfilled - успешно завершилось
+- rejected - завершилась ошибкой
 
 Пример искусственной асинхронной функции:
 function getUser() {}
@@ -5490,25 +5474,3215 @@ function getUser() {}
 
 ```js
 getUser()
-    .then((user) => {
-        console.log(user);
+  .then((user) => {
+    console.log(user);
 
-        return user.id;
-    })
-    .then((userId) => {
-        return fetch(`/api/users/${userId}/orders`);
-    })
-    .then((response) => {
-        return response.json();
-    })
-    .then((orders) => {
-        console.log(orders);
-    })
-    .catch((error) => {
-        console.error("Что-то пошло не так:", error);
-    });
+    return user.id;
+  })
+  .then((userId) => {
+    return fetch(`/api/users/${userId}/orders`);
+  })
+  .then((response) => {
+    return response.json();
+  })
+  .then((orders) => {
+    console.log(orders);
+  })
+  .catch((error) => {
+    console.error("Что-то пошло не так:", error);
+  });
 ```
 
 Получили пользователя, взяли его id, обработали заказы и ВСЁ
 
 _Promise — это объект, который представляет результат асинхронной операции в будущем. Он может находиться в состояниях pending, fulfilled или rejected. Метод .then() обрабатывает успешный результат и возвращает новый Promise, поэтому операции можно объединять в последовательную цепочку. Чтобы передать результат дальше, нужно вернуть значение или Promise из .then(). Promise удобнее вложенных callback, потому что код становится линейным, проще передавать данные между шагами и централизованно обрабатывать ошибки через .catch(). Метод .finally() используется для действий, которые должны выполниться независимо от результата, например для скрытия индикатора загрузки._
+
+# Вопрос 4 Как связаны Promise и await/async, что происходит при await и как распространяются ошибки
+
+async/await — это более удобный синтаксис для работы с Promise.
+
+Вот Promise-цепочка:
+
+```js
+fetch("/api/users/42")
+  .then((response) => response.json())
+  .then((user) => {
+    console.log(user.name);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+```
+
+То же самое через async/await:
+
+```js
+async function loadUser() {
+  try {
+    const response = await fetch("/api/users/42");
+    const user = await response.json();
+
+    console.log(user.name);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+Второй вариант читается почти как обычный последовательный код, поэтому в реальном фронтенде он встречается постоянно.
+
+#### Что делает async?
+
+Если перед функцией стоит async, она всегда возвращает Promise.
+
+```js
+async function getNumber() {
+  return 42;
+}
+
+const result = getNumber();
+
+console.log(result); // Promise
+```
+
+Хотя внутри возвращается обычное число, снаружи это фактически:
+
+```js
+function getNumber() {
+  return Promise.resolve(42);
+}
+```
+
+Получить значение можно так:
+
+```js
+getNumber().then((number) => {
+  console.log(number); // 42
+});
+```
+
+Или через await:
+
+```js
+async function showNumber() {
+  const number = await getNumber();
+
+  console.log(number); // 42
+}
+```
+
+#### Что делает await
+
+await говорит: Дождись завершения Promise и только потом продолжай выполнять эту async-функцию.
+
+```js
+async function loadProfile() {
+  console.log("Начали");
+
+  const response = await fetch("/api/profile");
+
+  console.log("Ответ пришёл");
+}
+```
+
+- Пока fetch ждёт сеть, функция loadProfile ставится на паузу.\*
+
+Но важно: браузер и весь JavaScript не замораживаются.
+
+```js
+async function test() {
+  console.log("1");
+
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  });
+
+  console.log("2");
+}
+
+test();
+
+console.log("3");
+```
+
+Выведется:
+1
+3
+2
+
+- test() начала выполняться и вывела 1;
+- дошла до await, поставила продолжение функции ждать Promise;
+- основной код не ждёт и выводит 3;
+- через секунду Promise завершается;
+- функция продолжает выполнение и выводит 2.
+
+То есть await блокирует только конкретную async-функцию, а не вкладку, не event loop и не весь сайт.
+
+Что происходит «под капотом»
+
+Упрощённо:
+
+```js
+const user = await getUser();
+console.log(user);
+```
+
+похоже на:
+
+```js
+getUser().then((user) => {
+  console.log(user);
+});
+```
+
+Продолжение после await попадёт в очередь микрозадач, как обработчик .then().
+
+```js
+async function example() {
+  console.log("A");
+
+  await Promise.resolve();
+
+  console.log("B");
+}
+
+example();
+
+console.log("C");
+```
+
+Результат:
+
+A
+C
+B
+
+Потому что код после await не выполняется синхронно, даже если Promise уже успешно завершён.
+
+await можно применять и к обычному значению
+
+Это допустимо:
+
+```js
+async function test() {
+  const value = await 5;
+
+  console.log(value); // 5
+}
+```
+
+JavaScript мысленно оборачивает значение в Promise:
+
+```js
+await 5;
+// примерно как:
+await Promise.resolve(5);
+```
+
+Но практического смысла обычно нет. await нужен именно для асинхронных операций.
+
+### Как обрабатываются ошибки
+
+Если Promise отклонён, await выбрасывает исключение.
+
+```js
+async function loadUser() {
+  const response = await fetch("/api/users/42");
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+```
+
+Ошибку можно перехватить через try/catch:
+
+```js
+async function showUser() {
+  try {
+    const user = await loadUser();
+
+    console.log(user);
+  } catch (error) {
+    console.error("Не удалось загрузить пользователя:", error);
+  }
+}
+```
+
+Это похоже на .catch() в Promise-цепочке:
+
+```js
+loadUser()
+  .then((user) => {
+    console.log(user);
+  })
+  .catch((error) => {
+    console.error("Не удалось загрузить пользователя:", error);
+  });
+```
+
+Ошибка распространяется вверх
+
+```js
+async function getOrders() {
+  throw new Error("Сервер недоступен");
+}
+
+async function showOrders() {
+  const orders = await getOrders();
+
+  console.log(orders);
+}
+```
+
+Здесь showOrders() тоже вернёт rejected Promise, потому что она не перехватила ошибку.
+
+```js
+showOrders().catch((error) => {
+  console.error(error.message); // Сервер недоступен
+});
+```
+
+Либо перехватываем прямо внутри:
+
+```js
+async function showOrders() {
+  try {
+    const orders = await getOrders();
+
+    console.log(orders);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+```
+
+Важный нюанс с fetch
+
+- fetch() не выбросит ошибку только потому, что сервер вернул 404 или 500.
+
+```js
+const response = await fetch("/api/users/999");
+
+console.log(response.ok); // false
+console.log(response.status); // 404
+```
+
+Поэтому статус нужно проверять вручную:
+
+```js
+async function getUser(id) {
+  const response = await fetch(`/api/users/${id}`);
+
+  if (!response.ok) {
+    throw new Error(`Не удалось получить пользователя: ${response.status}`);
+  }
+
+  return response.json();
+}
+```
+
+А вот если нет интернета, DNS не нашёл сервер или запрос был отменён — тогда fetch обычно действительно завершится с ошибкой.
+
+### Последовательно или параллельно
+
+Вот так запросы идут последовательно:
+
+```js
+const profile = await getProfile();
+const notifications = await getNotifications();
+```
+
+Второй запрос стартует только после завершения первого. Это правильно, если второй зависит от результата первого.
+
+Но если запросы независимы, лучше запускать параллельно:
+
+```js
+const [profile, notifications] = await Promise.all([
+  getProfile(),
+  getNotifications(),
+]);
+```
+
+Так оба запроса начнутся сразу, а await дождётся обоих.
+
+Очень частая практическая ловушка — писать несколько await подряд просто по привычке и случайно делать экран медленнее.
+
+#### Promise.all и ошибки
+
+```js
+const [profile, settings] = await Promise.all([getProfile(), getSettings()]);
+```
+
+Если хотя бы один Promise завершится ошибкой, Promise.all() выбросит ошибку.
+
+```js
+try {
+  const [profile, settings] = await Promise.all([getProfile(), getSettings()]);
+} catch (error) {
+  console.error("Не удалось загрузить данные:", error);
+}
+```
+
+Когда нужны результаты всех запросов, даже если некоторые упали, используют _Promise.allSettled()_.
+
+### Частая ловушка: forEach и async
+
+Вот так делать не стоит:
+
+```js
+users.forEach(async (user) => {
+  await sendEmail(user);
+});
+
+console.log("Все письма отправлены");
+```
+
+- forEach не ждёт async-callback. Поэтому сообщение может появиться раньше, чем письма реально отправятся.
+
+Если нужно последовательно:
+
+```js
+for (const user of users) {
+  await sendEmail(user);
+}
+
+console.log("Все письма отправлены");
+```
+
+Если можно параллельно:
+
+```js
+await Promise.all(users.map((user) => sendEmail(user)));
+
+console.log("Все письма отправлены");
+```
+
+_async/await — это синтаксис над Promise, который позволяет писать асинхронный код в более последовательном стиле. Любая async-функция всегда возвращает Promise. await приостанавливает выполнение только текущей async-функции до завершения Promise, но не блокирует браузер и основной поток JavaScript. Продолжение после await выполняется как микрозадача. Если Promise завершается с ошибкой, await выбрасывает исключение, которое можно обработать через try/catch; если не обработать, ошибка распространяется наружу, и async-функция вернёт rejected Promise. Независимые операции лучше запускать параллельно через Promise.all, а не ждать их по очереди._
+
+Мини-проверка: какой будет порядок вывода?
+
+```js
+async function run() {
+  console.log("1");
+
+  await Promise.resolve();
+
+  console.log("2");
+}
+
+run();
+
+Promise.resolve().then(() => {
+  console.log("3");
+});
+
+console.log("4");
+```
+
+- 1 4 2 3
+
+# Вопрос 5 деструктуризация в JavaScript - массивы, объекты, значения по умолчанию и переименование.
+
+### Деструктуризация — это удобный способ достать значения из массива или объекта и сразу записать их в переменные.
+
+Вместо:
+
+```js
+const user = {
+  name: "Настя",
+  role: "developer",
+};
+
+const name = user.name;
+const role = user.role;
+```
+
+можно написать:
+
+```js
+const user = {
+  name: "Настя",
+  role: "developer",
+};
+
+const { name, role } = user;
+
+console.log(name); // Настя
+console.log(role); // developer
+```
+
+В массиве значения достаются по позиции.
+
+```js
+const colors = ["red", "green", "blue"];
+
+const [first, second, third] = colors;
+
+console.log(first); // red
+console.log(second); // green
+console.log(third); // blue
+```
+
+Можно пропустить элемент:
+
+```js
+const numbers = [10, 20, 30];
+
+const [first, , third] = numbers;
+
+console.log(first); // 10
+console.log(third); // 30
+```
+
+Можно забрать «хвост» через rest-оператор:
+
+```js
+const users = ["Аня", "Миша", "Лера", "Саша"];
+
+const [firstUser, ...otherUsers] = users;
+
+console.log(firstUser);  // Аня
+console.log(otherUsers); // ["Миша", "Лера", "Саша"]
+Значения по умолчанию в массиве
+const [name = "Гость", role = "user"] = ["Настя"];
+
+console.log(name); // Настя
+console.log(role); // user
+
+```
+
+Значение по умолчанию применяется, только если элемента нет или там undefined.
+
+```js
+const [value = 10] = [undefined];
+
+console.log(value); // 10
+```
+
+Но null не заменяется значением по умолчанию:
+
+```js
+const [value = 10] = [null];
+
+console.log(value); // null
+```
+
+Это важная ловушка.
+
+### Деструктуризация объектов
+
+В объекте значения достаются по имени свойства, а не по порядку.
+
+```js
+const user = {
+  id: 42,
+  name: "Настя",
+  role: "developer",
+};
+
+const { name, id } = user;
+
+console.log(name); // Настя
+console.log(id); // 42
+```
+
+Порядок неважен:
+
+```js
+const { role, name } = user;
+```
+
+Работает так же.
+
+### Переименование переменных
+
+Допустим, в объекте есть name, но ты хочешь назвать локальную переменную userName.
+
+```js
+const user = {
+  name: "Настя",
+  role: "developer",
+};
+
+const { name: userName } = user;
+
+console.log(userName); // Настя
+```
+
+Слева от двоеточия — имя свойства объекта.
+Справа — имя новой переменной.
+
+```js
+const { name: userName } = user;
+
+// user.name → userName
+```
+
+После этого переменной name не будет:
+
+```js
+console.log(name); // ReferenceError
+```
+
+Значения по умолчанию в объектах
+
+```js
+const settings = {
+  theme: "dark",
+};
+
+const { theme, language = "ru", fontSize = 16 } = settings;
+
+console.log(theme); // dark
+console.log(language); // ru
+console.log(fontSize); // 16
+```
+
+Можно совместить переименование и значение по умолчанию:
+
+```js
+    const user = {
+    name: "Настя"
+};
+
+const {
+    name: userName,
+    role: userRole = "user"
+} = user;
+
+Rest-оператор у объектов
+
+console.log(userName); // Настя
+console.log(userRole); // user
+```
+
+Можно достать часть свойств, а остальные собрать в новый объект:
+
+```js
+const user = {
+  id: 42,
+  name: "Настя",
+  role: "developer",
+  isActive: true,
+};
+
+const { id, ...publicData } = user;
+
+console.log(id); // 42
+
+console.log(publicData);
+// {
+// name: "Настя",
+// role: "developer",
+// isActive: true
+// }
+```
+
+Это часто используют, когда надо убрать чувствительное поле перед отправкой данных.
+
+```js
+const user = {
+  id: 42,
+  name: "Настя",
+  passwordHash: "secret",
+};
+
+const { passwordHash, ...safeUser } = user;
+```
+
+### Вложенная деструктуризация
+
+Можно достать значение из вложенного объекта.
+
+```js
+const user = {
+  name: "Настя",
+  address: {
+    city: "Санкт-Петербург",
+    street: "Невский",
+  },
+};
+
+const {
+  address: { city },
+} = user;
+
+console.log(city); // Санкт-Петербург
+```
+
+Или так, с более понятным переименованием:
+
+```js
+const {
+  address: { city: userCity },
+} = user;
+
+console.log(userCity); // Санкт-Петербург
+```
+
+Но тут осторожно: если address окажется undefined, будет ошибка.
+
+```js
+const user = {
+  name: "Настя",
+};
+
+const {
+  address: { city },
+} = user;
+
+// TypeError
+```
+
+Чтобы защититься:
+
+```js
+const { address: { city = "Не указан" } = {} } = user;
+
+console.log(city); // Не указан
+```
+
+### Деструктуризация в параметрах функций
+
+Очень частый реальный кейс.
+Вместо:
+
+```js
+function showUser(user) {
+  console.log(user.name);
+  console.log(user.role);
+}
+```
+
+можно:
+
+```js
+function showUser({ name, role }) {
+  console.log(name);
+  console.log(role);
+}
+```
+
+Использование:
+
+```js
+showUser({
+  name: "Настя",
+  role: "developer",
+});
+```
+
+Можно добавить значения по умолчанию:
+
+```js
+function createUser({ name = "Гость", role = "user" } = {}) {
+  return {
+    name,
+    role,
+  };
+}
+createUser();
+// { name: "Гость", role: "user" }
+```
+
+= {} здесь нужно, чтобы вызов createUser() без аргумента не вызывал ошибку.
+
+Очень полезный пример с fetch
+
+```js
+const response = await fetch("/api/profile");
+const { id, name, email } = await response.json();
+
+console.log(name);
+```
+
+Или в React:
+
+```jsx
+function UserCard({ name, role, avatarUrl }) {
+  return (
+    <div>
+      <img src={avatarUrl} alt={name} />
+      <strong>{name}</strong>
+      <span>{role}</span>
+    </div>
+  );
+}
+```
+
+То есть props деструктурируются прямо в параметрах компонента.
+
+### Частая ловушка: деструктуризация и уже объявленная переменная
+
+Вот так нельзя:
+
+```js
+let name;
+
+{ name } = user; // SyntaxError
+```
+
+Потому что JavaScript воспринимает {} как блок кода.
+
+Нужны скобки:
+
+```js
+let name;
+({ name } = user);
+console.log(name);
+```
+
+Коротко для экзамена
+
+_Деструктуризация — это синтаксис, который позволяет извлекать значения из массивов и объектов в отдельные переменные. В массивах значения выбираются по позиции, а в объектах — по имени свойства. Можно задавать значения по умолчанию, переименовывать переменные через двоеточие и собирать оставшиеся элементы через rest-оператор. Деструктуризацию часто используют в параметрах функций, при работе с ответами API и React props. Значение по умолчанию применяется только при undefined, но не при null._
+
+Мини-проверка: что будет в userName и role?
+
+```js
+const user = {
+  name: "Настя",
+};
+
+const { name: userName, role = "user" } = user;
+```
+
+# Вопрос 6 Чем отличаются callback в методах массивов от функций, передаваемых в setTimeout; различия по времени выполнения и аргументам
+
+- Callback — это функция, которую мы передаём в другую функцию, чтобы она была вызвана позже или в определённый момент.
+
+Но «позже» бывает разным:
+
+в методах массива callback обычно вызывается сразу, синхронно, пока метод проходит массив;
+в setTimeout callback вызывается асинхронно, после задержки и освобождения текущего стека.
+
+### Callback в методах массивов
+
+Например:
+
+```js
+const numbers = [1, 2, 3];
+const doubled = numbers.map((number) => {
+  return number * 2;
+});
+console.log(doubled);
+```
+
+Callback внутри map вызывается для каждого элемента массива прямо во время выполнения map.
+
+Результат:
+
+[2, 4, 6]
+
+То есть порядок такой:
+
+запустили map
+→ callback для 1
+→ callback для 2
+→ callback для 3
+→ map вернул новый массив
+
+_Это синхронная работа._
+
+```js
+console.log("До");
+
+[1, 2, 3].forEach((number) => {
+  console.log(number);
+});
+
+console.log("После");
+
+Вывод: До;
+1;
+2;
+3;
+После;
+```
+
+Никакой очереди задач тут нет: forEach не завершится, пока не вызовет callback для всех элементов.
+
+Какие аргументы передают методы массивов
+
+Большинство методов передают callback до трёх аргументов:
+
+```js
+array.map((element, index, array) => {
+  // ...
+});
+```
+
+Например:
+
+```js
+const users = ["Аня", "Миша", "Лера"];
+
+users.forEach((user, index, array) => {
+  console.log(user);
+  console.log(index);
+  console.log(array);
+});
+```
+
+Для первой итерации:
+
+```js
+user = "Аня";
+index = 0;
+array = ["Аня", "Миша", "Лера"];
+```
+
+Чаще всего нужны только элемент и индекс:
+
+```js
+const users = ["Аня", "Миша", "Лера"];
+
+const labels = users.map((user, index) => {
+  return `${index + 1}. ${user}`;
+});
+
+console.log(labels); // ["1. Аня", "2. Миша", "3. Лера"]
+```
+
+### Callback в setTimeout
+
+Теперь другой пример:
+
+```js
+console.log("До");
+
+setTimeout(() => {
+    console.log("Таймер");
+}, 0);
+
+console.log("После");
+
+Вывод будет:
+
+До
+После
+Таймер
+
+```
+
+Хотя задержка равна 0.
+
+Почему? setTimeout не выполняет callback сразу. Он передаёт его браузеру, а браузер добавляет callback в очередь задач, когда минимальная задержка прошла.
+
+Выполнить callback можно только когда:
+
+- закончился текущий синхронный код;
+- освободился call stack;
+- event loop дошёл до этой задачи.
+
+То есть 0 означает:
+
+_«выполни не раньше, чем будет возможность», а не «выполни прямо сейчас»._
+
+Аргументы setTimeout
+
+setTimeout не передаёт в callback элемент массива, индекс или сам массив.
+
+Но можно передать аргументы вручную:
+
+```js
+function greet(name, role) {
+  console.log(`Привет, ${name}. Роль: ${role}`);
+}
+
+setTimeout(greet, 1000, "Настя", "developer");
+```
+
+Через секунду:
+
+Привет, Настя. Роль: developer
+
+Либо через замыкание:
+
+```js
+const userName = "Настя";
+
+setTimeout(() => {
+  console.log(`Привет, ${userName}`);
+}, 1000);
+```
+
+### Главное отличие
+
+            | Методы массива  |	setTimeout
+
+Когда вызывается callback | Сразу во время выполнения метода |Позже, через event loop
+Синхронный или асинхронный | Обычно синхронный | Асинхронный
+Кто вызывает callback | map, filter, forEach, reduce | Браузер после таймера
+Типичные аргументы | Элемент, индекс, массив | Аргументы, переданные вручную
+Пример задачи | Преобразовать массив | Отложить действие
+
+Пример, где видно разницу
+
+```js
+const numbers = [1, 2, 3];
+
+console.log("Начало");
+
+numbers.forEach((number) => {
+  console.log(`forEach: ${number}`);
+});
+
+setTimeout(() => {
+  console.log("timeout");
+}, 0);
+
+console.log("Конец");
+```
+
+Вывод:
+
+Начало
+forEach: 1
+forEach: 2
+forEach: 3
+Конец
+timeout
+
+Потому что callback forEach выполняется немедленно, а callback setTimeout ждёт очереди.
+
+Очень частая ловушка: parseInt в map
+["10", "11", "12"].map(parseInt);
+
+Многие ожидают:
+
+[10, 11, 12]
+
+Но реально получится:
+
+[10, NaN, 1]
+
+Почему? map вызывает callback так:
+
+parseInt(element, index, array);
+
+То есть примерно:
+
+parseInt("10", 0); // 10
+parseInt("11", 1); // NaN
+parseInt("12", 2); // 1
+
+Второй аргумент parseInt — это основание системы счисления, а не индекс. Такая маленькая JS-засада, very rude.
+
+Правильно:
+
+```js
+["10", "11", "12"].map((value) => parseInt(value, 10));
+```
+
+или:
+
+```js
+["10", "11", "12"].map(Number);
+```
+
+_Callback — это функция, передаваемая другой функции для последующего вызова. В методах массивов, таких как map, filter и forEach, callback обычно выполняется синхронно во время обхода массива и получает аргументы: текущий элемент, индекс и сам массив. Callback в setTimeout выполняется асинхронно: он попадает в очередь задач и будет вызван только после завершения текущего синхронного кода. setTimeout не передаёт элемент и индекс автоматически, но дополнительные аргументы можно передать вручную или получить через замыкание._
+
+Мини-проверка: какой будет порядок вывода?
+
+console.log("A");
+
+[1, 2].forEach((number) => {
+console.log(number);
+});
+
+setTimeout(() => {
+console.log("B");
+}, 0);
+
+console.log("C"); A12CB
+
+# Вопрос 7: чем поверхностное копирование объекта отличается от глубокого, почему это важно для вложенных структур.
+
+## Поверхностная копия — shallow copy
+
+- Поверхностная копия создаёт новый объект, но копирует только верхний уровень. Если внутри лежат объекты или массивы, копируются не сами вложенные значения, а ссылки на них.
+
+```js
+const user = {
+  name: "Настя",
+  settings: {
+    theme: "dark",
+  },
+};
+
+const copy = { ...user };
+
+console.log(copy === user); // false
+console.log(copy.settings === user.settings); // true
+```
+
+Сам внешний объект новый, но settings — один и тот же вложенный объект в памяти.
+
+Поэтому:
+
+```js
+copy.name = "Анастасия";
+console.log(user.name); // "Настя"
+```
+
+Верхнее поле изменилось только в копии.
+
+Но:
+
+```js
+copy.settings.theme = "light";
+console.log(user.settings.theme); // "light"
+```
+
+И тут меняется оригинал тоже. Потому что обе переменные ссылаются на один settings. Вот где начинается маленький JS jumpscare.
+
+Как создать поверхностную копию
+
+Для объектов:
+
+```js
+const copy = { ...user };
+const copy2 = Object.assign({}, user);
+```
+
+Для массивов:
+
+```js
+const copy = [...items];
+const copy2 = items.slice();
+const copy3 = Array.from(items);
+```
+
+Все эти способы создают новую оболочку, но не копируют вложенные объекты глубоко.
+
+```js
+const users = [{ name: "Аня" }, { name: "Миша" }];
+
+const copiedUsers = [...users];
+
+copiedUsers[0].name = "Лера";
+
+console.log(users[0].name); // "Лера"
+```
+
+Массив новый, но объект первого пользователя — тот же самый.
+
+## Глубокая копия — deep copy
+
+Глубокая копия создаёт отдельные копии не только самого объекта, но и всех вложенных объектов, массивов и других значений.
+
+```js
+const user = {
+  name: "Настя",
+  settings: {
+    theme: "dark",
+  },
+};
+
+const deepCopy = structuredClone(user);
+
+console.log(deepCopy === user); // false
+console.log(deepCopy.settings === user.settings); // false
+```
+
+Теперь можно менять вложенные данные без влияния на оригинал:
+
+```js
+deepCopy.settings.theme = "light";
+
+console.log(user.settings.theme); // "dark"
+console.log(deepCopy.settings.theme); // "light"
+```
+
+### Лучший современный способ: structuredClone
+
+```js
+const clonedData = structuredClone(data);
+```
+
+Он умеет корректно копировать много полезных типов:
+
+- обычные объекты;
+- массивы;
+- Map;
+- Set;
+- Date;
+- RegExp;
+- ArrayBuffer;
+- циклические ссылки.
+
+Например:
+
+```js
+const data = {
+  tags: ["frontend", "javascript"],
+  settings: {
+    notifications: true,
+  },
+};
+
+const copy = structuredClone(data);
+```
+
+Но он не подходит для некоторых сущностей, например функций, DOM-элементов и части объектов со специальным поведением.
+
+```js
+const obj = {
+  onClick() {
+    console.log("click");
+  },
+};
+
+structuredClone(obj); // DataCloneError
+```
+
+### Старый способ: JSON.parse(JSON.stringify())
+
+Иногда используют так:
+
+```js
+const deepCopy = JSON.parse(JSON.stringify(user));
+```
+
+Для простых JSON-данных это может работать:
+
+```js
+const user = {
+  name: "Настя",
+  settings: {
+    theme: "dark",
+  },
+};
+
+const copy = JSON.parse(JSON.stringify(user));
+```
+
+Но это не универсальная глубокая копия.
+
+Она ломает или изменяет некоторые значения:
+
+```js
+const data = {
+  createdAt: new Date(),
+  undefinedValue: undefined,
+  calculate() {
+    return 42;
+  },
+  tags: new Set(["js", "react"]),
+};
+```
+
+После JSON-копирования:
+
+1. Date станет строкой;
+2. undefined исчезнет из объекта;
+3. функции исчезнут;
+4. Set превратится в обычный объект;
+5. циклические ссылки вызовут ошибку.
+6. const obj = {};
+7. obj.self = obj;
+
+```js
+JSON.stringify(obj); // TypeError: Converting circular structure to JSON
+```
+
+Поэтому для современного JavaScript лучше помнить:
+
+- простые данные из API → JSON-копия иногда допустима
+- нормальная глубокая копия → structuredClone
+- Почему это важно в реальных задачах React и иммутабельные обновления
+
+Допустим, есть состояние:
+
+```js
+const user = {
+  name: "Настя",
+  settings: {
+    theme: "dark",
+    notifications: true,
+  },
+};
+```
+
+Так делать плохо:
+
+```js
+user.settings.theme = "light";
+```
+
+Ты напрямую мутируешь старый объект.
+
+Лучше создать новые объекты на тех уровнях, которые меняются:
+
+```js
+const updatedUser = {
+  ...user,
+  settings: {
+    ...user.settings,
+    theme: "light",
+  },
+};
+```
+
+Теперь:
+
+```js
+updatedUser !== user; // true
+updatedUser.settings !== user.settings; // true
+```
+
+Но поле _name_, которое не менялось, просто переносится как значение. Это обычно эффективнее, чем делать полную глубокую копию всего состояния.
+
+Важный вывод: _deep copy нужна не всегда_
+
+Полностью глубокая копия может быть дорогой по памяти и времени, особенно для большой структуры.
+
+Чаще в приложениях делают точечную копию по пути изменения:
+
+```js
+const newState = {
+  ...state,
+  profile: {
+    ...state.profile,
+    preferences: {
+      ...state.profile.preferences,
+      language: "ru",
+    },
+  },
+};
+```
+
+То есть копируем только те уровни, которые реально меняем.
+
+_Поверхностная копия создаёт новый внешний объект или массив, но вложенные объекты и массивы остаются общими, потому что копируются ссылки. Например, spread-оператор { ...obj } и [...array] создают поверхностную копию. Поэтому изменение вложенного свойства в копии может изменить и оригинал. Глубокая копия создаёт новые объекты на всех уровнях вложенности, поэтому изменения не затрагивают исходную структуру. В современном JavaScript для этого можно использовать structuredClone, но глубокое копирование нужно применять осознанно: для обновления вложенного состояния часто лучше копировать только изменяемую ветку структуры._
+
+Мини-проверка: изменится ли original.user.name?
+
+```js
+const original = {
+  user: {
+    name: "Настя",
+  },
+};
+
+const copy = { ...original };
+
+copy.user.name = "Анастасия";
+```
+
+# Вопрос 8 Как в Python работают аргументы функций по умолчанию и почему изменяемые значения — список, словарь, set — могут привести к ошибкам.
+
+Как работают аргументы по умолчанию
+
+Можно задать значение параметра, которое будет использоваться, если аргумент не передали:
+
+```js
+def greet(name, greeting="Привет"):
+    return f"{greeting}, {name}!"
+
+print(greet("Настя"))          # Привет, Настя!
+print(greet("Настя", "Хей"))   # Хей, Настя!
+```
+
+Здесь greeting="Привет" — значение по умолчанию.
+
+_Важно: выражения в аргументах по умолчанию Python вычисляет один раз — в момент создания функции, а не при каждом её вызове._
+
+Для неизменяемых значений это обычно безопасно:
+
+```js
+def add_tax(price, tax_rate=0.2):
+    return price * (1 + tax_rate)
+```
+
+- Числа, строки, tuple — неизменяемые. Их нельзя случайно «дополнить» внутри функции.
+
+В чём проблема со списком или словарём
+
+Вот опасный пример:
+
+```py
+def add_item(item, items=[]):
+    items.append(item)
+    return items
+
+print(add_item("яблоко"))  # ['яблоко']
+print(add_item("груша"))   # ['яблоко', 'груша']
+print(add_item("банан"))   # ['яблоко', 'груша', 'банан']
+```
+
+На первый взгляд кажется, что при каждом вызове будет создаваться новый пустой список.
+
+Но нет. Список [] был создан один раз — при объявлении функции — и затем используется повторно всеми вызовами, где items не передали.
+
+Упрощённо это можно представить так:
+
+```py
+shared_items = []
+
+def add_item(item, items=shared_items):
+    items.append(item)
+    return items
+```
+
+Поэтому данные «протекают» между вызовами. Такой баг бывает очень мерзкий: функция сначала работает нормально, а потом внезапно начинает возвращать данные из прошлого вызова. Python moment.
+
+То же самое со словарём:
+
+```py
+def add_user(name, users={}):
+    users[name] = True
+    return users
+
+print(add_user("Настя"))
+# {'Настя': True}
+
+print(add_user("Миша"))
+# {'Настя': True, 'Миша': True}
+```
+
+Как правильно
+
+Обычно ставят **None**, а новый объект создают уже внутри функции:
+
+```py
+def add_item(item, items=None):
+    if items is None:
+        items = []
+
+    items.append(item)
+    return items
+```
+
+Теперь:
+
+```py
+print(add_item("яблоко"))  # ['яблоко']
+print(add_item("груша"))   # ['груша']
+```
+
+Каждый вызов без второго аргумента создаёт свой новый список.
+
+Для словаря то же самое:
+
+```py
+def add_user(name, users=None):
+    if users is None:
+        users = {}
+
+    users[name] = True
+    return users
+```
+
+### Почему проверяют именно is None, а не if not items?
+
+Лучше писать так:
+
+```py
+if items is None:
+    items = []
+```
+
+А не так:
+
+```py
+if not items:
+    items = []
+
+```
+
+Потому что пустой список — это валидное значение, которое пользователь мог специально передать.
+
+```js
+my_items = [];
+
+add_item("яблоко", my_items);
+```
+
+my_items пустой, но он всё равно должен использоваться как переданный объект, а не заменяться новым.
+
+### Передача аргументов в Python: ссылки на объекты
+
+Python передаёт в функцию не «копии переменных», а ссылки на объекты.
+
+Если объект изменяемый, функция может поменять его содержимое:
+
+```py
+def add_tag(tags):
+    tags.append("python")
+
+my_tags = ["backend"]
+
+add_tag(my_tags)
+
+print(my_tags)
+# ['backend', 'python']
+```
+
+Это не ошибка само по себе. Иногда именно так и нужно.
+
+Но важно понимать разницу между:
+
+```py
+tags.append("python")
+```
+
+и:
+
+```py
+tags = ["python"]
+```
+
+В первом случае меняется существующий список, на который ссылается и внешняя переменная.
+
+Во втором случае внутри функции переменная tags просто начинает ссылаться на новый список. Исходный список снаружи не меняется.
+
+```py
+def replace_tags(tags):
+tags = ["python"]
+
+my_tags = ["backend"]
+
+replace_tags(my_tags)
+
+print(my_tags)
+
+# ['backend']
+```
+
+Когда изменяемое значение по умолчанию может быть нормальным
+
+Технически иногда это используют специально, например для внутреннего кэша:
+
+```py
+def get_square(number, cache={}):
+if number not in cache:
+cache[number] = number \*\* 2
+
+    return cache[number]
+```
+
+Но это не лучший стиль для обычного кода: поведение неочевидно, его легко сломать, и на экзамене безопаснее сказать, что изменяемые default-значения обычно нужно избегать.
+
+Для кэша лучше использовать, например, functools.cache.
+
+```py
+from functools import cache
+
+@cache
+def get_square(number):
+return number \*\* 2
+```
+
+_Аргументы по умолчанию в Python вычисляются один раз в момент объявления функции, а не при каждом вызове. Поэтому нельзя использовать изменяемые объекты, такие как список, словарь или множество, как значение по умолчанию: они будут общими для всех вызовов функции и изменения могут накапливаться. Безопасный подход — использовать None как значение по умолчанию и создавать новый список или словарь внутри функции. Неизменяемые значения, например числа, строки и кортежи, обычно безопасны._
+
+Мини-проверка: что выведет этот код?
+
+```py
+def add_number(number, numbers=[]):
+    numbers.append(number)
+    return numbers
+
+print(add_number(1))
+print(add_number(2))
+
+```
+
+1 1 2
+
+# Вопрос 9: что такое генератор в Python, чем он отличается от списка, какие преимущества даёт ленивое вычисление и какие ограничения.
+
+#### Что такое генератор
+
+- Генератор — это объект, который выдаёт значения по одному, по мере запроса, а не создаёт все значения заранее.
+
+Например, обычный список: numbers = [1, 2, 3, 4, 5]. Все пять чисел уже лежат в памяти.
+
+А генератор может выдавать их постепенно:
+
+def count_to_five():
+yield 1
+yield 2
+yield 3
+yield 4
+yield 5
+
+yield — ключевое слово, которое превращает функцию в генератор.
+
+```py
+generator = count_to_five()
+
+print(next(generator))  # 1
+print(next(generator))  # 2
+print(next(generator))  # 3
+```
+
+При каждом _next()_ выполнение продолжается с того места, где остановилось после прошлого yield.
+
+#### Как работает yield
+
+Сравни обычную функцию:
+
+```py
+def get_number():
+    return 10
+
+print(get_number())  # 10
+
+```
+
+После return функция завершилась.
+
+А в генераторе:
+
+def get_numbers():
+yield 10
+yield 20
+yield 30
+
+Каждый yield временно приостанавливает функцию и отдаёт значение наружу.
+
+```py
+numbers = get_numbers()
+
+print(next(numbers))  # 10
+print(next(numbers))  # 20
+print(next(numbers))  # 30
+```
+
+После того как значения закончились:
+
+```py
+print(next(numbers))
+```
+
+будет ошибка: _StopIteration_
+
+Но в реальности обычно генераторы перебирают через for, и Python сам корректно обрабатывает конец последовательности:
+
+```py
+for number in get_numbers():
+    print(number)
+```
+
+Вывод:
+10
+20
+30
+Генераторное выражение
+
+Кроме функций с yield, есть короткая запись — генераторное выражение.
+
+## Список:
+
+```py
+numbers = [number * 2 for number in range(5)]
+print(numbers)
+# [0, 2, 4, 6, 8]
+```
+
+## Генератор:
+
+```py
+numbers = (number * 2 for number in range(5))
+print(numbers)
+# <generator object ...>
+```
+
+Чтобы получить значения:
+
+```py
+for number in numbers:
+print(number)
+```
+
+Или:
+
+```py
+print(list(numbers))
+# [0, 2, 4, 6, 8]
+```
+
+Но после list(numbers) генератор уже будет исчерпан.
+
+Главное отличие генератора от списка
+Свойство | Список | Генератор
+Значения создаются | Сразу все | По одному, при необходимости
+Память | Может занимать много | Обычно мало
+Можно обратиться по индексу Да Нет
+Можно пройти несколько раз Да Нет, если не создать заново
+Подходит для огромных данных Не всегда Да
+Ленивые вычисления
+
+Генераторы используют ленивые вычисления: _значение рассчитывается только тогда, когда оно реально понадобилось._
+
+Например:
+
+numbers = (number \*\* 2 for number in range(1_000_000_000))
+
+Python не создаёт миллиард квадратов в памяти. Он создаст следующий квадрат, только когда ты попросишь:
+
+print(next(numbers)) # 0
+print(next(numbers)) # 1
+print(next(numbers)) # 4
+
+Вот почему генераторы особенно полезны при обработке больших данных.
+
+Пример: чтение большого файла
+
+Плохо для огромного файла:
+
+with open("log.txt", encoding="utf-8") as file:
+lines = file.readlines()
+
+readlines() загружает все строки сразу в память.
+
+Лучше:
+
+with open("log.txt", encoding="utf-8") as file:
+for line in file:
+print(line.strip())
+
+Файл читается по строкам, постепенно. По сути объект файла ведёт себя как итератор.
+
+Можно ещё написать свой генератор:
+
+```py
+def read_errors(file_path):
+    with open(file_path, encoding="utf-8") as file:
+        for line in file:
+            if "ERROR" in line:
+                yield line.strip()
+for error in read_errors("log.txt"):
+print(error)
+```
+
+Так в памяти будут не все строки файла, а только текущая.
+
+Пример: бесконечный генератор
+
+Список бесконечного размера создать нельзя. Генератор — можно.
+
+def infinite_counter():
+number = 1
+
+    while True:
+        yield number
+        number += 1
+
+counter = infinite_counter()
+
+print(next(counter)) # 1
+print(next(counter)) # 2
+print(next(counter)) # 3
+
+Это удобно, например, для потоков данных, пагинации API или последовательностей.
+
+Ограничения генераторов
+
+1. Генератор можно пройти только один раз
+   numbers = (number for number in range(3))
+
+print(list(numbers))
+
+# [0, 1, 2]
+
+print(list(numbers))
+
+# []
+
+После первого прохода генератор исчерпан.
+
+У списка такого нет:
+
+numbers = [number for number in range(3)]
+
+print(numbers) # [0, 1, 2]
+print(numbers) # [0, 1, 2] 2. Нет доступа по индексу
+numbers = (number for number in range(10))
+
+print(numbers[3])
+
+Будет ошибка:
+
+TypeError: 'generator' object is not subscriptable
+
+Нельзя быстро взять четвёртый элемент, потому что генератор не хранит всю последовательность.
+
+Нужно либо пройти предыдущие значения, либо превратить в список:
+
+numbers = list(number for number in range(10))
+
+print(numbers[3]) # 3 3. Нельзя узнать длину через len()
+numbers = (number for number in range(10))
+
+len(numbers)
+
+Будет ошибка, потому что генератор может быть бесконечным или ещё не вычисленным.
+
+4. Повторное использование требует создать новый генератор
+
+Плохо:
+
+numbers = (number \* 2 for number in range(3))
+
+for number in numbers:
+print(number)
+
+for number in numbers:
+print(number) # уже ничего не выведет
+
+Нужно заново создать генератор:
+
+for number in (number \* 2 for number in range(3)):
+print(number)
+Когда выбирать генератор, а когда список
+
+Выбирай генератор, когда:
+
+данных очень много;
+нужно обрабатывать поток постепенно;
+не нужен индекс;
+последовательность нужна только для одного прохода;
+возможна бесконечная последовательность.
+
+Выбирай список, когда:
+
+нужны все значения сразу;
+нужен доступ по индексу;
+надо несколько раз пройти данные;
+нужна длина;
+данные небольшие и удобство важнее экономии памяти.
+Как ответить на экзамене
+
+Генератор — это объект, который выдаёт значения по одному по мере запроса. Его можно создать функцией с yield или генераторным выражением. В отличие от списка генератор не хранит все элементы в памяти заранее, поэтому подходит для больших файлов, больших последовательностей и потоков данных. Это называется ленивым вычислением. Ограничения генератора: его нельзя индексировать, у него нельзя получить длину через len, и после полного прохода он исчерпывается. Список удобнее, если нужны все данные сразу, доступ по индексу или повторный обход.
+
+Мини-проверка: что выведет код?
+
+numbers = (number \* 2 for number in range(3))
+
+print(next(numbers))
+print(list(numbers))
+print(list(numbers))
+
+# Вопрос 9: что такое генератор в Python, чем он отличается от списка, какие преимущества даёт ленивое вычисление и какие ограничения.
+
+_Генератор — это объект, который выдаёт значения по одному, по мере запроса, а не создаёт все значения заранее._
+
+Например, обычный список: numbers = [1, 2, 3, 4, 5]. Все пять чисел уже лежат в памяти.
+
+А генератор может выдавать их постепенно:
+
+```py
+def count_to_five():
+    yield 1
+    yield 2
+    yield 3
+    yield 4
+    yield 5
+```
+
+_yield — ключевое слово, которое превращает функцию в генератор._
+
+```py
+generator = count_to_five()
+
+print(next(generator))  # 1
+print(next(generator))  # 2
+print(next(generator))  # 3
+```
+
+При каждом next() выполнение продолжается с того места, где остановилось после прошлого yield.
+
+### Как работает yield
+
+Сравни обычную функцию:
+
+```py
+def get_number():
+    return 10
+
+print(get_number())  # 10
+```
+
+После return функция завершилась.
+
+А в генераторе:
+
+```py
+def get_numbers():
+yield 10
+yield 20
+yield 30
+```
+
+Каждый yield временно приостанавливает функцию и отдаёт значение наружу.
+
+```py
+numbers = get_numbers()
+
+print(next(numbers)) # 10
+print(next(numbers)) # 20
+print(next(numbers)) # 30
+```
+
+После того как значения закончились:
+
+```py
+print(next(numbers))
+```
+
+будет ошибка: _StopIteration_
+
+Но в реальности обычно генераторы перебирают через for, и Python сам корректно обрабатывает конец последовательности:
+
+```py
+for number in get_numbers():
+    print(number)
+```
+
+Вывод: 10 20 30
+
+### Генераторное выражение
+
+Кроме функций с yield, есть короткая запись — генераторное выражение.
+
+Список:
+
+```py
+numbers = [number * 2 for number in range(5)]
+
+print(numbers)
+
+# [0, 2, 4, 6, 8]
+```
+
+Генератор:
+
+```py
+numbers = (number \* 2 for number in range(5))
+
+print(numbers)
+
+# <generator object ...>
+```
+
+Но после list(numbers) генератор уже будет исчерпан.
+
+Главное отличие генератора от списка
+
+- Свойство | Список | Генератор
+- Значения создаются | Сразу все | По одному, при необходимости
+- Память | Может занимать много | Обычно мало
+- Можно обратиться по индексу | Да | Нет
+- Можно пройти несколько раз | Да | Нет, если не создать заново
+- Подходит для огромных данных | Не всегда | Да
+
+## Ленивые вычисления
+
+Генераторы используют ленивые вычисления: значение рассчитывается только тогда, когда оно реально понадобилось.
+
+Например:
+
+```py
+numbers = (number \*\* 2 for number in range(1_000_000_000))
+```
+
+Python не создаёт миллиард квадратов в памяти. Он создаст следующий квадрат, только когда ты попросишь:
+
+print(next(numbers)) # 0
+print(next(numbers)) # 1
+print(next(numbers)) # 4
+
+Вот почему генераторы особенно полезны при обработке больших данных.
+
+Пример: чтение большого файла
+
+Плохо для огромного файла:
+
+```py
+with open("log.txt", encoding="utf-8") as file:
+lines = file.readlines()
+```
+
+readlines() загружает все строки сразу в память.
+
+Лучше:
+
+```py
+with open("log.txt", encoding="utf-8") as file:
+    for line in file:
+        print(line.strip())
+```
+
+Файл читается по строкам, постепенно. По сути объект файла ведёт себя как итератор.
+
+Можно ещё написать свой генератор:
+
+```py
+def read_errors(file_path):
+with open(file_path, encoding="utf-8" as file:
+    for line in file:
+        if "ERROR" in line:
+            yield line.strip()
+    for error in read_errors("log.txt"):
+        print(error)
+```
+
+Так в памяти будут не все строки файла, а только текущая.
+
+#### Пример: бесконечный генератор
+
+Список бесконечного размера создать нельзя. Генератор — можно.
+
+```py
+def infinite_counter():
+    number = 1
+
+        while True:
+            yield number
+            number += 1
+
+counter = infinite_counter()
+
+print(next(counter)) # 1
+print(next(counter)) # 2
+print(next(counter)) # 3
+```
+
+Это удобно, например, для потоков данных, пагинации API или последовательностей.
+
+Ограничения генераторов
+
+1. Генератор можно пройти только один раз
+
+   ```py
+   numbers = (number for number in range(3))
+   print(list(numbers))
+   # [0, 1, 2]
+   print(list(numbers))
+   # []
+   ```
+
+После первого прохода генератор исчерпан.
+
+У списка такого нет:
+
+```py
+numbers = [number for number in range(3)]
+
+print(numbers) # [0, 1, 2]
+print(numbers) # [0, 1, 2]
+```
+
+2. Нет доступа по индексу
+
+```py
+numbers = (number for number in range(10))
+
+print(numbers[3])
+
+```
+
+Будет ошибка: TypeError: 'generator' object is not subscriptable
+
+Нельзя быстро взять четвёртый элемент, потому что генератор не хранит всю последовательность.
+
+Нужно либо пройти предыдущие значения, либо превратить в список:
+
+```py
+numbers = list(number for number in range(10))
+
+print(numbers[3]) # 3
+```
+
+3. Нельзя узнать длину через len()
+
+```py
+numbers = (number for number in range(10))
+
+len(numbers)
+```
+
+Будет ошибка, потому что генератор может быть бесконечным или ещё не вычисленным.
+
+4. Повторное использование требует создать новый генератор
+
+Плохо:
+
+```py
+numbers = (number \* 2 for number in range(3))
+
+for number in numbers:
+print(number)
+
+for number in numbers:
+print(number) # уже ничего не выведет
+```
+
+Нужно заново создать генератор:
+
+```py
+for number in (number \* 2 for number in range(3)):
+print(number)
+```
+
+Когда выбирать генератор, а когда список
+
+Выбирай генератор, когда:
+
+- данных очень много;
+- нужно обрабатывать поток постепенно;
+- не нужен индекс;
+- последовательность нужна только для одного прохода;
+- возможна бесконечная последовательность.
+
+Выбирай список, когда:
+
+- нужны все значения сразу;
+- нужен доступ по индексу;
+- надо несколько раз пройти данные;
+- нужна длина;
+- данные небольшие и удобство важнее экономии памяти.
+
+_Генератор — это объект, который выдаёт значения по одному по мере запроса. Его можно создать функцией с yield или генераторным выражением. В отличие от списка генератор не хранит все элементы в памяти заранее, поэтому подходит для больших файлов, больших последовательностей и потоков данных. Это называется ленивым вычислением. Ограничения генератора: его нельзя индексировать, у него нельзя получить длину через len, и после полного прохода он исчерпывается. Список удобнее, если нужны все данные сразу, доступ по индексу или повторный обход._
+
+Мини-проверка: что выведет код?
+
+numbers = (number \* 2 for number in range(3))
+
+print(next(numbers))
+print(list(numbers))
+print(list(numbers))
+
+# Вопрос 10. Как в Python правильно создавать двумерные списки и почему [[0] _ n] _ m ведёт себя неожиданно.
+
+Допустим, нам нужна матрица 3 на 4:
+
+[
+[0, 0, 0, 0],
+[0, 0, 0, 0],
+[0, 0, 0, 0]
+]
+
+Кажется, что можно написать так:
+
+```py
+matrix = [[0] * 4] * 3
+```
+
+И на первый взгляд всё красиво:
+
+```py
+print(matrix)
+# [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+```
+
+Но потом происходит вот такая подстава:
+
+```py
+matrix[0][0] = 1
+
+print(matrix)
+
+#Результат:
+
+[[1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]]
+```
+
+То есть мы поменяли элемент только в первой строке, а он изменился сразу во всех строках. Python такой: «сюрприз, girl».
+
+Почему так происходит?
+
+```py
+#Выражение:
+[0] * 4
+#создаёт один список:
+[0, 0, 0, 0]
+#А потом:
+[[0] * 4] * 3
+```
+
+не создаёт три независимых строки. Оно создаёт один внутренний список и _повторяет ссылку на него три раза._
+
+То есть по смыслу получается не так:
+
+[
+отдельная строка 1,
+отдельная строка 2,
+отдельная строка 3
+]
+
+а так:
+
+[
+ссылка на одну и ту же строку,
+ссылка на одну и ту же строку,
+ссылка на одну и ту же строку
+]
+
+Можно проверить:
+
+```py
+matrix = [[0] * 4] * 3
+
+print(matrix[0] is matrix[1]) # True
+print(matrix[1] is matrix[2]) # True
+```
+
+True означает, что это literally один и тот же объект в памяти.
+
+Правильный способ — list comprehension:
+
+```py
+rows = 3
+cols = 4
+
+matrix = [[0 for _ in range(cols)] for _ in range(rows)]
+```
+
+Или короче:
+
+```py
+matrix = [[0] * cols for _ in range(rows)]
+```
+
+Теперь каждая строка создаётся отдельно:
+
+```py
+matrix[0][0] = 1
+
+print(matrix)
+```
+
+Результат:
+
+[[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+
+Вот тут уже всё адекватно.
+
+Почему [0] \* cols внутри comprehension норм?
+
+Потому что оно выполняется заново на каждой итерации:
+
+[[0] \* cols for \_ in range(rows)]
+
+То есть Python каждый раз _создаёт новую строку, а не размножает ссылку на одну старую._
+
+Ещё пример с вложенными объектами. Если создать список списков неправильно:
+
+```py
+matrix = [[]] * 3
+matrix[0].append("x")
+print(matrix)
+```
+
+Будет:
+
+[['x'], ['x'], ['x']]
+
+А правильно:
+
+```py
+matrix = [[] for _ in range(3)]
+matrix[0].append("x")
+print(matrix)
+```
+
+Будет:
+
+[['x'], [], []]
+
+_В Python список хранит ссылки на объекты. При создании двумерного списка через [[0] * n] * m внешний список содержит несколько ссылок на один и тот же внутренний список. Поэтому изменение одной строки отражается во всех строках. Чтобы создать независимые строки, нужно использовать генератор списка: [[0] \* n for \_ in range(m)]. Тогда на каждой итерации создаётся новый внутренний список._
+
+Мини-проверка:
+
+matrix = [[0] _ 2] _ 3
+matrix[1][0] = 9
+
+print(matrix)
+
+Что выведется?
+
+# Секция веб-технологии
+
+# Вопрос 1 Как работают HTML-формы? Роль form, inputm label, button и аттрибутов name, value, method, action
+
+HTML-форма — это механизм, который позволяет пользователю ввести данные на странице и отправить их куда-то: на сервер, в API, на текущую страницу или обработать через JavaScript.
+
+Самый базовый пример:
+
+```html
+<form action="/login" method="post">
+  <label for="email">Email</label>
+  <input id="email" name="email" type="email" value="" />
+
+  <label for="password">Пароль</label>
+  <input id="password" name="password" type="password" />
+
+  <button type="submit">Войти</button>
+</form>
+```
+
+Когда пользователь нажимает кнопку отправки, браузер собирает значения полей формы и отправляет их по адресу из action методом из method.
+
+В примере выше браузер отправит примерно такие данные:
+
+email=test@mail.ru&password=12345
+
+Главная идея: name становится ключом, а текущее значение поля становится значением.
+
+То есть:
+
+<input name="email" value="test@mail.ru">
+
+превращается в:
+
+email=test@mail.ru
+
+Без _name поле обычно не попадёт в отправку формы_. Это прям важный момент, его любят спрашивать.
+
+- form — это контейнер формы. Он объединяет поля ввода, кнопки и настройки отправки. У него важные атрибуты:
+<form action="/register" method="post">
+
+- action — это адрес, куда отправятся данные. Например /login, /api/users, /search.
+  Если action не указан, форма обычно отправляется на текущий URL.
+
+- method — это HTTP-метод отправки. Чаще всего: method="get" method="post"
+  GET обычно используется для получения данных, поиска, фильтров, когда параметры можно показать в URL.
+
+  Например:
+
+  ```html
+  <form action="/search" method="get">
+    <input name="q" value="cats" />
+  </form>
+  ```
+
+  После отправки URL может стать таким:
+
+  /search?q=cats
+
+  POST используется, когда мы создаём или изменяем данные: регистрация, логин, отправка формы заказа, комментарий и так далее. Данные уходят в теле запроса, а не в URL.
+
+  Но важный нюанс: POST не делает данные “секретными” сам по себе. Для безопасности нужен HTTPS. POST просто не показывает данные прямо в адресной строке.
+
+- input — это поле ввода. У него много типов:
+
+    <input type="text">
+    <input type="email">
+    <input type="password">
+    <input type="checkbox">
+    <input type="radio">
+    <input type="file">
+    <input type="number">
+    <input type="date">
+
+  Тип влияет на поведение поля, клавиатуру на телефоне, базовую браузерную валидацию и внешний вид.
+
+  Например:
+
+    <input type="email" name="email" required>
+
+  Браузер сам проверит, что пользователь ввёл что-то похожее на email. Но тут тоже ловушка: браузерная валидация — это удобство для пользователя, а не защита сервера. На сервере всё равно надо валидировать заново.
+
+- label — это подпись к полю. Она нужна не только для красоты.
+  <label for="email">Email</label>
+  <input id="email" name="email">
+  Атрибут for у label связывается с id у input.
+  Зачем это нужно:
+
+  - при клике на текст label фокус переходит в поле;
+  - это улучшает доступность для скринридеров;
+  - увеличивается кликабельная область, особенно для чекбоксов и радио.
+
+  Например:
+  <label for="agree">Согласен с условиями</label>
+  <input id="agree" name="agree" type="checkbox">
+
+  Можно также вложить input внутрь label:
+
+    <label>
+    <input type="checkbox" name="agree">
+    Согласен с условиями
+    </label>
+    Так тоже валидно.
+
+И важный момент: placeholder — это не замена label. Placeholder исчезает при вводе и хуже для доступности. На собесе можно прям сказать: label нужен для семантики и accessibility, placeholder — только подсказка.
+
+- button — это кнопка. Внутри формы у неё особенно важен атрибут type.
+  <button type="submit">Отправить</button>
+  <button type="button">Просто кнопка</button>
+  <button type="reset">Сбросить</button>
+
+  type="submit" отправляет форму.
+
+  type="button" ничего не отправляет сам по себе. Обычно используется для JS-логики.
+
+  type="reset" сбрасывает поля к начальным значениям.
+
+  Очень частая ловушка: если написать просто:
+
+  <button>Кнопка</button>
+
+То внутри формы по умолчанию это будет type="submit".
+
+И можно случайно отправлять форму, хотя ты просто хотела открыть модалку или добавить строку. Классика фронтенд-боли, прям баг из жизни.
+
+Теперь про name и value.
+
+- name — это имя поля, то есть ключ, под которым значение уйдёт на сервер.
+  <input name="username">
+  value — это значение поля.
+
+    <input name="username" value="nastya">
+
+  При отправке будет: username=nastya
+  Для текстовых полей value меняется, когда пользователь печатает.
+
+Для чекбокса:
+<input type="checkbox" name="subscribe" value="yes">
+
+Если чекбокс отмечен, отправится: subscribe=yes
+Если не отмечен — обычно вообще ничего не отправится.
+
+Для radio:
+<input type="radio" name="gender" value="female">
+<input type="radio" name="gender" value="male">
+
+У radio-кнопок один и тот же name, чтобы они работали как группа. Отправится только выбранное значение.
+
+Например: gender=female
+
+#### Если у нескольких полей одинаковый name, сервер может получить несколько значений с одним ключом. Например:
+
+<input type="checkbox" name="skills" value="html">
+<input type="checkbox" name="skills" value="css">
+<input type="checkbox" name="skills" value="js">
+
+Если выбрать HTML и JS, данные будут примерно такие:
+skills=html&skills=js
+
+Есть ещё важная тема: какие поля отправляются, а какие нет.
+
+_Отправляются поля, у которых есть name, и которые не отключены._
+
+Вот это отправится:
+
+<input name="email" value="test@mail.ru">
+
+А это нет, потому что нет name:
+
+<input id="email" value="test@mail.ru">
+
+Это тоже не отправится, потому что disabled:
+
+<input name="email" value="test@mail.ru" disabled>
+
+А вот readonly отправится:
+
+<input name="email" value="test@mail.ru" readonly>
+
+Разница:
+
+- disabled — поле выключено, пользователь не может изменить, и оно не отправляется.
+- readonly — пользователь не может изменить, но значение отправляется.
+
+Если форма отправляет файл, нужен особый атрибут:
+
+```js
+<form action="/upload" method="post" enctype="multipart/form-data">
+  <input type="file" name="avatar">
+  <button type="submit">Загрузить</button>
+</form>
+```
+
+#### enctype="multipart/form-data" нужен для загрузки файлов. Без него файл нормально не отправится.
+
+Обычная форма по умолчанию использует: application/x-www-form-urlencoded. Это когда данные выглядят как строка: name=Anna&age=22
+
+#### Как форма работает с JavaScript?
+
+Можно перехватить отправку:
+
+```js
+const form = document.querySelector("form");
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const formData = new FormData(form);
+
+  console.log(formData.get("email"));
+});
+```
+
+- event.preventDefault() отменяет стандартную отправку формы браузером.
+- FormData позволяет удобно собрать данные формы.
+
+Например:
+
+const data = Object.fromEntries(new FormData(form));
+
+И получится объект:
+
+{
+email: "test@mail.ru",
+password: "12345"
+}
+
+Но если есть несколько одинаковых name, например чекбоксы, то Object.fromEntries может потерять часть значений. Тогда лучше использовать:
+
+formData.getAll("skills");
+
+_HTML-форма — это способ собрать пользовательский ввод и отправить его. Тег form задаёт контейнер и параметры отправки: action определяет URL, method — HTTP-метод, чаще GET или POST. Поля вроде input, select, textarea дают пользователю вводить данные. При отправке браузер собирает пары name=value, поэтому name обязателен для отправки поля. label связывает подпись с полем через for и id, улучшает доступность и UX. button type="submit" запускает отправку формы, type="button" используется для JS-действий, а type="reset" сбрасывает поля. Для файлов нужен enctype="multipart/form-data". На клиентскую валидацию полагаться нельзя, сервер всё равно должен проверять данные._
+
+Что могут спросить дополнительно:
+
+Чем отличается GET от POST?
+
+- GET передаёт данные в URL, подходит для поиска, фильтров, получения данных. Его можно закладкой сохранить, кешировать, переслать ссылкой.
+
+- POST передаёт данные в теле запроса, подходит для создания/изменения данных: логин, регистрация, заказ, комментарий.
+
+- id нужен для DOM, CSS, JS и связи с label.
+- name нужен для отправки данных формы.
+
+Можно иметь:
+<input id="user-email" name="email">
+
+На сервер уйдёт именно email, а не user-email.
+
+1. Почему поле не отправилось?
+
+Скорее всего:
+
+- нет name;
+- поле disabled;
+- чекбокс/radio не выбран;
+- поле находится не в форме и не связано с ней через атрибут form.
+
+2. Что будет, если у формы нет action?
+
+Она отправится на текущий адрес страницы.
+
+3. Что будет, если у кнопки не указать type?
+
+Внутри формы она будет submit по умолчанию. И это может случайно отправить форму.
+
+4. Можно ли HTML-формой отправить PUT или DELETE?
+
+Классические HTML-формы поддерживают в основном GET и POST. Для PUT, PATCH, DELETE обычно используют JavaScript fetch, либо серверный workaround через hidden-поле типа:
+
+<input type="hidden" name="_method" value="DELETE">
+
+5. Зачем нужен hidden input?
+
+Чтобы отправить служебные данные, которые пользователь не редактирует напрямую:
+
+<input type="hidden" name="csrf_token" value="abc123">
+<input type="hidden" name="user_id" value="42">
+
+Но hidden input нельзя считать безопасным местом хранения: пользователь может изменить его через DevTools. Поэтому сервер всё равно должен проверять права.
+
+6. Что такое CSRF-токен в форме?
+
+Это скрытое поле или заголовок, которое помогает серверу понять, что запрос пришёл с настоящей страницы приложения, а не с чужого сайта. Это уже пересекается с вопросом про CSRF ниже.
+
+Мини-пример полностью:
+
+<form action="/profile" method="post">
+  <label for="name">Имя</label>
+  <input id="name" name="name" type="text" value="Анастасия">
+
+<label for="email">Email</label>
+<input id="email" name="email" type="email" required>
+
+  <label>
+    <input type="checkbox" name="subscribe" value="yes">
+    Подписаться на рассылку
+  </label>
+
+  <input type="hidden" name="csrf_token" value="abc123">
+
+<button type="submit">Сохранить</button>
+
+</form>
+
+При отправке сервер получит примерно:
+
+name=Анастасия
+email=...
+subscribe=yes
+csrf_token=abc123
+
+Но subscribe придёт только если чекбокс отмечен.
+
+Главное, что надо запомнить для этого вопроса:
+
+- form задаёт, куда и как отправлять;
+- input собирает данные;
+- label подписывает поле и улучшает доступность;
+- button type="submit" отправляет форму;
+- name — ключ для отправки;
+- value — значение;
+- method — GET или POST;
+- action — URL обработчика;
+
+без name поле почти бесполезно для обычной отправки формы.
+
+# Вопрос 2. Что такое блочная модель CSS? Как формируются итоговые размеры элемента и зачем различать content-box и border-box?
+
+1. Короткая суть вопроса
+
+Блочная модель CSS описывает, из каких частей состоит каждый HTML-элемент на странице и как браузер рассчитывает его итоговый размер.
+
+У элемента есть четыре основные области:
+
+margin
+border
+padding
+content
+
+То есть элемент можно представить как коробку:
+
+┌──────────────────────────────┐
+│ margin │
+│ ┌────────────────────────┐ │
+│ │ border │ │
+│ │ ┌──────────────────┐ │ │
+│ │ │ padding │ │ │
+│ │ │ ┌────────────┐ │ │ │
+│ │ │ │ content │ │ │ │
+│ │ │ └────────────┘ │ │ │
+│ │ └──────────────────┘ │ │
+│ └────────────────────────┘ │
+└──────────────────────────────┘
+
+2. Из чего состоит box model
+
+- content - это содержимое элемента: текст, картинка, дочерние элементы. Например:
+
+.box {
+width: 200px;
+height: 100px;
+}
+
+По умолчанию width и height задают размер именно content, то есть внутренней области содержимого.
+
+- padding — это внутренний отступ между содержимым и рамкой.
+
+.box {
+padding: 20px;
+}
+
+Он увеличивает расстояние внутри элемента. Например, если у кнопки есть padding, текст не прилипает к краям:
+
+button {
+padding: 10px 20px;
+}
+
+- border — это рамка вокруг элемента.
+
+.box {
+border: 2px solid black;
+}
+
+Рамка тоже влияет на итоговый размер элемента.
+
+- margin — это внешний отступ от элемента до соседних элементов.
+
+.box {
+margin: 30px;
+}
+
+Важно: margin находится снаружи рамки и не является частью самого видимого элемента. Например, фон элемента не распространяется на margin.
+
+3. Как считается итоговый размер элемента
+
+По умолчанию в CSS используется модель:
+box-sizing: content-box;
+
+Это значит, что width и height задают только размер content.
+
+Например:
+
+```css
+.box {
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+  margin: 10px;
+}
+```
+
+При content-box итоговая ширина видимой коробки будет:
+
+```css
+width + padding-left + padding-right + border-left + border-right
+```
+
+То есть:
+
+200 + 20 + 20 + 5 + 5 = 250px
+
+А если учитывать ещё и внешние отступы margin, то место, которое элемент занимает в потоке страницы:
+
+250 + 10 + 10 = 270px
+
+То есть важный момент:
+
+margin не входит в размер самого элемента, но влияет на расстояние до других элементов.
+
+4. Что такое content-box
+
+content-box — это стандартная модель расчёта размеров.
+
+```css
+.box {
+  box-sizing: content-box;
+}
+```
+
+При ней: width: 200px;
+
+означает:
+
+ширина content = 200px
+
+А padding и border добавляются сверху.
+
+Пример:
+
+```css
+.box {
+  box-sizing: content-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+}
+```
+
+Итоговая ширина:
+
+200 + 40 + 10 = 250px
+
+То есть элемент визуально станет шире, чем 200px.
+
+Из-за этого иногда ломается layout. Например, ты хочешь поставить две карточки по 50%, но добавляешь padding, и они уже не помещаются в строку. CSS такой: “ну я же предупреждал” — хотя нет, не предупреждал, как обычно.
+
+5. Что такое border-box
+
+- border-box — это модель, при которой width и height включают в себя: content + padding + border
+
+То есть:
+
+```css
+.box {
+  box-sizing: border-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+}
+```
+
+Итоговая видимая ширина всё равно будет: 200px. Но внутри эти 200px распределятся так: border + padding + content + padding + border
+
+То есть content станет меньше: 200 - 20 - 20 - 5 - 5 = 150px
+
+Поэтому border-box часто удобнее для верстки: ты задаёшь элементу width: 300px и точно знаешь, что он визуально будет 300px, а не внезапно 362px.
+
+6. Зачем различать content-box и border-box
+
+Главная причина: они по-разному считают итоговый размер элемента.
+
+При content-box: width = только content padding и border добавляются сверху
+
+При border-box: width = content + padding + border
+
+Поэтому в современной верстке часто пишут глобально:
+
+- {
+  box-sizing: border-box;
+  }
+
+Или более аккуратно:
+
+```css
+html {
+  box-sizing: border-box;
+}
+
+_,
+_::before,
+\*::after {
+  box-sizing: inherit;
+}
+```
+
+_Это делает расчёт размеров более предсказуемым._
+
+7. Пример для экзамена
+
+Допустим, есть элемент:
+
+```css
+div {
+  width: 300px;
+  padding: 20px;
+  border: 10px solid black;
+  margin: 15px;
+}
+```
+
+- Если box-sizing: content-box, то итоговая видимая ширина будет: 300 + 20 + 20 + 10 + 10 = 360px
+- А место с учётом margin: 360 + 15 + 15 = 390px
+- Если box-sizing: border-box, то видимая ширина будет: 300px
+- А место с учётом margin: 300 + 15 + 15 = 330px
+
+8. Важные дополнительные моменты
+
+У блочных элементов вертикальные margin иногда не складываются, а схлопываются.
+
+Например:
+
+```css
+.block1 {
+  margin-bottom: 30px;
+}
+
+.block2 {
+  margin-top: 20px;
+}
+```
+
+Можно подумать, что между ними будет: 30 + 20 = 50px. Но часто будет: 30px. Потому что вертикальные margin схлопнулись, и браузер взял больший из них. Это называется _margin collapsing._
+
+Но это касается в основном вертикальных внешних отступов блочных элементов в обычном потоке. У flex/grid-контейнеров такое поведение обычно не происходит.
+
+padding и border увеличивают элемент, а margin отодвигает его
+
+Запомнить можно так:
+
+- padding — воздух внутри коробки
+- border — стенка коробки
+- margin — расстояние до других коробок
+
+Фон элемента распространяется на content и padding
+
+Если задать:
+
+```css
+.box {
+  background-color: red;
+  padding: 20px;
+}
+```
+
+Фон будет виден не только под текстом, но и в зоне padding. На margin фон элемента не распространяется.
+
+9. Как примерно отвечать в билете
+
+\*Блочная модель CSS — это способ, которым браузер представляет и рассчитывает размеры элементов на странице. Каждый элемент можно рассматривать как прямоугольную область, состоящую из содержимого content, внутренних отступов padding, рамки border и внешних отступов margin.
+Область content содержит текст, изображения или дочерние элементы. Padding задаёт расстояние между содержимым и рамкой. Border — это рамка элемента. Margin задаёт внешний отступ от других элементов.
+По умолчанию используется модель content-box. В ней свойства width и height задают размер только содержимого, а padding и border добавляются к нему. Например, если ширина элемента 200px, padding 20px и border 5px, итоговая ширина будет 250px.
+В модели border-box свойства width и height включают в себя содержимое, padding и border. То есть если указать width: 200px, итоговая видимая ширина элемента останется 200px, а размер content уменьшится.
+Различать content-box и border-box важно, потому что от этого зависит итоговый размер элемента и поведение верстки. В современной разработке часто используют box-sizing: border-box, потому что так размеры элементов становятся более предсказуемыми.\*
+
+# Вопрос 3 Как браузер выбирает итоговый стиль элемента? Каскад, специфичность, наследование и !important
+
+Когда на один и тот же элемент действует несколько CSS-правил, браузеру нужно решить, какое значение свойства применить в итоге. Например, если один селектор говорит, что текст должен быть красным, другой — синим, а третий — зелёным, браузер не выбирает наугад. Он использует механизм каскада CSS.
+
+- Каскад — это набор правил, по которым браузер определяет итоговое значение CSS-свойства. То есть CSS не просто “последний победил”. Это было бы слишком легко, а CSS, как мы знаем, любит немного драму.
+
+Браузер учитывает несколько факторов: _важность объявления, специфичность селектора, порядок подключения и наследование._ В результате для каждого CSS-свойства вычисляется итоговое значение.
+
+Допустим, есть такой HTML:
+
+<p class="text" id="main-text">Привет</p>
+
+И такие стили:
+
+```css
+p {
+  color: red;
+}
+
+.text {
+  color: blue;
+}
+
+#main-text {
+  color: green;
+}
+```
+
+К элементу подходят все три правила. Но итоговый цвет будет зелёный, потому что селектор по id более специфичный, чем селектор по классу и по тегу.
+
+#### Что такое каскад
+
+- Каскад — это механизм выбора итогового CSS-правила, если несколько правил применяются к одному элементу и одному свойству. Важно понимать: конфликт возникает не между целыми CSS-правилами, а между конкретными свойствами.
+
+Например:
+
+```css
+.card {
+  color: red;
+  background: white;
+}
+
+.card {
+  color: blue;
+}
+```
+
+Здесь color переопределится на blue, но background: white останется. То есть браузер не выбрасывает первое правило полностью. Он отдельно решает судьбу каждого свойства.
+
+Если два правила имеют одинаковую силу, то побеждает то, которое написано ниже в CSS-файле или подключено позже.
+
+```css
+.text {
+  color: red;
+}
+
+.text {
+  color: blue;
+}
+```
+
+Тут итоговый цвет будет blue, потому что селекторы одинаковые по специфичности, а второе правило идёт позже.
+
+Но если специфичность разная, то порядок уже не всегда спасает.
+
+```css
+#title {
+  color: red;
+}
+
+.title {
+  color: blue;
+}
+```
+
+Даже если .title написан ниже, победит #title, потому что id специфичнее класса.
+
+### Что такое специфичность
+
+- Специфичность — это “вес” селектора. Она показывает, насколько точно селектор указывает на элемент. Чем специфичнее селектор, тем выше его приоритет при конфликте.
+
+Условно можно запомнить так:
+
+- inline style > id > class / attribute / pseudo-class > tag / pseudo-element \*
+
+Например, селектор по тегу слабый:
+
+p {
+color: red;
+}
+
+Селектор по классу сильнее:
+
+.text {
+color: blue;
+}
+
+Селектор по id ещё сильнее:
+
+#main-text {
+color: green;
+}
+
+А inline-стиль обычно сильнее обычных правил из CSS:
+
+<p style="color: purple;">Привет</p>
+
+Если говорить в цифрах, для простого понимания можно использовать такую модель:
+
+inline style — 1000
+id — 100
+class, attribute, pseudo-class — 10
+tag, pseudo-element — 1
+
+Например:
+
+div p {
+color: red;
+}
+
+Тут специфичность будет 2, потому что два селектора по тегу: div и p.
+
+.card p {
+color: blue;
+}
+
+Тут будет 11: один класс .card даёт 10, один тег p даёт 1.
+
+#main .card p {
+color: green;
+}
+
+Тут будет 111: #main даёт 100, .card даёт 10, p даёт 1.
+
+Поэтому если элемент подходит под все эти правила, победит последнее правило с #main .card p, потому что у него самая высокая специфичность.
+
+Но важно: эти числа — это удобное упрощение для понимания. На самом деле специфичность сравнивается по группам: сначала количество id, потом классов/атрибутов/псевдоклассов, потом тегов/псевдоэлементов. То есть тысяча классов не должны “перебить” один id в строгой логике подсчёта. Для экзамена обычно хватает объяснить через группы или через условные веса.
+
+Пример со специфичностью
+
+Есть элемент:
+
+<button class="btn primary" id="save-btn">Сохранить</button>
+
+И CSS:
+
+button {
+background: gray;
+}
+
+.btn {
+background: blue;
+}
+
+.primary {
+background: green;
+}
+
+#save-btn {
+background: black;
+}
+
+Итоговый фон будет чёрный, потому что #save-btn — самый специфичный селектор.
+
+Если убрать правило с id, тогда между .btn и .primary будет одинаковая специфичность. Победит то правило, которое написано ниже. В данном случае:
+
+.primary {
+background: green;
+}
+
+Значит фон будет зелёный.
+
+Роль порядка подключения CSS
+
+Порядок тоже важен, но только если правила имеют одинаковый приоритет и одинаковую специфичность.
+
+Например:
+
+.title {
+color: red;
+}
+
+.title {
+color: blue;
+}
+
+Цвет будет синий, потому что второе правило идёт позже.
+
+То же самое касается файлов. Если сначала подключён base.css, а потом theme.css, то при равной специфичности стили из theme.css смогут переопределить стили из base.css.
+
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="theme.css">
+
+Если в обоих файлах есть одинаковый селектор:
+
+.button {
+color: red;
+}
+
+и потом:
+
+.button {
+color: blue;
+}
+
+победит тот, который подключён позже.
+
+Что такое наследование
+
+Наследование — это механизм, при котором некоторые CSS-свойства автоматически передаются от родительского элемента к дочерним.
+
+Например:
+
+body {
+font-family: Arial;
+color: #333;
+}
+
+Если внутри body есть параграфы, ссылки, списки и другие элементы, они унаследуют font-family и color, если для них не задано другое значение.
+
+Это удобно, потому что не нужно каждому элементу отдельно задавать шрифт и цвет текста.
+
+Но наследуются не все свойства. Обычно наследуются свойства, связанные с текстом и оформлением текста: color, font-family, font-size, line-height, text-align.
+
+А вот свойства блочной модели обычно не наследуются. Например, margin, padding, border, width, height, background не передаются автоматически дочерним элементам.
+
+Пример:
+
+.parent {
+color: red;
+padding: 20px;
+}
+
+<div class="parent">
+  <p>Текст</p>
+</div>
+
+Параграф унаследует красный цвет текста, но не унаследует padding: 20px. И это логично: иначе каждый вложенный элемент внезапно получал бы отступы родителя, и верстка бы превращалась в суп из пикселей.
+
+Как наследование связано с каскадом
+
+Если для элемента свойство задано напрямую, то прямое правило обычно важнее наследуемого значения.
+
+Например:
+
+body {
+color: red;
+}
+
+p {
+color: blue;
+}
+
+<body>
+  <p>Привет</p>
+</body>
+
+Параграф мог бы унаследовать красный цвет от body, но для него напрямую задан color: blue, поэтому текст будет синий.
+
+То есть наследование используется тогда, когда у элемента нет собственного значения для наследуемого свойства.
+
+Можно сказать так: сначала браузер пытается найти прямое значение свойства через каскад, а если его нет и свойство наследуемое, берёт значение у родителя.
+
+Что делает !important
+
+!important повышает приоритет конкретного CSS-объявления.
+
+Например:
+
+.text {
+color: red !important;
+}
+
+#main-text {
+color: blue;
+}
+
+Обычно #main-text победил бы класс .text, потому что id специфичнее. Но из-за !important победит:
+
+color: red !important;
+
+Важно: !important относится не ко всему правилу, а только к конкретному свойству.
+
+.text {
+color: red !important;
+background: yellow;
+}
+
+Здесь !important применяется только к color. Свойство background остаётся обычным.
+
+Если конфликтуют два !important, тогда снова включаются специфичность и порядок.
+
+.text {
+color: red !important;
+}
+
+#main-text {
+color: blue !important;
+}
+
+Тут победит blue, потому что оба объявления важные, но #main-text специфичнее.
+
+Почему !important лучше не использовать без необходимости
+
+!important может быстро превратить CSS в хаос. Если начать решать все проблемы через !important, потом для переопределения одного стиля понадобится ещё более странный селектор или новый !important. Потом ещё один. Потом ты сидишь в 2 ночи и смотришь на .page .content .block div span.button.button.button, и жизнь уже не та.
+
+Обычно !important используют в исключительных случаях: для utility-классов, для переопределения сторонних библиотек, для временных фиксов или когда нужно гарантированно перебить стиль, который сложно изменить иначе.
+
+В нормальной архитектуре CSS лучше управлять специфичностью: не писать слишком тяжёлые селекторы, использовать классы, соблюдать порядок подключения файлов и понятную структуру стилей.
+
+Общий порядок выбора стиля
+
+Для экзамена можно объяснить так: когда браузер выбирает итоговое значение свойства, он сначала смотрит, какие правила вообще подходят к элементу. Потом учитывает важность объявления, то есть есть ли !important. Затем сравнивает специфичность селекторов. Если специфичность одинаковая, побеждает правило, которое находится ниже в коде или подключено позже. Если свойство не задано напрямую, но оно наследуемое, значение может быть взято от родителя.
+
+В упрощённом виде:
+
+!important
+специфичность
+порядок в CSS
+наследование, если своего значения нет
+
+Точнее, наследование не “соревнуется” на равных с прямыми правилами. Оно работает как запасной механизм: если значение не задано, браузер может взять его у родителя.
+
+Пример полного разбора
+
+Допустим, есть HTML:
+
+<div class="content">
+  <p id="intro" class="text">Привет</p>
+</div>
+
+И CSS:
+
+.content {
+color: gray;
+}
+
+p {
+color: red;
+}
+
+.text {
+color: blue;
+}
+
+#intro {
+color: green;
+}
+
+Сначала p мог бы быть красным, потому что есть правило по тегу. Потом .text делает его синим, потому что класс специфичнее тега. Потом #intro делает его зелёным, потому что id специфичнее класса.
+
+Правило .content { color: gray; } задаёт цвет родителю. Параграф мог бы унаследовать этот цвет, но у него есть собственные правила p, .text и #intro, поэтому наследование не определяет итоговый цвет.
+
+Итог: текст будет зелёным.
+
+Теперь добавим:
+
+.text {
+color: blue !important;
+}
+
+Тогда итоговый цвет станет синим, потому что !important перебивает обычное правило по id.
+
+Как примерно отвечать в билете
+
+В билете можно ответить примерно так:
+
+Браузер выбирает итоговый стиль элемента с помощью механизма каскада CSS. Каскад определяет, какое значение свойства применить, если на один элемент действует несколько правил. Сначала браузер находит все CSS-объявления, подходящие к элементу, затем сравнивает их приоритет.
+
+Одним из главных факторов является специфичность селектора. Чем точнее селектор указывает на элемент, тем выше его приоритет. Наименьшую специфичность имеют селекторы по тегу, выше — классы, атрибуты и псевдоклассы, ещё выше — селекторы по id. Inline-стили имеют ещё больший приоритет среди обычных объявлений.
+
+Если специфичность у правил одинаковая, побеждает правило, которое написано позже или подключено позже. Поэтому порядок CSS-файлов и порядок правил внутри файла тоже влияет на итоговый результат.
+
+Наследование означает, что некоторые свойства могут передаваться от родительского элемента к дочернему. Обычно наследуются свойства текста, например color, font-family, font-size, line-height. Но свойства блочной модели, такие как margin, padding, border, width, обычно не наследуются. Если свойство задано элементу напрямую, прямое значение важнее наследованного.
+
+!important повышает приоритет конкретного CSS-свойства. Объявление с !important может перебить более специфичный селектор без !important. Если конфликтуют два объявления с !important, тогда снова сравнивается специфичность и порядок. Использовать !important лучше осторожно, потому что он усложняет поддержку CSS.
+
+Что преподаватель может уточнить
+
+Могут попросить посчитать специфичность селектора. Например:
+
+#app .menu li.active a:hover
+
+Здесь есть один id: #app. Есть три “классовых” части: .menu, .active, :hover. И есть два тега: li, a. Значит условно специфичность можно записать как:
+
+1 id, 3 class-level, 2 tag-level
+
+Или в упрощённой числовой форме:
+
+100 + 30 + 2 = 132
+
+Могут спросить, что сильнее: класс или тег. Класс сильнее.
+
+Могут спросить, что сильнее: id или класс. id сильнее.

@@ -1,286 +1,282 @@
 import { Dish, DishCategory, Ingredient } from "@/types/menu";
 import {
-    convertDateToCustomFormat,
-    formatDateForAPI,
+  convertDateToCustomFormat,
+  formatDateForAPI,
 } from "@/features/helpers";
 
 interface RecipeDTO {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    category: string;
-    preparationTime: number;
-    isAvailable: boolean;
-    isChefSpecial: boolean;
-    calories: number;
-    mealType: string;
-    imageUrl?: string;
-    ingredients: Array<{ id: number; name: string }>;
-    createdAt: string;
-    updatedAt: string;
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  preparationTime: number;
+  isAvailable: boolean;
+  isChefSpecial: boolean;
+  calories: number;
+  mealType: string;
+  imageUrl?: string;
+  ingredients: Array<{ id: number; name: string }>;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Преобразование из API формата в формат Redux
 const mapRecipeToDish = (recipe: RecipeDTO): Dish => ({
-    id: recipe.id,
-    name: recipe.name,
-    description: recipe.description,
-    price: recipe.price,
-    category: recipe.category as DishCategory,
-    ingredients: recipe.ingredients?.map((i) => i.id) ?? [],
-    preparationTime: recipe.preparationTime,
-    isAvailable: recipe.isAvailable,
-    calories: recipe.calories,
-    isChefSpecial: recipe.isChefSpecial,
-    imageUrl: recipe.imageUrl,
-    mealType: recipe.mealType as any,
+  id: recipe.id,
+  name: recipe.name,
+  description: recipe.description,
+  price: recipe.price,
+  category: recipe.category as DishCategory,
+  ingredients: recipe.ingredients?.map((i) => i.id) ?? [],
+  preparationTime: recipe.preparationTime,
+  isAvailable: recipe.isAvailable,
+  calories: recipe.calories,
+  isChefSpecial: recipe.isChefSpecial,
+  imageUrl: recipe.imageUrl,
+  mealType: recipe.mealType as any,
 });
 
 class ApiClient {
-    private baseUrl: string = "/api";
+  private baseUrl: string = "/api";
 
-    // Получить все рецепты
-    async getRecipes(): Promise<Dish[]> {
-        try {
-            const response = await fetch(`${this.baseUrl}/recipes`);
-            if (!response.ok) {
-                throw new Error("Failed to fetch recipes");
-            }
-            const data = await response.json();
-            console.log("API response sample:", data[0]);
-            if (data.recipes !== null && data.recipes.length !== 0) {
-                return data.recipes.map(mapRecipeToDish);
-            }
-            console.error("Error fetching recipes: recipes dont exists");
-            return [];
-        } catch (error) {
-            console.error("Error fetching recipes:", error);
-            return [];
-        }
+  // Получить все рецепты
+  async getRecipes(): Promise<Dish[]> {
+    try {
+      const response = await fetch(`${this.baseUrl}/recipes`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch recipes");
+      }
+      const data = await response.json();
+      console.log("API response sample:", data[0]);
+      if (data.recipes !== null && data.recipes.length !== 0) {
+        return data.recipes.map(mapRecipeToDish);
+      }
+      console.error("Error fetching recipes: recipes dont exists");
+      return [];
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+      return [];
+    }
+  }
+
+  // Получить рецепт по id
+  async getRecipesById(id: number): Promise<Dish | null> {
+    try {
+      const response = await fetch(`${this.baseUrl}/recipes/${id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch recipe");
+      }
+      const data = await response.json();
+      if (data.recipe !== null && data.recipe.length !== 0) {
+        return mapRecipeToDish(data.recipe);
+      }
+      console.error("Error fetching recipes: recipes dont exists");
+      return null;
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+      return null;
+    }
+  }
+
+  // Создать новый рецепт (пока что только админ)
+  async createRecipe(recipe: Omit<Dish, "id">): Promise<Dish | null> {
+    const response = await fetch(`${this.baseUrl}/recipes`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        name: recipe.name,
+        description: recipe.description,
+        price: recipe.price,
+        category: recipe.category,
+        preparationTime: recipe.preparationTime,
+        isAvailable: recipe.isAvailable,
+        isChefSpecial: recipe.isChefSpecial,
+        calories: recipe.calories,
+        mealType: recipe.mealType,
+        ingredientIds: recipe.ingredients,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Не удалось создать рецепт");
     }
 
-    // Получить рецепт по id
-    async getRecipesById(id: number): Promise<Dish | null> {
-        try {
-            const response = await fetch(`${this.baseUrl}/recipes/${id}`);
-            if (!response.ok) {
-                throw new Error("Failed to fetch recipe");
-            }
-            const data = await response.json();
-            if (data.recipe !== null && data.recipe.length !== 0) {
-                return mapRecipeToDish(data.recipe);
-            }
-            console.error("Error fetching recipes: recipes dont exists");
-            return null;
-        } catch (error) {
-            console.error("Error fetching recipe:", error);
-            return null;
-        }
+    return mapRecipeToDish(data.recipe);
+  }
+
+  // Обновить рецепт (пока что только админ)
+  async updateRecipe(id: number, recipe: Partial<Dish>): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseUrl}/recipes/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name: recipe.name,
+          description: recipe.description,
+          price: recipe.price,
+          category: recipe.category,
+          preparationTime: recipe.preparationTime,
+          isAvailable: recipe.isAvailable,
+          isChefSpecial: recipe.isChefSpecial,
+          calories: recipe.calories,
+          mealType: recipe.mealType,
+          ingredientIds: recipe.ingredients,
+        }),
+      });
+
+      return response.ok;
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+      return false;
     }
+  }
 
-    // Создать новый рецепт (пока что только админ)
-    async createRecipe(recipe: Omit<Dish, "id">): Promise<Dish | null> {
-        const response = await fetch(`${this.baseUrl}/recipes`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify({
-                name: recipe.name,
-                description: recipe.description,
-                price: recipe.price,
-                category: recipe.category,
-                preparationTime: recipe.preparationTime,
-                isAvailable: recipe.isAvailable,
-                isChefSpecial: recipe.isChefSpecial,
-                calories: recipe.calories,
-                mealType: recipe.mealType,
-                ingredientIds: recipe.ingredients,
-            }),
-        });
-        if (!response.ok) {
-            throw new Error("Failed to fetch recipe");
-        }
-        const data = await response.json();
-        if (data.recipe) {
-            return mapRecipeToDish(data.recipe);
-        }
-
-        throw new Error(data.error || "Не удалось создать рецепт");
+  // Удалить рецепт (только админ)
+  async deleteRecipe(id: number): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseUrl}/recipes/${id}`, {
+        method: "DELETE",
+      });
+      return response.ok;
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+      return false;
     }
+  }
 
-    // Обновить рецепт (пока что только админ)
-    async updateRecipe(id: number, recipe: Partial<Dish>): Promise<boolean> {
-        try {
-            const response = await fetch(`${this.baseUrl}/recipes/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: recipe.name,
-                    description: recipe.description,
-                    price: recipe.price,
-                    category: recipe.category,
-                    preparationTime: recipe.preparationTime,
-                    isAvailable: recipe.isAvailable,
-                    isChefSpecial: recipe.isChefSpecial,
-                    calories: recipe.calories,
-                    mealType: recipe.mealType,
-                    ingredientIds: recipe.ingredients,
-                }),
-            });
+  // ================== ИНГРЕДИЕНТЫ ====================
 
-            return response.ok;
-        } catch (error) {
-            console.error("Error fetching recipe:", error);
-            return false;
-        }
+  // Получить все ингредиенты
+  async getIngredients(): Promise<Ingredient[]> {
+    try {
+      const response = await fetch(`${this.baseUrl}/ingredients`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch ingredients");
+      }
+      const data = await response.json();
+      return data.ingredients;
+    } catch (error) {
+      console.error("Error fetching ingredients:", error);
+      return [];
     }
+  }
 
-    // Удалить рецепт (только админ)
-    async deleteRecipe(id: number): Promise<boolean> {
-        try {
-            const response = await fetch(`${this.baseUrl}/recipes/${id}`, {
-                method: "DELETE",
-            });
-            return response.ok;
-        } catch (error) {
-            console.error("Error deleting recipe:", error);
-            return false;
-        }
+  // Создать ингредиент
+  async createIngredient(
+    ingredient: Omit<Ingredient, "id">
+  ): Promise<Ingredient | null> {
+    try {
+      const response = await fetch(`${this.baseUrl}/ingredients`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(ingredient),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to create ingredient");
+      }
+
+      const data = await response.json();
+      return data.ingredient;
+    } catch (error) {
+      console.error("Error creating ingredient:", error);
+      return null;
     }
+  }
 
-    // ================== ИНГРЕДИЕНТЫ ====================
+  // Обновить ингредиент
+  async updateIngredient(
+    id: number,
+    ingredient: Partial<Ingredient>
+  ): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseUrl}/ingredients`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id, ...ingredient }),
+      });
 
-    // Получить все ингредиенты
-    async getIngredients(): Promise<Ingredient[]> {
-        try {
-            const response = await fetch(`${this.baseUrl}/ingredients`);
-            if (!response.ok) {
-                throw new Error("Failed to fetch ingredients");
-            }
-            const data = await response.json();
-            return data.ingredients;
-        } catch (error) {
-            console.error("Error fetching ingredients:", error);
-            return [];
-        }
+      return response.ok;
+    } catch (error) {
+      console.error("Error updating ingredient:", error);
+      return false;
     }
+  }
 
-    // Создать ингредиент
-    async createIngredient(
-        ingredient: Omit<Ingredient, "id">
-    ): Promise<Ingredient | null> {
-        try {
-            const response = await fetch(`${this.baseUrl}/ingredients`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(ingredient),
-            });
-            if (!response.ok) {
-                throw new Error("Failed to create ingredient");
-            }
-
-            const data = await response.json();
-            return data.ingredient;
-        } catch (error) {
-            console.error("Error creating ingredient:", error);
-            return null;
-        }
+  // Удалить ингредиент
+  async deleteIngredient(id: number): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseUrl}/ingredients?id=${id}`, {
+        method: "DELETE",
+      });
+      return response.ok;
+    } catch (error) {
+      console.error("Error deleting ingredient:", error);
+      return false;
     }
+  }
 
-    // Обновить ингредиент
-    async updateIngredient(
-        id: number,
-        ingredient: Partial<Ingredient>
-    ): Promise<boolean> {
-        try {
-            const response = await fetch(`${this.baseUrl}/ingredients`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id, ...ingredient }),
-            });
+  // Работа с меню и блюдами по дням
+  async getMenuPlan(date: string) {
+    const dateFormatted = convertDateToCustomFormat(date);
 
-            return response.ok;
-        } catch (error) {
-            console.error("Error updating ingredient:", error);
-            return false;
-        }
+    const response = await fetch(
+      `${this.baseUrl}/menu-plan?date=${dateFormatted}`
+    );
+
+    return response.json();
+  }
+
+  async addToMenu(
+    date: string,
+    recipeId: number,
+    mealType: string,
+    grams: number,
+    price: number
+  ) {
+    date = convertDateToCustomFormat(date);
+
+    return fetch(`${this.baseUrl}/menu-plan`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date,
+        recipeId,
+        mealType,
+        grams,
+        price,
+      }),
+    });
+  }
+  async removeFromMenu(date: string, recipeId: number, menuDayId: number) {
+    date = convertDateToCustomFormat(date);
+
+    return fetch(`${this.baseUrl}/menu-plan`, {
+      method: "DELETE",
+      body: JSON.stringify({ date, recipeId, menuDayId }),
+    });
+  }
+
+  // Получение меню на неделю
+  async getWeekMenuPlan(start: string, end: string) {
+    const res = await fetch(
+      `${this.baseUrl}/menu-plan/week?start=${start}&end=${end}`
+    );
+    if (!res.ok) {
+      throw new Error("Failed to fetch weekly menu plan");
     }
-
-    // Удалить ингредиент
-    async deleteIngredient(id: number): Promise<boolean> {
-        try {
-            const response = await fetch(
-                `${this.baseUrl}/ingredients?id=${id}`,
-                {
-                    method: "DELETE",
-                }
-            );
-            return response.ok;
-        } catch (error) {
-            console.error("Error deleting ingredient:", error);
-            return false;
-        }
-    }
-
-    // Работа с меню и блюдами по дням
-    async getMenuPlan(date: string) {
-        const dateFormatted = convertDateToCustomFormat(date);
-
-        const response = await fetch(
-            `${this.baseUrl}/menu-plan?date=${dateFormatted}`
-        );
-
-        return response.json();
-    }
-
-    async addToMenu(
-        date: string,
-        recipeId: number,
-        mealType: string,
-        grams: number,
-        price: number
-    ) {
-        date = convertDateToCustomFormat(date);
-
-        return fetch(`${this.baseUrl}/menu-plan`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                date,
-                recipeId,
-                mealType,
-                grams,
-                price,
-            }),
-        });
-    }
-    async removeFromMenu(date: string, recipeId: number, menuDayId: number) {
-        date = convertDateToCustomFormat(date);
-
-        return fetch(`${this.baseUrl}/menu-plan`, {
-            method: "DELETE",
-            body: JSON.stringify({ date, recipeId, menuDayId }),
-        });
-    }
-
-    // Получение меню на неделю
-    async getWeekMenuPlan(start: string, end: string) {
-        const res = await fetch(
-            `${this.baseUrl}/menu-plan/week?start=${start}&end=${end}`
-        );
-        if (!res.ok) {
-            throw new Error("Failed to fetch weekly menu plan");
-        }
-        return res.json();
-    }
+    return res.json();
+  }
 }
 
 export const apiClient = new ApiClient();
