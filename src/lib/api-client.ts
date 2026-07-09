@@ -12,6 +12,7 @@ interface RecipeDTO {
   category: string;
   preparationTime: number;
   isAvailable: boolean;
+  isArchived?: boolean;
   isChefSpecial: boolean;
   calories: number;
   mealType: string;
@@ -31,6 +32,7 @@ const mapRecipeToDish = (recipe: RecipeDTO): Dish => ({
   ingredients: recipe.ingredients?.map((i) => i.id) ?? [],
   preparationTime: recipe.preparationTime,
   isAvailable: recipe.isAvailable,
+  isArchived: recipe.isArchived ?? false,
   calories: recipe.calories,
   isChefSpecial: recipe.isChefSpecial,
   imageUrl: recipe.imageUrl,
@@ -124,6 +126,7 @@ class ApiClient {
           category: recipe.category,
           preparationTime: recipe.preparationTime,
           isAvailable: recipe.isAvailable,
+          isArchived: recipe.isArchived,
           isChefSpecial: recipe.isChefSpecial,
           calories: recipe.calories,
           mealType: recipe.mealType,

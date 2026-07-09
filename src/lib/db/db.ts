@@ -1,25 +1,25 @@
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-import path from 'path';
-import bcrypt from 'bcryptjs';
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
+import path from "path";
+import bcrypt from "bcryptjs";
 
-const DB_PATH = path.join(process.cwd(), 'database.db');
+const DB_PATH = path.join(process.cwd(), "database.db");
 
 export const openDB = async () => {
-    return open({
-        filename: DB_PATH,
-        driver: sqlite3.Database
-    });
+  return open({
+    filename: DB_PATH,
+    driver: sqlite3.Database,
+  });
 };
 
 export const initDB = async () => {
-    const db = await openDB();
+  const db = await openDB();
 
-    // Включаем поддержку внешних ключей
-    await db.exec('PRAGMA foreign_keys = ON');
+  // Включаем поддержку внешних ключей
+  await db.exec("PRAGMA foreign_keys = ON");
 
-    // 1. Создаем таблицу users
-    await db.exec(`
+  // 1. Создаем таблицу users
+  await db.exec(`
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
@@ -32,8 +32,8 @@ export const initDB = async () => {
         )
     `);
 
-    // 2. Создаем таблицу categories
-    await db.exec(`
+  // 2. Создаем таблицу categories
+  await db.exec(`
         CREATE TABLE IF NOT EXISTS categories (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT UNIQUE NOT NULL,
@@ -48,8 +48,8 @@ export const initDB = async () => {
         )
     `);
 
-    // 3. Создаем таблицу ingredients
-    await db.exec(`
+  // 3. Создаем таблицу ingredients
+  await db.exec(`
         CREATE TABLE IF NOT EXISTS ingredients (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
@@ -60,8 +60,8 @@ export const initDB = async () => {
         )
     `);
 
-    // 4. Создаем таблицу recipes
-    await db.exec(`
+  // 4. Создаем таблицу recipes
+  await db.exec(`
         CREATE TABLE IF NOT EXISTS recipes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -71,6 +71,7 @@ export const initDB = async () => {
             category_slug TEXT,
             preparation_time INTEGER,
             is_available INTEGER DEFAULT 1,
+            is_archived INTEGER DEFAULT 0,
             is_chef_special INTEGER DEFAULT 0,
             calories INTEGER,
             image_url TEXT,
@@ -82,8 +83,8 @@ export const initDB = async () => {
         )
     `);
 
-    // 5. Создаем связующую таблицу
-    await db.exec(`
+  // 5. Создаем связующую таблицу
+  await db.exec(`
         CREATE TABLE IF NOT EXISTS recipe_ingredients (
             recipe_id INTEGER,
             ingredient_id INTEGER,
@@ -95,22 +96,22 @@ export const initDB = async () => {
         )
     `);
 
-    // await db.exec(`
-    //    CREATE TABLE IF NOT EXISTS menu_plan (
-    //         id INTEGER PRIMARY KEY AUTOINCREMENT,
-    //         user_id INTEGER NOT NULL,
-    //         date TEXT NOT NULL,
-    //         recipe_id INTEGER NOT NULL,
-    //         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  // await db.exec(`
+  //    CREATE TABLE IF NOT EXISTS menu_plan (
+  //         id INTEGER PRIMARY KEY AUTOINCREMENT,
+  //         user_id INTEGER NOT NULL,
+  //         date TEXT NOT NULL,
+  //         recipe_id INTEGER NOT NULL,
+  //         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    //         UNIQUE(user_id, date, recipe_id),
+  //         UNIQUE(user_id, date, recipe_id),
 
-    //         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    //         FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
-    //    ) 
-    // `);
+  //         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  //         FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+  //    )
+  // `);
 
-    await db.exec(`
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS menu_days (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         owner_id INTEGER,
@@ -120,7 +121,7 @@ export const initDB = async () => {
     )
     `);
 
-    await db.exec(`
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS menu_items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         menu_day_id INTEGER NOT NULL,
@@ -132,195 +133,233 @@ export const initDB = async () => {
         FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
     )
     `);
-    console.log('Database initialized with all tables');
-    
-    // Добавляем тестовые данные
-    await seedTestData(db);
-    
-    return db;
+
+  try {
+    await db.exec(
+      `ALTER TABLE recipes ADD COLUMN is_archived INTEGER DEFAULT 0`
+    );
+  } catch (error: any) {
+    if (!String(error.message).includes("duplicate column name")) {
+      throw error;
+    }
+  }
+
+  console.log("Database initialized with all tables");
+
+  // Добавляем тестовые данные
+  await seedTestData(db);
+
+  return db;
 };
 
 // Функция для добавления тестовых данных
 async function seedTestData(db: any) {
-    try {
-        // Проверяем и добавляем категории
-        const categoryCount = await db.get('SELECT COUNT(*) as count FROM categories');
-        
-        if (categoryCount.count === 0) {
-            console.log('Seeding categories...');
-            
-            const categories = [
-                { name: 'Все рецепты', slug: 'all', color: 'gray', display_order: 0 },
-                { name: 'Салаты', slug: 'salads', color: 'green', display_order: 1 },
-                { name: 'Супы', slug: 'soups', color: 'blue', display_order: 2 },
-                { name: 'Основные блюда', slug: 'main', color: 'amber', display_order: 3 },
-                { name: 'Десерты', slug: 'desserts', color: 'pink', display_order: 4 },
-                { name: 'Перекусы', slug: 'snacks', color: 'purple', display_order: 5 },
-                { name: 'Напитки', slug: 'drinks', color: 'cyan', display_order: 6 },
-                { name: 'Особые рецепты', slug: 'specials', color: 'rose', display_order: 7 }
-            ];
-            
-            for (const cat of categories) {
-                await db.run(
-                    `INSERT INTO categories (name, slug, color, display_order, is_active) 
+  try {
+    // Проверяем и добавляем категории
+    const categoryCount = await db.get(
+      "SELECT COUNT(*) as count FROM categories"
+    );
+
+    if (categoryCount.count === 0) {
+      console.log("Seeding categories...");
+
+      const categories = [
+        { name: "Все рецепты", slug: "all", color: "gray", display_order: 0 },
+        { name: "Салаты", slug: "salads", color: "green", display_order: 1 },
+        { name: "Супы", slug: "soups", color: "blue", display_order: 2 },
+        {
+          name: "Основные блюда",
+          slug: "main",
+          color: "amber",
+          display_order: 3,
+        },
+        { name: "Десерты", slug: "desserts", color: "pink", display_order: 4 },
+        { name: "Перекусы", slug: "snacks", color: "purple", display_order: 5 },
+        { name: "Напитки", slug: "drinks", color: "cyan", display_order: 6 },
+        {
+          name: "Особые рецепты",
+          slug: "specials",
+          color: "rose",
+          display_order: 7,
+        },
+      ];
+
+      for (const cat of categories) {
+        await db.run(
+          `INSERT INTO categories (name, slug, color, display_order, is_active) 
                      VALUES (?, ?, ?, ?, 1)`,
-                    [cat.name, cat.slug, cat.color, cat.display_order]
-                );
-            }
-            console.log('✅ Categories seeded');
-        }
-        
-        // Проверяем и добавляем тестового пользователя
-        const userCount = await db.get('SELECT COUNT(*) as count FROM users');
-        
-        if (userCount.count === 0) {
-            console.log('Seeding test user...');
-            const hashedPassword = await bcrypt.hash('hahah23', 10);
-            await db.run(
-                `INSERT INTO users (email, password_hash, name, role, is_active) 
+          [cat.name, cat.slug, cat.color, cat.display_order]
+        );
+      }
+      console.log("✅ Categories seeded");
+    }
+
+    // Проверяем и добавляем тестового пользователя
+    const userCount = await db.get("SELECT COUNT(*) as count FROM users");
+
+    if (userCount.count === 0) {
+      console.log("Seeding test user...");
+      const hashedPassword = await bcrypt.hash("hahah23", 10);
+      await db.run(
+        `INSERT INTO users (email, password_hash, name, role, is_active) 
                  VALUES (?, ?, ?, ?, 1)`,
-                ['user@example.com', hashedPassword, 'Test User', 'user']
-            );
-            console.log('✅ Test user seeded');
-        }
-        
-        // Проверяем и добавляем ингредиенты
-        const ingredientCount = await db.get('SELECT COUNT(*) as count FROM ingredients');
-        
-        if (ingredientCount.count === 0) {
-            console.log('Seeding ingredients...');
-            
-            const ingredients = [
-                { name: 'Куриное филе', category: 'meat', description: 'Свежее куриное филе' },
-                { name: 'Картофель', category: 'vegetable', description: 'Молодой картофель' },
-                { name: 'Сыр', category: 'dairy', description: 'Твердый сыр' },
-                { name: 'Говядина', category: 'meat', description: 'Мраморная говядина' },
-                { name: 'Шоколад', category: 'other', description: 'Темный шоколад' },
-                { name: 'Мята', category: 'vegetable', description: 'Свежая мята' },
-                { name: 'Лайм', category: 'vegetable', description: 'Свежий лайм' },
-            ];
-            
-            for (const ing of ingredients) {
-                await db.run(
-                    `INSERT INTO ingredients (name, description, category, is_available) 
+        ["user@example.com", hashedPassword, "Test User", "user"]
+      );
+      console.log("✅ Test user seeded");
+    }
+
+    // Проверяем и добавляем ингредиенты
+    const ingredientCount = await db.get(
+      "SELECT COUNT(*) as count FROM ingredients"
+    );
+
+    if (ingredientCount.count === 0) {
+      console.log("Seeding ingredients...");
+
+      const ingredients = [
+        {
+          name: "Куриное филе",
+          category: "meat",
+          description: "Свежее куриное филе",
+        },
+        {
+          name: "Картофель",
+          category: "vegetable",
+          description: "Молодой картофель",
+        },
+        { name: "Сыр", category: "dairy", description: "Твердый сыр" },
+        {
+          name: "Говядина",
+          category: "meat",
+          description: "Мраморная говядина",
+        },
+        { name: "Шоколад", category: "other", description: "Темный шоколад" },
+        { name: "Мята", category: "vegetable", description: "Свежая мята" },
+        { name: "Лайм", category: "vegetable", description: "Свежий лайм" },
+      ];
+
+      for (const ing of ingredients) {
+        await db.run(
+          `INSERT INTO ingredients (name, description, category, is_available) 
                      VALUES (?, ?, ?, 1)`,
-                    [ing.name, ing.description, ing.category]
-                );
-            }
-            console.log('✅ Ingredients seeded');
-        }
-        
-        // Проверяем и добавляем рецепты
-        const recipeCount = await db.get('SELECT COUNT(*) as count FROM recipes');
-        
-        if (recipeCount.count === 0) {
-            console.log('Seeding recipes...');
-            
-            // Получаем ID ингредиентов
-            const ingredients = await db.all('SELECT id, name FROM ingredients');
-            const ingMap = new Map();
-            ingredients.forEach((ing: any) => {
-                ingMap.set(ing.name, ing.id);
-            });
-            
-            // Получаем пользователя
-            const user = await db.get('SELECT id FROM users WHERE email = ?', ['user@example.com']);
-            const userId = user?.id || null;
-            
-            const recipes = [
-                {
-                    name: 'Курица по-французски',
-                    description: 'Запеканка из нескольких слоев',
-                    ыыprice: 450,
-                    category_slug: 'main',
-                    preparation_time: 55,
-                    is_available: 1,
-                    is_chef_special: 1,
-                    calories: 320,
-                    meal_type: 'lunch',
-                    ingredients: ['Куриное филе', 'Картофель', 'Сыр']
-                },
-                {
-                    name: 'Стейк из говядины',
-                    description: 'Сочный стейк с овощами гриль',
-                    price: 890,
-                    category_slug: 'main',
-                    preparation_time: 25,
-                    is_available: 1,
-                    is_chef_special: 0,
-                    calories: 650,
-                    meal_type: 'dinner',
-                    ingredients: ['Говядина']
-                },
-                {
-                    name: 'Шоколадный фондан',
-                    description: 'Теплый шоколадный десерт с мороженым',
-                    price: 350,
-                    category_slug: 'desserts',
-                    preparation_time: 20,
-                    is_available: 0,
-                    is_chef_special: 1,
-                    calories: 420,
-                    meal_type: 'dessert',
-                    ingredients: ['Шоколад']
-                },
-                {
-                    name: 'Мохито',
-                    description: 'Освежающий коктейль с мятой и лаймом',
-                    price: 300,
-                    category_slug: 'drinks',
-                    preparation_time: 5,
-                    is_available: 1,
-                    is_chef_special: 0,
-                    calories: 150,
-                    meal_type: 'drinks',
-                    ingredients: ['Мята', 'Лайм']
-                }
-            ];
-            
-            for (const recipe of recipes) {
-                // Правильный INSERT с 9 значениями (соответствует количеству столбцов)
-                const result = await db.run(`
+          [ing.name, ing.description, ing.category]
+        );
+      }
+      console.log("✅ Ingredients seeded");
+    }
+
+    // Проверяем и добавляем рецепты
+    const recipeCount = await db.get("SELECT COUNT(*) as count FROM recipes");
+
+    if (recipeCount.count === 0) {
+      console.log("Seeding recipes...");
+
+      // Получаем ID ингредиентов
+      const ingredients = await db.all("SELECT id, name FROM ingredients");
+      const ingMap = new Map();
+      ingredients.forEach((ing: any) => {
+        ingMap.set(ing.name, ing.id);
+      });
+
+      // Получаем пользователя
+      const user = await db.get("SELECT id FROM users WHERE email = ?", [
+        "user@example.com",
+      ]);
+      const userId = user?.id || null;
+
+      const recipes = [
+        {
+          name: "Курица по-французски",
+          description: "Запеканка из нескольких слоев",
+          ыыprice: 450,
+          category_slug: "main",
+          preparation_time: 55,
+          is_available: 1,
+          is_chef_special: 1,
+          calories: 320,
+          meal_type: "lunch",
+          ingredients: ["Куриное филе", "Картофель", "Сыр"],
+        },
+        {
+          name: "Стейк из говядины",
+          description: "Сочный стейк с овощами гриль",
+          price: 890,
+          category_slug: "main",
+          preparation_time: 25,
+          is_available: 1,
+          is_chef_special: 0,
+          calories: 650,
+          meal_type: "dinner",
+          ingredients: ["Говядина"],
+        },
+        {
+          name: "Шоколадный фондан",
+          description: "Теплый шоколадный десерт с мороженым",
+          price: 350,
+          category_slug: "desserts",
+          preparation_time: 20,
+          is_available: 0,
+          is_chef_special: 1,
+          calories: 420,
+          meal_type: "dessert",
+          ingredients: ["Шоколад"],
+        },
+        {
+          name: "Мохито",
+          description: "Освежающий коктейль с мятой и лаймом",
+          price: 300,
+          category_slug: "drinks",
+          preparation_time: 5,
+          is_available: 1,
+          is_chef_special: 0,
+          calories: 150,
+          meal_type: "drinks",
+          ingredients: ["Мята", "Лайм"],
+        },
+      ];
+
+      for (const recipe of recipes) {
+        // Правильный INSERT с 9 значениями (соответствует количеству столбцов)
+        const result = await db.run(
+          `
                     INSERT INTO recipes (
                         user_id, name, description, price, category_slug, 
                         preparation_time, is_available, is_chef_special, 
                         calories, meal_type
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                `, [
-                    userId,
-                    recipe.name,
-                    recipe.description,
-                    recipe.price,
-                    recipe.category_slug,
-                    recipe.preparation_time,
-                    recipe.is_available,
-                    recipe.is_chef_special,
-                    recipe.calories,
-                    recipe.meal_type
-                ]);
-                
-                const recipeId = result.lastID;
-                
-                // Добавляем связи с ингредиентами
-                for (const ingName of recipe.ingredients) {
-                    const ingredientId = ingMap.get(ingName);
-                    if (ingredientId) {
-                        await db.run(
-                            `INSERT INTO recipe_ingredients (recipe_id, ingredient_id) 
+                `,
+          [
+            userId,
+            recipe.name,
+            recipe.description,
+            recipe.price,
+            recipe.category_slug,
+            recipe.preparation_time,
+            recipe.is_available,
+            recipe.is_chef_special,
+            recipe.calories,
+            recipe.meal_type,
+          ]
+        );
+
+        const recipeId = result.lastID;
+
+        // Добавляем связи с ингредиентами
+        for (const ingName of recipe.ingredients) {
+          const ingredientId = ingMap.get(ingName);
+          if (ingredientId) {
+            await db.run(
+              `INSERT INTO recipe_ingredients (recipe_id, ingredient_id) 
                              VALUES (?, ?)`,
-                            [recipeId, ingredientId]
-                        );
-                    }
-                }
-            }
-            console.log('Recipes seeded');
+              [recipeId, ingredientId]
+            );
+          }
         }
-        
-    } catch (error) {
-        console.error('Error seeding data:', error);
-        throw error;
+      }
+      console.log("Recipes seeded");
     }
+  } catch (error) {
+    console.error("Error seeding data:", error);
+    throw error;
+  }
 }
-
-
-

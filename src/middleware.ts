@@ -2,61 +2,61 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyAccessToken } from "./lib/auth/jwt";
 
 export async function middleware(request: NextRequest) {
-    const { pathname } = request.nextUrl;
+  const { pathname } = request.nextUrl;
 
-    const publicPaths = [
-        "/(public)login",
-        "/api/auth/login",
-        "/api/auth/refresh",
-        "/api/auth/signup",
-    ];
-    const isPublicPath = publicPaths.some(
-        (path) => pathname === path || pathname.startsWith(path + "/")
-    );
+  const publicPaths = [
+    "/(public)login",
+    "/api/auth/login",
+    "/api/auth/refresh",
+    "/api/auth/signup",
+  ];
+  const isPublicPath = publicPaths.some(
+    (path) => pathname === path || pathname.startsWith(path + "/")
+  );
 
-    const accessToken = request.cookies.get("accessToken")?.value;
+  const accessToken = request.cookies.get("accessToken")?.value;
 
-    if (pathname === "/login") {
-        if (accessToken) {
-            const payload = await verifyAccessToken(accessToken);
-            if (payload) {
-                console.log("Middleware - redirecting from /login to /");
-                return NextResponse.redirect(new URL("/", request.url));
-            }
-        }
-        return NextResponse.next();
+  if (pathname === "/login") {
+    if (accessToken) {
+      const payload = await verifyAccessToken(accessToken);
+      if (payload) {
+        console.log("Middleware - redirecting from /login to /");
+        return NextResponse.redirect(new URL("/", request.url));
+      }
     }
-
-    if (
-        !isPublicPath &&
-        !pathname.startsWith("_next") &&
-        pathname !== "/favicon.ico"
-    ) {
-        if (!accessToken) {
-            console.log("Middleware - redirecting to /login from:", pathname);
-            const loginUrl = new URL("/login", request.url);
-            return NextResponse.redirect(loginUrl);
-        }
-
-        const payload = await verifyAccessToken(accessToken);
-        if (!payload) {
-            console.log("Middleware - invalid token, redirecting to /login");
-            const loginUrl = new URL("/login", request.url);
-            return NextResponse.redirect(loginUrl);
-        }
-    }
-
     return NextResponse.next();
+  }
+
+  if (
+    !isPublicPath &&
+    !pathname.startsWith("_next") &&
+    pathname !== "/favicon.ico"
+  ) {
+    if (!accessToken) {
+      console.log("Middleware - redirecting to /login from:", pathname);
+      const loginUrl = new URL("/login", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    const payload = await verifyAccessToken(accessToken);
+    if (!payload) {
+      console.log("Middleware - invalid token, redirecting to /login");
+      const loginUrl = new URL("/login", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         */
-        "/((?!_next/static|_next/image|favicon.ico).*)",
-    ],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!_next/static|_next/image|favicon.ico).*)",
+  ],
 };

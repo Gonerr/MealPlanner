@@ -1,6 +1,10 @@
 import { AppDispatch } from "@/app/store";
-import AddDishModal from "@/features/dishes/ui/AddRecipeModal";
-import { selectAllDishes, updateRecipe } from "@/features/menu/menuSlice";
+import AddDishModal from "@/features/admin/ui/AddRecipeModal";
+import {
+  selectAllDishes,
+  updateRecipe,
+  deleteRecipe,
+} from "@/features/menu/menuSlice";
 import { useState } from "react";
 import { Badge, Button, Form, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,9 +33,52 @@ export default function DishesManager() {
   };
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [archivingId, setArchivingId] = useState<number | null>(null);
 
-  // TODO: Должно появиться модульное окно в котором можно вписать все параметры блюда и! выбрать для него ингредиенты.
-  // надо опираться на базу данных с остальными блюдами
+  const handleDeleteDish = async (dish: any) => {
+    const confirmed = window.confirm(
+      `Удалить блюдо "${dish.name}"? Это действие нельзя будет отменить.`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setDeletingId(dish.id);
+      await dispatch(deleteRecipe(dish.id)).unwrap();
+    } catch (error) {
+      console.error("Ошибка при удалении блюда: ", error);
+      alert("Не удалось удалить блюдо. Попробуй ещё раз.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleArchivedDish = async (dish: any) => {
+    const confirmed = window.confirm(`Архивировать блюдо "${dish.name}"? 
+        Оно исчезнет из обычного списка, но останется в базе.`);
+
+    if (!confirmed) return;
+
+    try {
+      setArchivingId(dish.id);
+      await dispatch(
+        updateRecipe({
+          id: dish.id,
+          recipe: {
+            isArchived: true,
+            isAvailable: false,
+          },
+        })
+      ).unwrap();
+    } catch (error) {
+      console.error("Ошибка при архивировании блюда: ", error);
+      alert("Не удалось архивировать блюдо. Попробуй ещё раз.");
+    } finally {
+      setArchivingId(null);
+    }
+  };
+
   return (
     <div className="bg-white p-3 rounded-3 shadow-sm">
       <div className="d-flex justify-content-between mb-3">
@@ -47,6 +94,7 @@ export default function DishesManager() {
             <th>Время готовки</th>
             <th>Доступно</th>
             <th>Дни</th>
+            <th>Действия</th>
           </tr>
         </thead>
         <tbody>
@@ -85,6 +133,24 @@ export default function DishesManager() {
                     {d}
                   </Badge>
                 ))}
+              </td>
+              <td>
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  disabled={deletingId === dish.id}
+                  onClick={() => handleDeleteDish(dish)}
+                >
+                  {deletingId === dish.id ? "Удаляем..." : "Удалить"}
+                </Button>
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  disabled={deletingId === dish.id}
+                  onClick={() => handleArchivedDish(dish)}
+                >
+                  {archivingId === dish.id ? "Архивируем..." : "Архивировать"}
+                </Button>
               </td>
             </tr>
           ))}
