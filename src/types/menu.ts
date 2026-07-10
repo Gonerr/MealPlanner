@@ -45,3 +45,5 @@ export interface MenuItem {
   preparationTime: number;
   mealType: MealType;
 }
+
+export { Dish };
