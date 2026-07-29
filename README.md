@@ -1,37 +1,264 @@
-# Getting Started with Create React App
+# MealPlanner
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**MealPlanner** — full-stack веб-приложение для планирования домашнего питания. Оно позволяет хранить рецепты, составлять меню на выбранные дни, просматривать недельный план и управлять ингредиентами.
 
-## Project Overview
+Проект разрабатывается как практическое приложение, объединяющее современный React-интерфейс, серверную часть на Next.js, собственное API, базу данных и авторизацию пользователей.
 
-It is a web application for home meal planning that helps users organize their daily cooking decisions.
-The application enables menu planning, recipe management, and automated shopping list generation.
+> Проект находится в активной разработке. Основные сценарии уже реализованы, отдельные разделы продолжают дорабатываться.
 
-## Technology Stack
+---
 
-### Core Framework
+## Основные возможности
 
-I used **React 19**, TypeScript for enhanced code reability and **React Router DOM 7** for navigation.
+### Для пользователя
 
-### State Management
+- регистрация и авторизация;
+- просмотр каталога рецептов;
+- фильтрация рецептов по категориям;
+- добавление блюд в меню на выбранную дату;
+- указание приёма пищи, веса порции и стоимости;
+- просмотр меню на день;
+- просмотр общего плана питания на неделю;
+- работа с интерактивным списком покупок.
 
-Redux Toolkit 2.11.2 and React Redux 9.2.0 for bindings.
+### Для администратора
 
-### UI Libraries
+- добавление и редактирование рецептов;
+- архивирование и удаление рецептов;
+- управление ингредиентами;
+- настройка доступности блюд;
+- работа с категориями и параметрами рецептов;
+- просмотр административной панели.
 
-Bootstrap 5.3.8 with React Icons, also emotion for CSS-in-JS styling integration with MUI.
+---
 
-### Testing
+## Технологический стек
 
-Jest with React Testing Library, Chai 6.2.2 for assertions.
+### Клиентская часть
 
-## Application Architecture 
+- **React 18**
+- **TypeScript**
+- **Next.js 16**
+- **Redux Toolkit**
+- **React Redux**
+- **TanStack Query**
+- **React Bootstrap**
+- **Styled Components**
+- **Framer Motion**
+- **Lucide React / React Icons**
 
-The application follows a feature-based srtucture with clear separatuon of concernce.
-Components are organized by feature rather than by type, promoting maintainability and scalability. The Redux store manages application state with typed slices, while custom hooks provide reusable logic across components.
+### Серверная часть
 
-## Key Features
+- **Next.js Route Handlers**
+- REST API
+- **SQLite**
+- SQL-запросы без ORM
+- JWT-аутентификация
+- **bcryptjs** для хеширования паролей
+- **jose** для создания и проверки токенов
 
-The application provides a structured approach to meal planning with responsive design,
-comprehensive state management, and modern UI components. The tech stack ensures type safety,
-testability, and maintainable code architecture. 
+---
+
+## Архитектура приложения
+
+MealPlanner построен как full-stack-приложение внутри Next.js.
+
+Клиентские компоненты взаимодействуют с сервером через API-маршруты из `src/app/api`. Серверная часть выполняет проверку авторизации, обработку запросов и работу с SQLite.
+
+Основные уровни приложения:
+
+1. **UI-компоненты** — страницы, формы, карточки рецептов и планировщик меню.
+2. **Управление состоянием** — Redux Toolkit и локальное состояние React.
+3. **API-клиент** — единая точка обращения клиентской части к серверным маршрутам.
+4. **Route Handlers** — серверная обработка HTTP-запросов.
+5. **CRUD-классы** — операции с рецептами, ингредиентами и планами питания.
+6. **SQLite** — хранение пользователей, рецептов, ингредиентов и меню.
+
+---
+
+## Работа с данными
+
+При первом обращении приложение автоматически создаёт локальную базу данных `database.db`.
+
+Основные таблицы:
+
+- `users` — пользователи и их роли;
+- `categories` — категории рецептов;
+- `ingredients` — ингредиенты;
+- `recipes` — рецепты;
+- `recipe_ingredients` — связь рецептов с ингредиентами;
+- `menu_days` — планы питания пользователей по датам;
+- `menu_items` — блюда, добавленные в план на конкретный день.
+
+Связи между таблицами поддерживаются внешними ключами SQLite.
+
+---
+
+## Авторизация и безопасность
+
+В приложении реализована собственная система регистрации и входа:
+
+- пароль пользователя хешируется с помощью `bcryptjs`;
+- после входа формируются access- и refresh-токены;
+- токены сохраняются в `HttpOnly` cookies;
+- middleware ограничивает доступ к защищённым страницам;
+- для административных операций проверяется роль пользователя.
+
+Продолжительность действия токенов:
+
+- access token — 15 минут;
+- refresh token — 7 дней.
+
+Для локального запуска необходимо задать собственные секретные ключи:
+
+```env
+JWT_SECRET=your_access_token_secret
+REFRESH_SECRET=your_refresh_token_secret
+```
+
+Реальные секреты не следует сохранять в репозитории.
+
+---
+
+## API
+
+В приложении используются серверные API-маршруты Next.js.
+
+### Авторизация
+
+- `POST /api/auth/signup` — регистрация;
+- `POST /api/auth/login` — вход;
+- `POST /api/auth/logout` — выход;
+- `GET /api/auth/me` — получение текущего пользователя;
+- `POST /api/auth/refresh` — обновление токена.
+
+### Рецепты
+
+- `GET /api/recipes` — получить рецепты;
+- `GET /api/recipes/:id` — получить рецепт;
+- `POST /api/recipes` — создать рецепт;
+- `PUT /api/recipes/:id` — изменить рецепт;
+- `DELETE /api/recipes/:id` — удалить рецепт.
+
+Изменение данных доступно пользователю с ролью администратора.
+
+### Планирование меню
+
+- `GET /api/menu-plan?date=...` — получить меню на день;
+- `POST /api/menu-plan` — добавить блюдо;
+- `DELETE /api/menu-plan` — удалить блюдо;
+- `GET /api/menu-plan/week?start=...&end=...` — получить недельный план.
+
+---
+
+## Структура проекта
+
+```text
+src/
+├── app/
+│   ├── api/                 # Серверные API-маршруты
+│   ├── (app)/               # Защищённые страницы
+│   ├── (public)/            # Публичные страницы
+│   ├── page.tsx             # Главная страница
+│   ├── providers.tsx        # Подключение провайдеров
+│   └── store.ts             # Конфигурация Redux
+├── components/
+│   ├── admin/               # Компоненты панели администратора
+│   ├── layout/              # Общий макет приложения
+│   └── ui/                  # Переиспользуемые компоненты
+├── features/
+│   ├── auth/                # Регистрация и авторизация
+│   ├── ingredients/         # Работа с ингредиентами
+│   ├── menu/                # Рецепты и меню
+│   ├── menu-plan/           # Планирование питания
+│   ├── recipes/             # Интерфейс рецептов
+│   └── shopping-list/       # Список покупок
+├── lib/
+│   ├── auth/                # JWT и проверка доступа
+│   ├── db/                  # Инициализация БД и CRUD
+│   └── api-client.ts        # Клиент для обращения к API
+├── styles/                  # Стили приложения
+├── types/                   # TypeScript-типы
+└── middleware.ts            # Защита маршрутов
+```
+
+---
+
+## Локальный запуск
+
+### Требования
+
+- Node.js 20 или новее;
+- npm.
+
+### Установка
+
+```bash
+git clone https://github.com/Gonerr/MealPlanner.git
+cd MealPlanner
+npm install
+```
+
+Создайте файл `.env.local`:
+
+```env
+JWT_SECRET=replace_with_a_random_secret
+REFRESH_SECRET=replace_with_another_random_secret
+```
+
+Запустите приложение:
+
+```bash
+npm run dev
+```
+
+После запуска оно будет доступно по адресу:
+
+```text
+http://localhost:3000
+```
+
+База данных и начальные демонстрационные записи создаются автоматически при первом обращении к серверной части.
+
+---
+
+## Реализованные технические решения
+
+В ходе разработки проекта были реализованы:
+
+- клиентская и серверная части в рамках одного Next.js-приложения;
+- REST API для работы с предметной областью;
+- проектирование реляционной структуры базы данных;
+- CRUD-операции без использования ORM;
+- JWT-аутентификация через защищённые cookies;
+- разделение прав обычного пользователя и администратора;
+- централизованный API-клиент;
+- типизация моделей и запросов с помощью TypeScript;
+- управление общим состоянием через Redux Toolkit;
+- feature-based организация клиентского кода;
+- адаптивный интерфейс и анимации переходов.
+
+---
+
+## Текущее состояние и планы развития
+
+Сейчас проект представляет собой функциональный прототип и продолжает развиваться.
+
+Планируемые улучшения:
+
+- автоматическое формирование списка покупок по выбранному меню;
+- хранение списка покупок в базе данных;
+- расчёт общей калорийности и стоимости меню;
+- улучшение статистики за неделю;
+- добавление автоматических тестов;
+- доработка адаптивности интерфейса;
+- интеграция интеллектуального помощника для подбора рецептов;
+- подготовка проекта к развёртыванию на сервере.
+
+---
+
+## Автор
+
+**Анастасия Лихачева**
+
+Проект разработан в качестве самостоятельной практической работы для развития навыков full-stack веб-разработки и проектирования современных веб-приложений.
