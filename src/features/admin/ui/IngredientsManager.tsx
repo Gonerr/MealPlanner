@@ -3,7 +3,6 @@ import {
   deleteIngredient,
   selectAllIngredients,
 } from "@/features/ingredients/ingredientsSlice";
-import { useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 

@@ -1,8 +1,5 @@
+import { convertDateToCustomFormat } from "@/features/helpers";
 import { Dish, DishCategory, Ingredient } from "@/types/menu";
-import {
-  convertDateToCustomFormat,
-  formatDateForAPI,
-} from "@/features/helpers";
 
 interface RecipeDTO {
   id: number;
@@ -92,7 +89,7 @@ class ApiClient {
         name: recipe.name,
         description: recipe.description,
         price: recipe.price,
-        category: recipe.category,
+        category_slug: recipe.category,
         preparationTime: recipe.preparationTime,
         isAvailable: recipe.isAvailable,
         isChefSpecial: recipe.isChefSpecial,

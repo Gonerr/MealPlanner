@@ -1,122 +1,118 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import WeeklyPlan from "./WeeklyPlan";
 import Sidebar from "../../../components/layout/Sidebar";
 
 interface PlanBlockProps {
-    user?: {
-        name?: string;
-        email?: string;
-    } | null;
-    days: Array<{ index: number; label: string; full: string }>;
+  user?: {
+    name?: string;
+    email?: string;
+  } | null;
+  days: Array<{ index: number; label: string; full: string }>;
 }
 const PlanBlock: React.FC<PlanBlockProps> = ({ user, days = [] }) => {
-    const [welcomeCollapsed, setWelcomeCollapsed] = useState(false);
+  const [welcomeCollapsed, setWelcomeCollapsed] = useState(false);
 
-    return (
-        <AnimatePresence mode="wait">
-            {!welcomeCollapsed ? (
-                <motion.div
-                    key="expanded"
-                    initial={{ opacity: 0, height: "auto" }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    style={{ overflow: "hidden" }}
+  return (
+    <AnimatePresence mode="wait">
+      {!welcomeCollapsed ? (
+        <motion.div
+          key="expanded"
+          initial={{ opacity: 0, height: "auto" }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+          style={{ overflow: "hidden" }}
+        >
+          <div
+            className="card border-0 bg-gradient-primary mb-3"
+            style={{
+              background: "linear-gradient(135deg, #c0dd4b 0%, #fff 100%)",
+              borderRadius: "20px",
+              color: "#212529",
+              fontFamily: "Inter, 'SF Pro Display', sans-serif",
+              overflow: "hidden",
+            }}
+          >
+            <div className="card-body p-4">
+              <div className="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <h3 className="fw-bold mb-2">
+                    Привет, {user?.name || "Гость"}!
+                  </h3>
+                  <p className="mb-0 opacity-90">
+                    Готовы планировать питание? <br />У вас {days.length} дней
+                    впереди
+                  </p>
+                </div>
+                <Button
+                  variant="link"
+                  onClick={() => setWelcomeCollapsed(true)}
+                  className="text-black p-0"
+                  style={{
+                    textDecoration: "none",
+                    fontSize: "20px",
+                  }}
                 >
-                    <div
-                        className="card border-0 bg-gradient-primary mb-3"
-                        style={{
-                            background:
-                                "linear-gradient(135deg, #c0dd4b 0%, #fff 100%)",
-                            borderRadius: "20px",
-                            color: "#212529",
-                            fontFamily: "Inter, 'SF Pro Display', sans-serif",
-                            overflow: "hidden",
-                        }}
-                    >
-                        <div className="card-body p-4">
-                            <div className="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <h3 className="fw-bold mb-2">
-                                        Привет, {user?.name || "Гость"}!
-                                    </h3>
-                                    <p className="mb-0 opacity-90">
-                                        Готовы планировать питание? <br />У вас{" "}
-                                        {days.length} дней впереди
-                                    </p>
-                                </div>
-                                <Button
-                                    variant="link"
-                                    onClick={() => setWelcomeCollapsed(true)}
-                                    className="text-black p-0"
-                                    style={{
-                                        textDecoration: "none",
-                                        fontSize: "20px",
-                                    }}
-                                >
-                                    ✕
-                                </Button>
-                            </div>
+                  ✕
+                </Button>
+              </div>
 
-                            {/* Компонент, показывающий прогресс */}
-                            <div className="mt-3 pt-2">
-                                <div className="d-flex justify-content-between align-items-center mb-2">
-                                    <small>Прогресс недели</small>
-                                    <small className="fw-bold">3/7 дней</small>
-                                </div>
-                                <div
-                                    className="progress"
-                                    style={{
-                                        height: "8px",
-                                        borderRadius: "4px",
-                                        backgroundColor: "gray",
-                                    }}
-                                >
-                                    <div
-                                        className="progress-bar bg-white"
-                                        style={{
-                                            width: "43%",
-                                            borderRadius: "4px",
-                                        }}
-                                    ></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <Sidebar />
-                </motion.div>
-            ) : (
-                <motion.div
-                    key="collapsed"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+              {/* Компонент, показывающий прогресс */}
+              <div className="mt-3 pt-2">
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <small>Прогресс недели</small>
+                  <small className="fw-bold">3/7 дней</small>
+                </div>
+                <div
+                  className="progress"
+                  style={{
+                    height: "8px",
+                    borderRadius: "4px",
+                    backgroundColor: "gray",
+                  }}
                 >
-                    <div
-                        className="d-flex align-items-center justify-content-between p-3 mb-3"
-                        style={{
-                            background:
-                                "linear-gradient(135deg, #b8d94a 0%, #ffff7f 100%)",
-                            borderRadius: "16px",
-                            color: "white",
-                            cursor: "pointer",
-                        }}
-                        onClick={() => setWelcomeCollapsed(false)}
-                    >
-                        <div className="d-flex align-items-center gap-2">
-                            <span style={{ fontSize: "24px" }}>👋</span>
-                            <span className="fw-bold">Привет!</span>
-                        </div>
-                        <span style={{ fontSize: "28px" }}>▼</span>
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    );
+                  <div
+                    className="progress-bar bg-white"
+                    style={{
+                      width: "43%",
+                      borderRadius: "4px",
+                    }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Sidebar />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="collapsed"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div
+            className="d-flex align-items-center justify-content-between p-3 mb-3"
+            style={{
+              background: "linear-gradient(135deg, #b8d94a 0%, #ffff7f 100%)",
+              borderRadius: "16px",
+              color: "white",
+              cursor: "pointer",
+            }}
+            onClick={() => setWelcomeCollapsed(false)}
+          >
+            <div className="d-flex align-items-center gap-2">
+              <span style={{ fontSize: "24px" }}>👋</span>
+              <span className="fw-bold">Привет!</span>
+            </div>
+            <span style={{ fontSize: "28px" }}>▼</span>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 };
 
 export default PlanBlock;

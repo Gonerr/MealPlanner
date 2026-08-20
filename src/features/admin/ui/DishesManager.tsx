@@ -1,9 +1,9 @@
 import { AppDispatch } from "@/app/store";
 import AddDishModal from "@/features/admin/ui/AddRecipeModal";
 import {
+  deleteRecipe,
   selectAllDishes,
   updateRecipe,
-  deleteRecipe,
 } from "@/features/menu/menuSlice";
 import { useState } from "react";
 import { Badge, Button, Form, Table } from "react-bootstrap";
