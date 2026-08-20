@@ -258,13 +258,18 @@ class ApiClient {
       }),
     });
   }
-  async removeFromMenu(date: string, recipeId: number, menuDayId: number) {
-    date = convertDateToCustomFormat(date);
-
-    return fetch(`${this.baseUrl}/menu-plan`, {
+  async removeFromMenu(menuItemId: number) {
+    const response = await fetch(`${this.baseUrl}/menu-plan`, {
       method: "DELETE",
-      body: JSON.stringify({ date, recipeId, menuDayId }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ menuItemId }),
     });
+
+    if (!response.ok) {
+      throw new Error("Failed to remove menu item");
+    }
+
+    return response;
   }
 
   // Получение меню на неделю

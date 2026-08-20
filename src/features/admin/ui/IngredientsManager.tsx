@@ -4,6 +4,7 @@ import {
   selectAllIngredients,
 } from "@/features/ingredients/ingredientsSlice";
 import AddIngregientModal from "@/features/ingredients/ui/AddIngredientModal";
+import { Carrot, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,19 +12,35 @@ import { useDispatch, useSelector } from "react-redux";
 // 2 секция "Управление ингредиентами" (стоимость, наличием и тп)
 // Модальное окно - AddIngredientModal
 export default function IngredientsManager() {
-  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(true);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
   const ingredients = useSelector(selectAllIngredients);
   const dispatch = useDispatch<AppDispatch>();
 
   return (
-    <div className="bg-white p-3 rounded-3 shadow-sm">
-      <div className="d-flex justify-content-between mb-3">
-        <h5>Ингредиенты</h5>
-        <Button onClick={() => setIsAddModalOpen(true)}>+ Добавить</Button>
+    <section className="admin-panel">
+      <div className="admin-panel__header">
+        <div className="admin-panel__title">
+          <span className="admin-panel__icon admin-panel__icon--green">
+            <Carrot size={21} aria-hidden="true" />
+          </span>
+          <div>
+            <span className="section-kicker">Продукты</span>
+            <h2>Ингредиенты</h2>
+            <p>{ingredients.length} позиций</p>
+          </div>
+        </div>
+        <Button
+          className="admin-secondary-btn"
+          onClick={() => setIsAddModalOpen(true)}
+          aria-label="Добавить ингредиент"
+        >
+          <Plus size={18} aria-hidden="true" />
+          <span>Добавить</span>
+        </Button>
       </div>
 
-      <Table hover>
+      <Table hover responsive className="admin-table align-middle">
         <tbody>
           {ingredients.map((i: any) => (
             <tr key={i.id}>
@@ -31,10 +48,11 @@ export default function IngredientsManager() {
               <td>
                 <Button
                   size="sm"
-                  variant="outline-danger"
+                  className="delete-icon-btn"
                   onClick={() => dispatch(deleteIngredient(i.id))}
+                  aria-label={`Удалить ${i.name}`}
                 >
-                  Удалить
+                  <Trash2 size={15} aria-hidden="true" />
                 </Button>
               </td>
             </tr>
@@ -46,6 +64,8 @@ export default function IngredientsManager() {
         show={isAddModalOpen}
         onHide={() => setIsAddModalOpen(false)}
       />
-    </div>
+      {/* TODO(ingredients): добавить редактирование цены, КБЖУ и признака
+          "есть дома" прямо в строке вместо удаления как единственного действия. */}
+    </section>
   );
 }

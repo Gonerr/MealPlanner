@@ -1,10 +1,7 @@
 import { AppDispatch } from "@/app/store";
 import AddDishModal from "@/features/dishes/ui/AddRecipeModal";
-import {
-  deleteRecipe,
-  selectAllDishes,
-  updateRecipe,
-} from "@/features/menu/menuSlice";
+import { selectAllDishes, updateRecipe } from "@/features/menu/menuSlice";
+import { Archive, Plus, Soup } from "lucide-react";
 import { useState } from "react";
 import { Badge, Button, Form, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,30 +26,10 @@ export default function DishesManager() {
         },
       })
     );
-    console.log(updatedDays);
   };
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [deletingId, setDeletingId] = useState<number | null>(null);
   const [archivingId, setArchivingId] = useState<number | null>(null);
-
-  const handleDeleteDish = async (dish: any) => {
-    const confirmed = window.confirm(
-      `Удалить блюдо "${dish.name}"? Это действие нельзя будет отменить.`
-    );
-
-    if (!confirmed) return;
-
-    try {
-      setDeletingId(dish.id);
-      await dispatch(deleteRecipe(dish.id)).unwrap();
-    } catch (error) {
-      console.error("Ошибка при удалении блюда: ", error);
-      alert("Не удалось удалить блюдо. Попробуй ещё раз.");
-    } finally {
-      setDeletingId(null);
-    }
-  };
 
   const handleArchivedDish = async (dish: any) => {
     const confirmed = window.confirm(`Архивировать блюдо "${dish.name}"? 
@@ -80,13 +57,29 @@ export default function DishesManager() {
   };
 
   return (
-    <div className="bg-white p-3 rounded-3 shadow-sm">
-      <div className="d-flex justify-content-between mb-3">
-        <h5>Список блюд</h5>
-        <Button onClick={() => setIsAddModalOpen(true)}>+ Добавить</Button>
+    <section className="admin-panel admin-panel--wide">
+      <div className="admin-panel__header">
+        <div className="admin-panel__title">
+          <span className="admin-panel__icon admin-panel__icon--peach">
+            <Soup size={21} aria-hidden="true" />
+          </span>
+          <div>
+            <span className="section-kicker">Рецепты</span>
+            <h2>Список блюд</h2>
+            <p>{dishes.length} позиций в общей базе</p>
+          </div>
+        </div>
+        <Button
+          className="admin-primary-btn"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          <Plus size={17} aria-hidden="true" />
+          Добавить блюдо
+        </Button>
       </div>
 
-      <Table hover responsive>
+      <div className="admin-table-wrap">
+      <Table hover responsive className="admin-table align-middle">
         <thead>
           <tr>
             <th>Название</th>
@@ -122,46 +115,36 @@ export default function DishesManager() {
                 {days.map((d, i) => (
                   <Badge
                     key={i}
-                    bg={dish.availableDays?.includes(i) ? "primary" : "light"}
-                    text={dish.availableDays?.includes(i) ? "white" : "dark"}
                     onClick={() => toggleday(dish, i)}
-                    style={{
-                      cursor: "pointer",
-                      marginRight: 4,
-                    }}
+                    className={`weekday-badge ${
+                      dish.availableDays?.includes(i) ? "is-active" : ""
+                    }`}
                   >
                     {d}
                   </Badge>
                 ))}
               </td>
               <td>
-                {/* Не используем удаление, так как возможно удаление блюда, которое используют пользователи */}
-                {/* <Button
-                  variant="outline-danger"
-                  size="sm"
-                  disabled={deletingId === dish.id}
-                  onClick={() => handleDeleteDish(dish)}
-                >
-                  {deletingId === dish.id ? "Удаляем..." : "Удалить"}
-                </Button> */}
                 <Button
-                  variant="outline-danger"
                   size="sm"
-                  disabled={deletingId === dish.id}
+                  className="archive-btn"
+                  disabled={archivingId === dish.id}
                   onClick={() => handleArchivedDish(dish)}
                 >
-                  {archivingId === dish.id ? "Архивируем..." : "Архивировать"}
+                  <Archive size={15} aria-hidden="true" />
+                  {archivingId === dish.id ? "Архивируем…" : "В архив"}
                 </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      </div>
 
       <AddDishModal
         show={isAddModalOpen}
         onHide={() => setIsAddModalOpen(false)}
       />
-    </div>
+    </section>
   );
 }

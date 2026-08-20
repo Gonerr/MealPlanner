@@ -48,6 +48,6 @@ export const DELETE = withAuthHandler(async (req, { user, db }) => {
   }
 
   const repository = new MealPlanRepository(db);
-  await repository.removeDish(menuItemId);
+  await repository.removeDish(user.userId, menuItemId);
   return NextResponse.json({ success: true });
 });
