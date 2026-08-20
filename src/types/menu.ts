@@ -6,6 +6,8 @@ export interface Ingredient {
   description: string;
   isAvailable: boolean;
   category: "vegetable" | "meat" | "dairy" | "spice" | "other";
+  price: number;
+  calories: number;
 }
 
 export type DishCategory =

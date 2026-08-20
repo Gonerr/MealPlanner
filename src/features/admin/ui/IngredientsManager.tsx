@@ -3,12 +3,16 @@ import {
   deleteIngredient,
   selectAllIngredients,
 } from "@/features/ingredients/ingredientsSlice";
+import AddIngregientModal from "@/features/ingredients/ui/AddIngredientModal";
+import { useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 // 2 секция "Управление ингредиентами" (стоимость, наличием и тп)
 // Модальное окно - AddIngredientModal
 export default function IngredientsManager() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(true);
+
   const ingredients = useSelector(selectAllIngredients);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -16,7 +20,7 @@ export default function IngredientsManager() {
     <div className="bg-white p-3 rounded-3 shadow-sm">
       <div className="d-flex justify-content-between mb-3">
         <h5>Ингредиенты</h5>
-        <Button>+ Добавить</Button>
+        <Button onClick={() => setIsAddModalOpen(true)}>+ Добавить</Button>
       </div>
 
       <Table hover>
@@ -37,6 +41,11 @@ export default function IngredientsManager() {
           ))}
         </tbody>
       </Table>
+
+      <AddIngregientModal
+        show={isAddModalOpen}
+        onHide={() => setIsAddModalOpen(false)}
+      />
     </div>
   );
 }

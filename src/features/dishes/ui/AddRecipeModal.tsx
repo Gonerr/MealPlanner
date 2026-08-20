@@ -1,5 +1,5 @@
 import { AppDispatch } from "@/app/store";
-import { AddDishModalProps } from "@/features/dishes/types";
+import { AddModalProps } from "@/features/dishes/types";
 import { createRecipe } from "@/features/menu/menuSlice";
 import { apiClient } from "@/lib/api-client";
 import { Dish, Ingredient } from "@/types/menu";
@@ -20,7 +20,7 @@ const initialForm: Omit<Dish, "id"> = {
   mealType: "lunch",
 };
 
-export default function AddDishModal({ show, onHide }: AddDishModalProps) {
+export default function AddDishModal({ show, onHide }: AddModalProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const [form, setForm] = useState(initialForm);

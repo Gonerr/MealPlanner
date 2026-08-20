@@ -1,17 +1,16 @@
+import { AppDispatch } from "@/app/store";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Card, Form, Modal, Table, Badge } from "react-bootstrap";
+import { Badge, Button, Card, Form, Modal, Table } from "react-bootstrap";
 import { FaPlus, FaTrash } from "react-icons/fa";
-import { createRecipe, selectAllDishes } from "../../menu/menuSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Dish, DishCategory, Ingredient } from "../../../types/menu";
 import {
   createIngredient,
   deleteIngredient,
   fetchIngredients,
   selectAllIngredients,
 } from "../../ingredients/ingredientsSlice";
-import { nanoid } from "@reduxjs/toolkit";
-import { Dish, Ingredient, DishCategory } from "../../../types/menu";
-import { AppDispatch } from "@/app/store";
+import { createRecipe, selectAllDishes } from "../../menu/menuSlice";
 
 const AdminPanel: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,6 +39,8 @@ const AdminPanel: React.FC = () => {
   const [newIngredient, setNewIngredient] = useState<Omit<Ingredient, "id">>({
     name: "",
     description: "",
+    calories: 0,
+    price: 0,
     isAvailable: false,
     category: "other",
   });
@@ -73,6 +74,8 @@ const AdminPanel: React.FC = () => {
         setNewIngredient({
           name: "",
           description: "",
+          price: 0,
+          calories: 0,
           isAvailable: false,
           category: "other",
         });

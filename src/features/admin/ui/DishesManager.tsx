@@ -1,5 +1,5 @@
 import { AppDispatch } from "@/app/store";
-import AddDishModal from "@/features/admin/ui/AddRecipeModal";
+import AddDishModal from "@/features/dishes/ui/AddRecipeModal";
 import {
   deleteRecipe,
   selectAllDishes,
@@ -135,14 +135,15 @@ export default function DishesManager() {
                 ))}
               </td>
               <td>
-                <Button
+                {/* Не используем удаление, так как возможно удаление блюда, которое используют пользователи */}
+                {/* <Button
                   variant="outline-danger"
                   size="sm"
                   disabled={deletingId === dish.id}
                   onClick={() => handleDeleteDish(dish)}
                 >
                   {deletingId === dish.id ? "Удаляем..." : "Удалить"}
-                </Button>
+                </Button> */}
                 <Button
                   variant="outline-danger"
                   size="sm"

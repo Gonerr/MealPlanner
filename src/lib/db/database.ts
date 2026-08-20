@@ -56,7 +56,9 @@ export const initDB = async () => {
             description TEXT,
             category TEXT,
             is_available INTEGER DEFAULT 1,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            price REAL,
+            calories INTEGER
         )
     `);
 
