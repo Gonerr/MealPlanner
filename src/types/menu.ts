@@ -46,4 +46,4 @@ export interface MenuItem {
   mealType: MealType;
 }
 
-export { Dish };
+export type { Dish };

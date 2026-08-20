@@ -1,24 +1,24 @@
 import { withAuthHandler } from "@/lib/api-helper";
 import { verifyAccessToken } from "@/lib/auth/jwt";
 import { initDB } from "@/lib/db/database";
-import { RecipesCRUD } from "@/lib/db/recipes.repository";
+import { RecipesRepository } from "@/lib/db/recipes.repository";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 // GET /api/recipes - получить все рецепты
 export const GET = withAuthHandler(async (request, { db }) => {
-  const recipesCRUD = new RecipesCRUD(db);
-  const recipes = await recipesCRUD.getAll();
+  const repository = new RecipesRepository(db);
+  const recipes = await repository.getAll();
 
   return NextResponse.json({ recipes });
 }, false); // false - не требует прав админа
 
 // Добавление нового рецепта - /api/recipes/
 export const POST = withAuthHandler(async (request, { db, user }) => {
-  const recipesCRUD = new RecipesCRUD(db);
+  const repository = new RecipesRepository(db);
   const data = await request.json();
 
-  const recipe = await recipesCRUD.create(parseInt(user.userId), data);
+  const recipe = await repository.create(parseInt(user.userId), data);
 
   return NextResponse.json(
     {

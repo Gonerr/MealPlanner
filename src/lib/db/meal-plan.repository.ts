@@ -1,6 +1,6 @@
 import { safeDB } from "../api-helper";
 
-export class MenuPlanCRUD {
+export class MealPlanRepository {
   private db: safeDB;
 
   constructor(db: any) {
@@ -151,7 +151,7 @@ export class MenuPlanCRUD {
   /* ==================== 
      Получить план за всю неделю
     ======================== */
-  async getWeekPlan(ownerId: any, startDate: string, endDate: string) {
+  async getMenuByDateRange(ownerId: any, startDate: string, endDate: string) {
     const rows = await this.db.all(
       `
             SELECT 

@@ -1,6 +1,6 @@
 import { formatDateForAPI } from "@/features/helpers";
 import { withAuthHandler } from "@/lib/api-helper";
-import { MenuPlanCRUD } from "@/lib/db/meal-plan.repository";
+import { MealPlanRepository } from "@/lib/db/meal-plan.repository";
 import { NextResponse } from "next/server";
 
 // Получение меню на всю неделю
@@ -17,7 +17,7 @@ export const GET = withAuthHandler(async (req, { user, db }) => {
     );
   }
 
-  const menu = new MenuPlanCRUD(db);
+  const repository = new MealPlanRepository(db);
 
   const startDate = formatDateForAPI(start);
   const endDate = formatDateForAPI(end);
@@ -29,7 +29,11 @@ export const GET = withAuthHandler(async (req, { user, db }) => {
     endDate: endDate,
   });
 
-  const rows = await menu.getWeekPlan(user.userId, startDate, endDate);
+  const rows = await repository.getMenuByDateRange(
+    user.userId,
+    startDate,
+    endDate
+  );
 
   return NextResponse.json(rows);
 });

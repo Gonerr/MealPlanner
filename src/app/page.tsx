@@ -1,85 +1,85 @@
 "use client";
 
 // Главная страница
-import { Container, Row, Col, Badge } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import PlanBlock from "@/features/menu-plan/ui/PlanBlock";
-import { AnimatePresence, motion } from "framer-motion";
 import DayMenuPlanner from "@/features/menu-plan/ui/DayMenuPlanner";
 import DaysSlider from "@/features/menu-plan/ui/DaysSlider";
-import "../styles/global.css";
+import PlanBlock from "@/features/menu-plan/ui/PlanBlock";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import "../app/styles/dayMenuPlanner.css";
 
 export default function HomePage() {
-    const [user, setUser] = useState<any>(null);
-    // const isAdminMode = useSelector(selectIsAdminMode);
+  const [user, setUser] = useState<any>(null);
+  // const isAdminMode = useSelector(selectIsAdminMode);
 
-    const [selectedDay, setSelectedDay] = useState(0);
-    const days = Array.from({ length: 15 }, (_, i) => {
-        const date = new Date();
-        date.setDate(date.getDate() + i);
+  const [selectedDay, setSelectedDay] = useState(0);
+  const days = Array.from({ length: 15 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() + i);
 
-        return {
-            index: i,
-            label:
-                i === 0
-                    ? "Сегодня"
-                    : i === 1
-                    ? "Завтра"
-                    : date.toLocaleDateString("ru-RU", { weekday: "short" }),
-            full: date.toLocaleDateString("ru-RU", {
-                day: "numeric",
-                month: "long",
-            }),
-        };
-    });
+    return {
+      index: i,
+      label:
+        i === 0
+          ? "Сегодня"
+          : i === 1
+          ? "Завтра"
+          : date.toLocaleDateString("ru-RU", { weekday: "short" }),
+      full: date.toLocaleDateString("ru-RU", {
+        day: "numeric",
+        month: "long",
+      }),
+    };
+  });
 
-    const router = useRouter();
+  const router = useRouter();
 
-    // Проверяем авторизацию
-    useEffect(() => {
-        fetch("/api/auth/me")
-            .then(async (res) => {
-                if (res.ok) {
-                    const data = await res.json();
-                    setUser(data.user);
-                } else {
-                    router.push("/login");
-                }
-            })
-            .catch(() => router.push("/login"));
-    }, []);
+  // Проверяем авторизацию
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then(async (res) => {
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        } else {
+          router.push("/login");
+        }
+      })
+      .catch(() => router.push("/login"));
+  }, []);
 
-    return (
-        <div className="App">
-            <Container fluid className="px-5 py-4">
-                <Row>
-                    {/* Основной контент (3/5 = 60% ≈ колонка 7 из 12) */}
-                    <Col lg={9} className="mb-4">
-                        <DaysSlider
-                            days={days}
-                            selectedDay={selectedDay}
-                            onDayChange={setSelectedDay}
-                        ></DaysSlider>
+  return (
+    <div className="App">
+      <Container fluid className="px-5 py-4">
+        <Row>
+          {/* Основной контент (3/5 = 60% ≈ колонка 7 из 12) */}
+          <Col lg={9} className="mb-4">
+            <DaysSlider
+              days={days}
+              selectedDay={selectedDay}
+              onDayChange={setSelectedDay}
+            ></DaysSlider>
 
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={selectedDay}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                <DayMenuPlanner date={days[selectedDay].full} />
-                            </motion.div>
-                        </AnimatePresence>
-                    </Col>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedDay}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <DayMenuPlanner date={days[selectedDay].full} />
+              </motion.div>
+            </AnimatePresence>
+          </Col>
 
-                    <Col lg={3} className="mb-1">
-                        <PlanBlock user={user} days={days} />
-                    </Col>
-                </Row>
-            </Container>
-        </div>
-    );
+          <Col lg={3} className="mb-1">
+            <PlanBlock user={user} days={days} />
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
 }

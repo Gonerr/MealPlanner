@@ -1,6 +1,6 @@
 import { DishCategory } from "@/types/menu";
 
-type AddDishModalProps = {
+export type AddDishModalProps = {
   show: boolean;
   onHide: () => void;
 };

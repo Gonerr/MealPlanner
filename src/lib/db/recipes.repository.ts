@@ -21,7 +21,7 @@ export interface Recipe extends RecipeInput {
   updatedAt: string;
 }
 
-export class RecipesCRUD {
+export class RecipesRepository {
   private db: safeDB;
 
   constructor(db: any) {
@@ -34,8 +34,8 @@ export class RecipesCRUD {
             
             SELECT 
                 r.*,
-                GROUP_CONCAT(i.id) as indredient_ids,
-                GROUP_CONCAT(i.name) as indredient_names
+                GROUP_CONCAT(i.id) as ingredient_ids,
+                GROUP_CONCAT(i.name) as ingredient_names
             FROM recipes r
             LEFT JOIN recipe_ingredients ri ON r.id = ri.recipe_id
             LEFT JOIN ingredients i ON ri.ingredient_id = i.id
@@ -93,7 +93,7 @@ export class RecipesCRUD {
                 name, 
                 description, 
                 price, 
-                category, 
+                category_slug, 
                 preparation_time,
                 is_available,
                 is_chef_special, 
@@ -190,7 +190,7 @@ export class RecipesCRUD {
       ]
     );
 
-    const recipeId = result.lastID;
+    const recipeId = result.id;
 
     // Добавляем связи с ингредиентами, если они переданы
     if (recipe.ingredientIds) {

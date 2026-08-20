@@ -2,7 +2,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Metadata } from "next";
-import { Providers } from "../../app/providers";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Menu App",

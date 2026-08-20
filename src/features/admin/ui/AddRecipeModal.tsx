@@ -1,4 +1,5 @@
 import { AppDispatch } from "@/app/store";
+import { AddDishModalProps } from "@/features/dishes/types";
 import { createRecipe } from "@/features/menu/menuSlice";
 import { apiClient } from "@/lib/api-client";
 import { Dish, Ingredient } from "@/types/menu";

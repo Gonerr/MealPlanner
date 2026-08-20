@@ -270,7 +270,7 @@ class ApiClient {
   // Получение меню на неделю
   async getWeekMenuPlan(start: string, end: string) {
     const res = await fetch(
-      `${this.baseUrl}/menu-plan/week?start=${start}&end=${end}`
+      `${this.baseUrl}/menu-plan/range?start=${start}&end=${end}`
     );
     if (!res.ok) {
       throw new Error("Failed to fetch weekly menu plan");
