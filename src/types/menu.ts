@@ -49,3 +49,19 @@ export interface MenuItem {
 }
 
 export type { Dish };
+
+export interface ShoppingItem {
+  id: number;
+  ingredientId?: number;
+
+  name: string;
+  quantity: number;
+  price: number;
+  unit: string;
+
+  category: string;
+
+  status: "need" | "have" | "bought";
+
+  source: "menu" | "manual";
+}

@@ -1,0 +1,108 @@
+.shopping-card {
+  overflow: hidden;
+  border: 1px solid rgba(65, 72, 56, 0.1);
+  border-radius: 28px;
+  background: rgba(255, 252, 245, 0.94);
+  box-shadow: 0 10px 35px rgba(83, 72, 55, 0.06),
+    0 2px 8px rgba(83, 72, 55, 0.03);
+}
+
+.shopping-card__header {
+  width: 100%;
+  border: 0;
+  padding: 20px 22px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+}
+
+.shopping-card__heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.shopping-card__heading h3 {
+  margin: 0;
+  color: #34372f;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.shopping-card__heading p {
+  margin: 3px 0 0;
+  color: #8b8b7d;
+  font-size: 13px;
+}
+
+.shopping-card__icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: #dfe9d5;
+  color: #56654e;
+  transform: rotate(-3deg);
+}
+
+.shopping-card__collapse {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f3eee4;
+  color: #68685e;
+}
+
+.shopping-card__content-wrapper {
+  overflow: hidden;
+}
+
+.shopping-card__content {
+  padding: 0 22px 18px;
+}
+
+.shopping-card__footer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(90, 86, 73, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shopping-card__footer > span {
+  color: #999486;
+  font-size: 12px;
+}
+
+.shopping-card__actions {
+  display: flex;
+  gap: 7px;
+}
+
+.shopping-card__actions button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3eee4;
+  color: #625f56;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.shopping-card__actions button:hover {
+  background: #e9e2d5;
+  transform: translateY(-1px);
+}
