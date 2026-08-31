@@ -79,66 +79,66 @@ export default function DishesManager() {
       </div>
 
       <div className="admin-table-wrap">
-      <Table hover responsive className="admin-table align-middle">
-        <thead>
-          <tr>
-            <th>Название</th>
-            <th>Цена</th>
-            <th>Время готовки</th>
-            <th>Доступно</th>
-            <th>Дни</th>
-            <th>Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dishes.map((dish: any) => (
-            <tr key={dish.id}>
-              <td>{dish.name}</td>
-              <td>{dish.price}</td>
-              <td>{dish.preparationTime}</td>
-              <td>
-                <Form.Check
-                  checked={dish.isAvailable}
-                  onChange={() =>
-                    dispatch(
-                      updateRecipe({
-                        id: dish.id,
-                        recipe: {
-                          isAvailable: !dish.isAvailable,
-                        },
-                      })
-                    )
-                  }
-                />
-              </td>
-              <td>
-                {days.map((d, i) => (
-                  <Badge
-                    key={i}
-                    onClick={() => toggleday(dish, i)}
-                    className={`weekday-badge ${
-                      dish.availableDays?.includes(i) ? "is-active" : ""
-                    }`}
-                  >
-                    {d}
-                  </Badge>
-                ))}
-              </td>
-              <td>
-                <Button
-                  size="sm"
-                  className="archive-btn"
-                  disabled={archivingId === dish.id}
-                  onClick={() => handleArchivedDish(dish)}
-                >
-                  <Archive size={15} aria-hidden="true" />
-                  {archivingId === dish.id ? "Архивируем…" : "В архив"}
-                </Button>
-              </td>
+        <Table hover responsive className="admin-table align-middle">
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Цена</th>
+              <th>Время готовки</th>
+              <th>Доступно</th>
+              <th>Дни</th>
+              <th>Действия</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {dishes.map((dish: any) => (
+              <tr key={dish.id}>
+                <td>{dish.name}</td>
+                <td>{dish.price}</td>
+                <td>{dish.preparationTime}</td>
+                <td>
+                  <Form.Check
+                    checked={dish.isAvailable}
+                    onChange={() =>
+                      dispatch(
+                        updateRecipe({
+                          id: dish.id,
+                          recipe: {
+                            isAvailable: !dish.isAvailable,
+                          },
+                        })
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  {days.map((d, i) => (
+                    <Badge
+                      key={i}
+                      onClick={() => toggleday(dish, i)}
+                      className={`weekday-badge ${
+                        dish.availableDays?.includes(i) ? "is-active" : ""
+                      }`}
+                    >
+                      {d}
+                    </Badge>
+                  ))}
+                </td>
+                <td>
+                  <Button
+                    size="sm"
+                    className="archive-btn"
+                    disabled={archivingId === dish.id}
+                    onClick={() => handleArchivedDish(dish)}
+                  >
+                    <Archive size={15} aria-hidden="true" />
+                    {archivingId === dish.id ? "Архивируем…" : "В архив"}
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
 
       <AddDishModal

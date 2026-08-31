@@ -136,6 +136,102 @@ export const initDB = async () => {
     )
     `);
 
+  // Личные и семейные пространства
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS households (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        name TEXT NOT NULL,
+        
+        type TEXT NOT NULL DEFAULT 'family'
+            CHECK (type IN ('personal', 'family')),
+
+        created_by INTEGER NOT NULL,
+
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+        FOREIGN KEY (created_by)
+            REFERENCES users(id)
+            ON DELETE CASCADE
+    );
+`);
+
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS households_members (
+        household_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+
+        role TEXT NOT NULL DEFAULT 'member',
+        joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+        PRIMARY KEY(household_id, user_id),
+
+        FOREIGN KEY (household_id)
+            REFERENCES households(id)
+            ON DELETE CASCADE,
+
+        FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE       
+    );
+`);
+
+  await db.exec(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_personal_household_owner
+    ON households(created_by)
+    WHERE type = 'personal'
+`);
+
+  await db.exec(`
+CREATE TABLE IF NOT EXISTS households_invites (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    household_id INTEGER NOT NULL,
+    email TEXT NOT NULL,
+    token TEXT UNIQUE NOT NULL,
+    
+    status TEXT DEFAULT 'pending',
+
+    created_by INTEGER NOT NULL,
+    expires_at DATETIME,
+
+    FOREIGN KEY (household_id)
+        REFERENCES households(id)
+        ON DELETE CASCADE
+);
+`);
+
+  await db.exec(`
+CREATE TABLE IF NOT EXISTS pantry_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    household_id INTEGER NOT NULL,
+    ingredient_id INTEGER NOT NULL,
+
+    quantity REAL NOT NULL DEFAULT 0,
+    unit TEXT NOT NULL,
+
+    updated_by INTEGER,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE(household_id, ingredient_id, unit),
+
+    FOREIGN KEY (household_id)
+        REFERENCES households(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (ingredient_id) 
+        REFERENCES ingredients(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (updated_by)
+        REFERENCES users(id)
+        ON DELETE SET NULL
+)
+
+`);
+
   try {
     await db.exec(
       `ALTER TABLE recipes ADD COLUMN is_archived INTEGER DEFAULT 0`
