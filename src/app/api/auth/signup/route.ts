@@ -1,4 +1,5 @@
 import { initDB } from "@/lib/db/database"; // ← Используем initDB вместо openDB
+import { HouseholdsRepository } from "@/lib/db/households.repository";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -68,6 +69,9 @@ export async function POST(request: NextRequest) {
       "SELECT id, email, role, created_at FROM users WHERE id = ?",
       [result.lastID]
     );
+    
+    const householdRepository = new HouseholdsRepository(db);
+    await householdRepository.ensurePersonalHousehold(Number(newUser.id));
 
     return NextResponse.json(
       {

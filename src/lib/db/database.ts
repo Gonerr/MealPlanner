@@ -158,7 +158,7 @@ export const initDB = async () => {
 `);
 
   await db.exec(`
-    CREATE TABLE IF NOT EXISTS households_members (
+    CREATE TABLE IF NOT EXISTS household_members (
         household_id INTEGER NOT NULL,
         user_id INTEGER NOT NULL,
 

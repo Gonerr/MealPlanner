@@ -47,7 +47,7 @@ export class HouseholdsRepository {
     }
 
     return this.db.transaction(async (db) => {
-      const result = await db.run(
+      const createdHousehold = await db.run(
         `
                     INSERT INTO households (
                         name, 
@@ -55,11 +55,25 @@ export class HouseholdsRepository {
                         created_by
                     )
                     VALUES (?, 'personal', ?)
+
+                    RETURNING id
                 `,
         ["Личное", userId]
       );
 
-      const householdId = result.lastId;
+      if (!createdHousehold?.id) {
+        throw new Error("Failed to create personal household");
+      }
+
+      console.log("household insert result:", createdHousehold);
+
+      const householdId = createdHousehold.id;
+
+      console.log("householdId = ", householdId);
+
+      if (!householdId) {
+        throw new Error("Failed to create household: lastID is missing");
+      }
 
       await db.run(
         `INSERT INTO household_members (
@@ -75,10 +89,13 @@ export class HouseholdsRepository {
       return db.get(
         `
                 SELECT *
-                FROM households
-                WHERE id = ?
+                FROM households h
+                INNER JOIN household_members hm
+                ON hm.household_id = h.id
+
+                WHERE h.id = ? AND hm.user_id = ?
                 `,
-        [householdId]
+        [householdId, userId]
       );
     });
   }
@@ -134,7 +151,7 @@ export class HouseholdsRepository {
    */
   async createFamily(userId: number, name: string) {
     return this.db.transaction(async (db) => {
-      const result = await db.run(
+      const createdHousehold = await db.run(
         `
               INSERT INTO households (
                 name,
@@ -142,11 +159,13 @@ export class HouseholdsRepository {
                 created_by
               )
               VALUES (?, 'family', ?)
+
+              RETURNING id
             `,
         [name, userId]
       );
 
-      const householdId = result.lastID;
+      const householdId = createdHousehold.id;
 
       await db.run(
         `
@@ -167,15 +186,26 @@ export class HouseholdsRepository {
                 h.name,
                 h.type,
                 h.created_at,
-    
-                'owner' AS role,
-                1 AS member_count
+                hm.role,,
+                COUNT(members.user_id) AS member_count
     
               FROM households h
-    
-              WHERE h.id = ?
+              INNER JOIN household_members hm
+                ON hm.household_id = h.id
+
+              LEFT JOIN household_members members
+                ON members.household_id = h.id
+
+              WHERE h.id = ? AND hm.user_id = ?
+
+              GROUP BY
+                h.id,
+                h.name,
+                h.type,
+                h.created_at,
+                hm.role
             `,
-        [householdId]
+        [householdId, userId]
       );
     });
   }

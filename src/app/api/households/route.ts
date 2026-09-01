@@ -22,7 +22,11 @@ export const GET = withAuthHandler(async (request, { db, user }) => {
 
   const households = await repository.getAllForUser(userId);
 
-  return NextResponse.json({ households: households.map(mapHousehold) });
+  let householdsResults = households.map(mapHousehold);
+
+  console.log(householdsResults);
+
+  return NextResponse.json({ households: householdsResults });
 });
 
 // POST /api/households - создать новое household
