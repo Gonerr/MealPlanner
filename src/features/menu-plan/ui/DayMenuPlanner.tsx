@@ -1,5 +1,3 @@
-import "@/app/styles/dayMenuPlanner.css";
-import { removeDish } from "@/features/menu/menuSlice";
 import { apiClient } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 import { FiActivity, FiBox, FiClock, FiPlus, FiTrash2 } from "react-icons/fi";
@@ -27,25 +25,14 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
     setLoading(true);
     try {
       const data = await apiClient.getMenuPlan(date);
-      console.log("Получаем данные о меню при загрузке: ", data);
-
-      setItems(data);
+      setItems(Array.isArray(data) ? data : []);
     } finally {
       setLoading(false);
     }
   };
 
   const getByMeal = (meal: string) => {
-    console.log(
-      items.map((i) => ({
-        name: i.name,
-        meal_type: i.meal_type,
-      }))
-    );
-
-    let filteredMeal = items.filter((i) => i.meal_type === meal);
-
-    return filteredMeal;
+    return items.filter((i) => i.meal_type === meal);
   };
 
   const getStats = (list: any[]) => {
@@ -63,6 +50,24 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
 
     await load();
   };
+
+  const handleRemoveDish = async (menuItemId: number) => {
+    const previousItems = items;
+    setItems((current) =>
+      current.filter((item) => item.menu_item_id !== menuItemId)
+    );
+
+    try {
+      await apiClient.removeFromMenu(menuItemId);
+    } catch (error) {
+      setItems(previousItems);
+      console.error("Не удалось удалить блюдо из меню", error);
+    }
+  };
+
+  if (loading) {
+    return <div className="planner-loading">Собираем меню…</div>;
+  }
 
   return (
     <div className="d-flex flex-column gap-3">
@@ -95,7 +100,7 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
             ) : (
               <div className="meal-list">
                 {mealItems.map((item) => (
-                  <div key={item.id} className="meal-item">
+                  <div key={item.menu_item_id} className="meal-item">
                     <div>
                       <div className="meal-item-name">{item.name}</div>
 
@@ -107,7 +112,8 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
 
                     <button
                       className="delete-btn"
-                      onClick={() => removeDish(item.id)}
+                      onClick={() => handleRemoveDish(item.menu_item_id)}
+                      aria-label={`Убрать ${item.name} из меню`}
                     >
                       <FiTrash2 />
                     </button>

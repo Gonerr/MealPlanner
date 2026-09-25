@@ -5,16 +5,17 @@ import DayMenuPlanner from "@/features/menu-plan/ui/DayMenuPlanner";
 import DaysSlider from "@/features/menu-plan/ui/DaysSlider";
 import PlanBlock from "@/features/menu-plan/ui/PlanBlock";
 import { AnimatePresence, motion } from "framer-motion";
+import { HeartHandshake, PiggyBank, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import "../app/styles/dayMenuPlanner.css";
 
 export default function HomePage() {
   const [user, setUser] = useState<any>(null);
-  // const isAdminMode = useSelector(selectIsAdminMode);
 
   const [selectedDay, setSelectedDay] = useState(0);
+  // TODO(history): заменить фиксированные 15 дней на общий date-range selector,
+  // чтобы этим же экраном можно было открывать прошлые недели и месяцы.
   const days = Array.from({ length: 15 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() + i);
@@ -48,14 +49,47 @@ export default function HomePage() {
         }
       })
       .catch(() => router.push("/login"));
-  }, []);
+  }, [router]);
 
   return (
-    <div className="App">
-      <Container fluid className="px-5 py-4">
-        <Row>
-          {/* Основной контент (3/5 = 60% ≈ колонка 7 из 12) */}
-          <Col lg={9} className="mb-4">
+    <div className="app-page planner-page">
+      <Container fluid className="app-container">
+        <section className="planner-hero">
+          <div className="planner-hero__copy">
+            <span className="eyebrow">
+              <Sparkles size={15} aria-hidden="true" />
+              Домашнее меню без хаоса
+            </span>
+            <h1>
+              Что будем есть
+              <span className="circle-word"> сегодня?</span>
+            </h1>
+            <p>
+              Собирай меню, учитывай пожелания домашних и сразу понимай,
+              сколько времени и денег уйдёт на неделю.
+            </p>
+
+            <div className="planner-hero__features">
+              <span>
+                <HeartHandshake size={17} aria-hidden="true" />
+                Пожелания семьи
+              </span>
+              <span>
+                <PiggyBank size={17} aria-hidden="true" />
+                Бюджет заранее
+              </span>
+            </div>
+          </div>
+
+          <div className="planner-hero__badge">
+            <span>Планируем</span>
+            <strong>{days.length}</strong>
+            <span>дней вперёд</span>
+          </div>
+        </section>
+
+        <Row className="g-4 planner-layout">
+          <Col xl={9} className="mb-4">
             <DaysSlider
               days={days}
               selectedDay={selectedDay}
@@ -75,7 +109,7 @@ export default function HomePage() {
             </AnimatePresence>
           </Col>
 
-          <Col lg={3} className="mb-1">
+          <Col xl={3} className="mb-1">
             <PlanBlock user={user} days={days} />
           </Col>
         </Row>

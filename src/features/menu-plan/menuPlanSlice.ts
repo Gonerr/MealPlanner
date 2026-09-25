@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api-client";
-import {  createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchMenuPlan = createAsyncThunk(
     'menuPlan/fetch',
@@ -10,12 +10,24 @@ export const fetchMenuPlan = createAsyncThunk(
 
 
 export const addDishToPlan = createAsyncThunk(
-  'menuPlan/add',
-    async({date, recipeId}: any) => {
-    await apiClient.addToMenu(date, recipeId);
-    return {recipeId};
+  "menuPlan/add",
+  async ({
+    date,
+    recipeId,
+    mealType,
+    grams = 100,
+    price = 0,
+  }: {
+    date: string;
+    recipeId: number;
+    mealType: string;
+    grams?: number;
+    price?: number;
+  }) => {
+    await apiClient.addToMenu(date, recipeId, mealType, grams, price);
+    return { recipeId };
   }
-)
+);
 
 const slice = createSlice ({
   name: 'menuPlan',

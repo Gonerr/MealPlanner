@@ -1,49 +1,45 @@
 import { selectAllIngredients } from "@/features/ingredients/ingredientsSlice";
 import { selectAllDishes } from "@/features/menu/menuSlice";
-import { Card } from "react-bootstrap";
+import { CheckCircle2, CookingPot, Database, Star } from "lucide-react";
 import { useSelector } from "react-redux";
 
 export default function StatsPanel() {
     const dishes = useSelector(selectAllDishes);
     const ingredients = useSelector(selectAllIngredients);
 
-    return (
-        <Card className="mt-4">
-            <Card.Header>
-                <h5 className="mb-0">Статистика меню</h5>
-            </Card.Header>
-            <Card.Body>
-                <div className="row">
-                    <div className="col-md-3">
-                        <div className="text-center">
-                            <h3>{dishes.length}</h3>
-                            <p className="text-muted">Всего блюд</p>
-                        </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="text-center">
-                            <h3 className="text-success">
-                                {dishes.filter((d) => d.isAvailable).length}
-                            </h3>
-                            <p className="text-muted">Доступно</p>
-                        </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="text-center">
-                            <h3 className="text-warning">
-                                {dishes.filter((d) => d.isChefSpecial).length}
-                            </h3>
-                            <p className="text-muted">Особые блюда</p>
-                        </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="text-center">
-                            <h3 className="text-info">{ingredients.length}</h3>
-                            <p className="text-muted">Ингредиентов</p>
-                        </div>
-                    </div>
-                </div>
-            </Card.Body>
-        </Card>
-    );
+  const stats = [
+    { label: "Всего блюд", value: dishes.length, icon: CookingPot },
+    {
+      label: "Доступно",
+      value: dishes.filter((dish) => dish.isAvailable).length,
+      icon: CheckCircle2,
+    },
+    {
+      label: "Особые",
+      value: dishes.filter((dish) => dish.isChefSpecial).length,
+      icon: Star,
+    },
+    { label: "Ингредиентов", value: ingredients.length, icon: Database },
+  ];
+
+  return (
+    <section className="admin-panel admin-stats">
+      <div className="admin-panel__header">
+        <div>
+          <span className="section-kicker">Состояние базы</span>
+          <h2>Коротко о меню</h2>
+        </div>
+      </div>
+
+      <div className="admin-stats__grid">
+        {stats.map(({ label, value, icon: Icon }) => (
+          <div className="admin-stat" key={label}>
+            <Icon size={19} aria-hidden="true" />
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }

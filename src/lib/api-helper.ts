@@ -59,19 +59,34 @@ export function withAuthHandler(
     request: NextRequest,
     contextRaw: { params: Promise<{ id: string }> }
   ) => {
-    const auth = await withAuth(request, requireAdmin);
-    if (auth.error) {
-      return auth.error;
+    try {
+      const auth = await withAuth(request, requireAdmin);
+      if (auth.error) {
+        return auth.error;
+      }
+
+      const db = await initDB();
+      const params = (await contextRaw?.params)
+        ? await contextRaw.params
+        : ({} as { id: string });
+
+      return handler(request, {
+        params,
+        user: auth.user,
+        db,
+      });
+    } catch (error) {
+      console.error("API error:", error);
+      return NextResponse.json(
+        {
+          error:
+            error instanceof Error ? error.message : "Internal server error",
+        },
+        {
+          status: 500,
+        }
+      );
     }
-
-    const db = await initDB();
-    const params = await contextRaw.params;
-
-    return handler(request, {
-      params,
-      user: auth.user,
-      db,
-    });
   };
 }
 

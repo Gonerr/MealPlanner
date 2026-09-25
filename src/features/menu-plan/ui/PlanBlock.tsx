@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, CircleX, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 import Sidebar from "../../../components/layout/Sidebar";
 
 interface PlanBlockProps {
@@ -17,69 +17,41 @@ const PlanBlock: React.FC<PlanBlockProps> = ({ user, days = [] }) => {
     <AnimatePresence mode="wait">
       {!welcomeCollapsed ? (
         <motion.div
+          className="plan-column"
           key="expanded"
           initial={{ opacity: 0, height: "auto" }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.3 }}
-          style={{ overflow: "hidden" }}
         >
-          <div
-            className="card border-0 bg-gradient-primary mb-3"
-            style={{
-              background: "linear-gradient(135deg, #c0dd4b 0%, #fff 100%)",
-              borderRadius: "20px",
-              color: "#212529",
-              fontFamily: "Inter, 'SF Pro Display', sans-serif",
-              overflow: "hidden",
-            }}
-          >
-            <div className="card-body p-4">
-              <div className="d-flex justify-content-between align-items-start mb-3">
-                <div>
-                  <h3 className="fw-bold mb-2">
-                    Привет, {user?.name || "Гость"}!
-                  </h3>
-                  <p className="mb-0 opacity-90">
-                    Готовы планировать питание? <br />У вас {days.length} дней
-                    впереди
-                  </p>
-                </div>
-                <Button
-                  variant="link"
-                  onClick={() => setWelcomeCollapsed(true)}
-                  className="text-black p-0"
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "20px",
-                  }}
-                >
-                  ✕
-                </Button>
-              </div>
+          <div className="welcome-card">
+            <div className="welcome-card__topline">
+              <span>
+                <Sparkles size={16} aria-hidden="true" />
+                На этой неделе
+              </span>
+              <button
+                type="button"
+                onClick={() => setWelcomeCollapsed(true)}
+                aria-label="Свернуть приветствие"
+              >
+                <CircleX size={19} aria-hidden="true" />
+              </button>
+            </div>
 
-              {/* Компонент, показывающий прогресс */}
-              <div className="mt-3 pt-2">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <small>Прогресс недели</small>
-                  <small className="fw-bold">3/7 дней</small>
-                </div>
-                <div
-                  className="progress"
-                  style={{
-                    height: "8px",
-                    borderRadius: "4px",
-                    backgroundColor: "gray",
-                  }}
-                >
-                  <div
-                    className="progress-bar bg-white"
-                    style={{
-                      width: "43%",
-                      borderRadius: "4px",
-                    }}
-                  ></div>
-                </div>
+            <h3>Привет, {user?.name || "домашний повар"}!</h3>
+            <p>
+              Меню становится спокойнее, когда всё видно заранее. Осталось
+              заполнить ещё несколько дней.
+            </p>
+
+            <div className="welcome-card__progress">
+              <div>
+                <span>Прогресс недели</span>
+                <strong>3 из 7</strong>
+              </div>
+              <div className="welcome-card__track" aria-hidden="true">
+                <span style={{ width: "43%" }} />
               </div>
             </div>
           </div>
@@ -93,22 +65,14 @@ const PlanBlock: React.FC<PlanBlockProps> = ({ user, days = [] }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <div
-            className="d-flex align-items-center justify-content-between p-3 mb-3"
-            style={{
-              background: "linear-gradient(135deg, #b8d94a 0%, #ffff7f 100%)",
-              borderRadius: "16px",
-              color: "white",
-              cursor: "pointer",
-            }}
+          <button
+            type="button"
+            className="welcome-collapsed"
             onClick={() => setWelcomeCollapsed(false)}
           >
-            <div className="d-flex align-items-center gap-2">
-              <span style={{ fontSize: "24px" }}>👋</span>
-              <span className="fw-bold">Привет!</span>
-            </div>
-            <span style={{ fontSize: "28px" }}>▼</span>
-          </div>
+            <span>Вернуть подсказку</span>
+            <ChevronDown size={19} aria-hidden="true" />
+          </button>
         </motion.div>
       )}
     </AnimatePresence>

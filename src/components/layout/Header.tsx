@@ -1,90 +1,96 @@
 "use client";
 
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Container, Navbar, Button, Badge } from "react-bootstrap";
-import { FaUserLock, FaUtensils } from "react-icons/fa";
-import { selectMenuStats } from "../../features/menu/menuSlice";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import React from "react";
+import { CalendarDays, ChefHat, LogOut, Settings2 } from "lucide-react";
+
+type HeaderUser = {
+  name?: string;
+  email?: string;
+  role?: string;
+};
 
 const Header: React.FC = () => {
-    // const isAdminMode = useSelector(selectIsAdminMode);
-    const stats = useSelector(selectMenuStats);
-    const pathname = usePathname();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = React.useState<HeaderUser | null>(null);
 
-    const router = useRouter();
-    const [user, setUser] = React.useState<any>(null);
+  React.useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setUser(data?.user ?? null))
+      .catch(() => setUser(null));
+  }, [pathname]);
 
-    const isAdminPage = pathname?.startsWith("/admin");
-    console.log("user = ", user);
-    const isAdmin = user?.role === "admin";
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  };
 
-    React.useEffect(() => {
-        fetch("/api/auth/me")
-            .then((res) => res.json())
-            .then((data) => setUser(data.user))
-            .catch(() => {});
-    }, []);
+  const userLabel = user?.name || user?.email?.split("@")[0] || "Мой профиль";
+  const userInitial = userLabel.slice(0, 1).toUpperCase();
 
-    return (
-        <Navbar
-            variant="light"
-            className="border-bottom border-gray-300 shadow-sm py-2"
-            style={{
-                position: "sticky",
-                minHeight: "3rem",
-                top: 0,
-                zIndex: 1000,
-                background: "#fff",
-                backdropFilter: "blur(14px)",
-                borderBottom: "1px solid #eef1e6",
-            }}
-        >
-            <Container fluid className="px-5">
-                {/* Левая часть - логотип/название */}
-                <Navbar.Brand className="d-flex align-items-center me-0">
-                    <span className="fw-semibold fs-2">
-                        <span
-                            style={{
-                                background:
-                                    "linear-gradient(135deg, #b8d94a, #8cb32b)",
-                                WebkitBackgroundClip: "text",
-                                backgroundClip: "text",
-                                color: "transparent",
-                            }}
-                        >
-                            Ne
-                        </span>
-                        <span className="text-dark">Меню</span>
-                    </span>
-                </Navbar.Brand>
+  return (
+    <header className="app-header">
+      <div className="app-header__inner">
+        <Link href="/" className="brand" aria-label="NeМеню — на главную">
+          <span className="brand__mark">
+            <ChefHat size={21} strokeWidth={2.2} aria-hidden="true" />
+          </span>
+          <span className="brand__name">
+            Ne<span>Меню</span>
+          </span>
+          <span className="brand__dot" />
+        </Link>
 
-                {/* Правая часть - кнопка переключения режима */}
-                {isAdmin && (
-                    <div className="ms-auto">
-                        <Button
-                            variant={isAdminPage ? "warning" : "outline-dark"}
-                            size="sm"
-                            onClick={() =>
-                                user?.role === "admin"
-                                    ? router.push("/admin")
-                                    : router.push("/")
-                            }
-                            style={{
-                                borderRadius: "6px",
-                                borderWidth: "1px",
-                                transition: "all 0.2s",
-                                fontWeight: 500,
-                            }}
-                        >
-                            {isAdminPage ? "Админ режим" : "Меню"}
-                        </Button>
-                    </div>
-                )}
-            </Container>
-        </Navbar>
-    );
+        {user && (
+          <nav className="app-nav" aria-label="Основная навигация">
+            <Link
+              href="/"
+              className={`app-nav__link ${pathname === "/" ? "is-active" : ""}`}
+            >
+              <CalendarDays size={17} aria-hidden="true" />
+              <span>Моё меню</span>
+            </Link>
+
+            {user.role === "admin" && (
+              <Link
+                href="/admin"
+                className={`app-nav__link ${
+                  pathname?.startsWith("/admin") ? "is-active" : ""
+                }`}
+              >
+                <Settings2 size={17} aria-hidden="true" />
+                <span>Настройки</span>
+              </Link>
+            )}
+          </nav>
+        )}
+
+        <div className="app-header__account">
+          {user && (
+            <>
+              <div className="account-chip" title={user.email}>
+                <span className="account-chip__avatar">{userInitial}</span>
+                <span className="account-chip__name">{userLabel}</span>
+              </div>
+              <button
+                type="button"
+                className="icon-action"
+                onClick={handleLogout}
+                aria-label="Выйти"
+                title="Выйти"
+              >
+                <LogOut size={18} aria-hidden="true" />
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </header>
+  );
 };
 
 export default Header;
-//

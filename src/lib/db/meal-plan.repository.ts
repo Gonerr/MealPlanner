@@ -41,25 +41,23 @@ export class MealPlanRepository {
 
   async getByDate(ownerId: any, date: string) {
     const rows = await this.db.all(
-      `SELECT *
+      `SELECT
+                md.id AS menu_day_id,
+                md.date AS date,
+                mi.id AS menu_item_id,
+                mi.recipe_id AS recipe_id,
+                mi.meal_type AS meal_type,
+                mi.grams AS grams,
+                mi.custom_price AS price,
+                r.name AS name,
+                r.description AS description,
+                r.calories AS calories,
+                r.preparation_time AS preparationTime,
+                r.image_url AS imageUrl
             FROM menu_days md
             INNER JOIN menu_items mi 
                 ON md.id = mi.menu_day_id 
-            LEFT JOIN (
-                SELECT 
-                    id,
-                    user_id,
-                    name,
-                    description,
-                    price,
-                    category_slug,
-                    preparation_time,
-                    is_available,
-                    is_chef_special,
-                    calories,
-                    image_url
-                FROM recipes r ) 
-                AS r
+            LEFT JOIN recipes r
                 ON r.id = mi.recipe_id
             WHERE md.owner_id = ? AND md.date = ?
             ORDER BY mi.meal_type
@@ -119,13 +117,16 @@ export class MealPlanRepository {
     ========================== */
 
   // Удалить блюдо в конкретный день
-  async removeDish(menuItemId: number) {
+  async removeDish(ownerId: string | number, menuItemId: number) {
     await this.db.run(
       `
             DELETE FROM menu_items
-            WHERE id = ? 
+            WHERE id = ?
+              AND menu_day_id IN (
+                SELECT id FROM menu_days WHERE owner_id = ?
+              )
         `,
-      [menuItemId]
+      [menuItemId, ownerId]
     );
   }
 
