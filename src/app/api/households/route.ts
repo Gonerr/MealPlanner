@@ -48,6 +48,7 @@ export const POST = withAuthHandler(async (request, { db, user }) => {
     );
   }
 
+  //
   if (name.length > 60) {
     return NextResponse.json(
       {
@@ -70,4 +71,6 @@ export const POST = withAuthHandler(async (request, { db, user }) => {
       status: 201,
     }
   );
-}, true);
+}, false);
+// false - может создать обычный пользователь,
+// а не только админ
