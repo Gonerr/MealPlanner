@@ -47,27 +47,23 @@ export class HouseholdsRepository {
     }
 
     return this.db.transaction(async (db) => {
-      const createdHousehold = await db.run(
+      const result = await db.run(
         `
-                    INSERT INTO households (
-                        name, 
-                        type,
-                        created_by
-                    )
-                    VALUES (?, 'personal', ?)
-
-                    RETURNING id
-                `,
+              INSERT INTO households (
+                name,
+                type,
+                created_by
+              )
+              VALUES (?, 'personal', ?)
+            `,
         ["Личное", userId]
       );
 
-      if (!createdHousehold?.id) {
+      const householdId = result.lastID;
+
+      if (!householdId) {
         throw new Error("Failed to create personal household");
       }
-
-      console.log("household insert result:", createdHousehold);
-
-      const householdId = createdHousehold.id;
 
       console.log("householdId = ", householdId);
 
@@ -104,9 +100,8 @@ export class HouseholdsRepository {
    * Все пространства пользователя
    */
   async getAllForUser(userId: number) {
-    return (
-      this.db.all(
-        `
+    return this.db.all(
+      `
             SELECT 
                 h.id,
                 h.name,
@@ -140,8 +135,7 @@ export class HouseholdsRepository {
             ELSE 1
           END,
           h.created_at ASC
-            `
-      ),
+            `,
       [userId]
     );
   }
@@ -151,7 +145,7 @@ export class HouseholdsRepository {
    */
   async createFamily(userId: number, name: string) {
     return this.db.transaction(async (db) => {
-      const createdHousehold = await db.run(
+      const result = await db.run(
         `
               INSERT INTO households (
                 name,
@@ -159,13 +153,15 @@ export class HouseholdsRepository {
                 created_by
               )
               VALUES (?, 'family', ?)
-
-              RETURNING id
             `,
         [name, userId]
       );
 
-      const householdId = createdHousehold.id;
+      const householdId = result.lastID;
+
+      if (!householdId) {
+        return new Error("Не существует households");
+      }
 
       await db.run(
         `
@@ -186,7 +182,7 @@ export class HouseholdsRepository {
                 h.name,
                 h.type,
                 h.created_at,
-                hm.role,,
+                hm.role,
                 COUNT(members.user_id) AS member_count
     
               FROM households h
