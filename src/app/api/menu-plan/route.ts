@@ -65,6 +65,13 @@ export const POST = withAuthHandler(async (req, { user, db }) => {
     );
   }
 
+  if (!isValidDate(date)) {
+    return NextResponse.json(
+      { error: "Valid date is required" },
+      { status: 400 }
+    );
+  }
+
   if (!Number.isSafeInteger(recipeId) || recipeId <= 0) {
     return NextResponse.json(
       { error: "Valid recipeId is required" },

@@ -231,13 +231,14 @@ class ApiClient {
     const dateFormatted = convertDateToCustomFormat(date);
 
     const response = await fetch(
-      `${this.baseUrl}/menu-plan?date=${dateFormatted}`
+      `${this.baseUrl}/menu-plan?date=${dateFormatted}&householdId=${householdId}`
     );
 
     return response.json();
   }
 
   async addToMenu(
+    householdId: number,
     date: string,
     recipeId: number,
     mealType: string,
@@ -250,6 +251,7 @@ class ApiClient {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        householdId,
         date,
         recipeId,
         mealType,
@@ -258,11 +260,11 @@ class ApiClient {
       }),
     });
   }
-  async removeFromMenu(menuItemId: number) {
+  async removeFromMenu(householdId: number, menuItemId: number) {
     const response = await fetch(`${this.baseUrl}/menu-plan`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ menuItemId }),
+      body: JSON.stringify({ householdId, menuItemId }),
     });
 
     if (!response.ok) {
@@ -273,9 +275,9 @@ class ApiClient {
   }
 
   // Получение меню на неделю
-  async getWeekMenuPlan(start: string, end: string) {
+  async getWeekMenuPlan(householdId: number, start: string, end: string) {
     const res = await fetch(
-      `${this.baseUrl}/menu-plan/range?start=${start}&end=${end}`
+      `${this.baseUrl}/menu-plan/range?householdId=${householdId}&start=${start}&end=${end}`
     );
     if (!res.ok) {
       throw new Error("Failed to fetch weekly menu plan");

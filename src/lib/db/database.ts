@@ -242,22 +242,35 @@ CREATE TABLE IF NOT EXISTS pantry_items (
     }
   }
 
-  await db.exec(`
-    ALTER TABLE menu_days
-    ADD COLUMN household_id INTEGER REFERENCES households(id);
+  const menuDayColumns = await db.all(`PRAGMA table_info(menu_days)`);
 
+  const hasHouseholdId = menuDayColumns.some(
+    (column: any) => column.name === "household_id"
+  );
+
+  if (!hasHouseholdId) {
+    await db.exec(`
+        ALTER TABLE menu_days
+        ADD COLUMN household_id INTEGER REFERENCES households(id);
+    `);
+  }
+
+  await db.exec(`
     UPDATE menu_days
     SET household_id = (
         SELECT h.id
         FROM households h
         WHERE h.type = 'personal'
-            AND h.created_by = menu_days.owner_id
+        AND h.created_by = menu_days.owner_id
     )
-    WHERE household_id IS NULL;
+    WHERE household_id IS NULL
+        AND owner_id IS NOT NULL;
+    `);
 
-    CREATE UNIQIE INDEX IF NOT EXISTS ux_menu_household_date
+  await db.exec(`
+    CREATE UNIQUE INDEX IF NOT EXISTS ux_menu_household_date
     ON menu_days(household_id, date);
-  `);
+    `);
 
   console.log("Database initialized with all tables");
 
