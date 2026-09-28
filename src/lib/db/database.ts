@@ -242,6 +242,23 @@ CREATE TABLE IF NOT EXISTS pantry_items (
     }
   }
 
+  await db.exec(`
+    ALTER TABLE menu_days
+    ADD COLUMN household_id INTEGER REFERENCES households(id);
+
+    UPDATE menu_days
+    SET household_id = (
+        SELECT h.id
+        FROM households h
+        WHERE h.type = 'personal'
+            AND h.created_by = menu_days.owner_id
+    )
+    WHERE household_id IS NULL;
+
+    CREATE UNIQIE INDEX IF NOT EXISTS ux_menu_household_date
+    ON menu_days(household_id, date);
+  `);
+
   console.log("Database initialized with all tables");
 
   // Добавляем тестовые данные

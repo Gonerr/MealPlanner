@@ -26,7 +26,7 @@ export const fetchHouseholds = createAsyncThunk<Household[]>(
       throw new Error(data.error || "Не удалось загрузить пространства");
     }
 
-    return data.household;
+    return data.households as Household[];
   }
 );
 

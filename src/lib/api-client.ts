@@ -227,7 +227,7 @@ class ApiClient {
   }
 
   // Работа с меню и блюдами по дням
-  async getMenuPlan(date: string) {
+  async getMenuPlan(date: string, householdId: number) {
     const dateFormatted = convertDateToCustomFormat(date);
 
     const response = await fetch(

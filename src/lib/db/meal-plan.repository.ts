@@ -11,25 +11,25 @@ export class MealPlanRepository {
        SERVICE: получить/создать день
     ========================== */
 
-  private async getOrCreateDay(ownerId: any, date: string) {
+  private async getOrCreateDay(household_id: any, date: string) {
     let day = await this.db.get(
       `
                 SELECT * FROM menu_days
-                WHERE owner_id = ? AND date = ?
+                WHERE household_id = ? AND date = ?
             `,
-      [ownerId, date]
+      [household_id, date]
     );
 
     if (!day) {
       const result = await this.db.run(
         `
-                    INSERT INTO menu_days (owner_id, date)
+                    INSERT INTO menu_days (household_id, date)
                     VALUES (?, ?)
                 `,
-        [ownerId, date]
+        [household_id, date]
       );
 
-      day = { id: result.lastID, owner_id: ownerId, date };
+      day = { id: result.lastID, household_id: household_id, date };
     }
 
     return day;
@@ -39,7 +39,7 @@ export class MealPlanRepository {
        GET: меню на день
     ========================== */
 
-  async getByDate(ownerId: any, date: string) {
+  async getByDate(household_id: any, date: string) {
     const rows = await this.db.all(
       `SELECT
                 md.id AS menu_day_id,
@@ -59,10 +59,10 @@ export class MealPlanRepository {
                 ON md.id = mi.menu_day_id 
             LEFT JOIN recipes r
                 ON r.id = mi.recipe_id
-            WHERE md.owner_id = ? AND md.date = ?
+            WHERE md.household_id = ? AND md.date = ?
             ORDER BY mi.meal_type
             `,
-      [ownerId, date]
+      [household_id, date]
     );
 
     return rows;
@@ -73,14 +73,14 @@ export class MealPlanRepository {
     ========================== */
 
   async addDish(
-    ownerId: any,
+    household_id: any,
     date: string,
     recipeId: number,
     mealType: string,
     grams: number = 100,
     price: number
   ) {
-    let menuDay = await this.getOrCreateDay(ownerId, date);
+    let menuDay = await this.getOrCreateDay(household_id, date);
     let menuDayId = menuDay.id;
 
     let recipeDefault = await this.db.get(
@@ -117,16 +117,16 @@ export class MealPlanRepository {
     ========================== */
 
   // Удалить блюдо в конкретный день
-  async removeDish(ownerId: string | number, menuItemId: number) {
+  async removeDish(household_id: string | number, menuItemId: number) {
     await this.db.run(
       `
             DELETE FROM menu_items
             WHERE id = ?
               AND menu_day_id IN (
-                SELECT id FROM menu_days WHERE owner_id = ?
+                SELECT id FROM menu_days WHERE household_id = ?
               )
         `,
-      [menuItemId, ownerId]
+      [menuItemId, household_id]
     );
   }
 
@@ -152,7 +152,11 @@ export class MealPlanRepository {
   /* ==================== 
      Получить план за всю неделю
     ======================== */
-  async getMenuByDateRange(ownerId: any, startDate: string, endDate: string) {
+  async getMenuByDateRange(
+    household_id: any,
+    startDate: string,
+    endDate: string
+  ) {
     const rows = await this.db.all(
       `
             SELECT 
@@ -168,11 +172,11 @@ export class MealPlanRepository {
             FROM menu_days md
             LEFT JOIN menu_items mi ON mi.menu_day_id = md.id
             LEFT JOIN recipes r ON r.id = mi.recipe_id
-            WHERE md.owner_id = ?
+            WHERE md.household_id = ?
                 AND md.date BETWEEN ? AND ?
             ORDER BY md.date ASC, mi.meal_type ASC
             `,
-      [ownerId, startDate, endDate]
+      [household_id, startDate, endDate]
     );
 
     return rows;
