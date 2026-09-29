@@ -232,6 +232,55 @@ CREATE TABLE IF NOT EXISTS pantry_items (
 
 `);
 
+  // Свободный список домашних продуктов. Старые записи pantry_items переносим без потери данных.
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS pantry_entries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      household_id INTEGER NOT NULL REFERENCES households(id) ON DELETE CASCADE,
+      name TEXT NOT NULL,
+      name_key TEXT NOT NULL,
+      quantity REAL NOT NULL CHECK(quantity > 0),
+      unit TEXT NOT NULL,
+      category TEXT NOT NULL DEFAULT 'other',
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(household_id, name_key, unit)
+    );
+
+    CREATE TABLE IF NOT EXISTS household_join_codes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      household_id INTEGER NOT NULL REFERENCES households(id) ON DELETE CASCADE,
+      code_hash TEXT NOT NULL UNIQUE,
+      created_by INTEGER NOT NULL REFERENCES users(id),
+      expires_at TEXT NOT NULL,
+      used_at TEXT,
+      used_by INTEGER REFERENCES users(id)
+    );
+  `);
+  const oldPantry = await db.all(`
+    SELECT pi.household_id AS householdId, i.name, pi.quantity, pi.unit,
+           COALESCE(i.category, 'other') AS category
+    FROM pantry_items pi JOIN ingredients i ON i.id = pi.ingredient_id
+    WHERE pi.quantity > 0
+  `);
+  if (oldPantry.length) {
+    await db.exec("BEGIN IMMEDIATE");
+    try {
+      for (const item of oldPantry) {
+        await db.run(`
+          INSERT INTO pantry_entries (household_id, name, name_key, quantity, unit, category)
+          VALUES (?, ?, ?, ?, ?, ?)
+          ON CONFLICT(household_id, name_key, unit) DO UPDATE SET
+            quantity = pantry_entries.quantity + excluded.quantity
+        `, [item.householdId, item.name, item.name.normalize("NFC").toLocaleLowerCase("ru"), item.quantity, item.unit, item.category]);
+      }
+      await db.exec("DELETE FROM pantry_items");
+      await db.exec("COMMIT");
+    } catch (error) {
+      await db.exec("ROLLBACK");
+      throw error;
+    }
+  }
+
   try {
     await db.exec(
       `ALTER TABLE recipes ADD COLUMN is_archived INTEGER DEFAULT 0`

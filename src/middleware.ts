@@ -21,7 +21,8 @@ export async function middleware(request: NextRequest) {
       const payload = await verifyAccessToken(accessToken);
       if (payload) {
         console.log("Middleware - redirecting from /login to /");
-        return NextResponse.redirect(new URL("/", request.url));
+        const next = request.nextUrl.searchParams.get("next");
+        return NextResponse.redirect(new URL(next?.startsWith("/") && !next.startsWith("//") ? next : "/", request.url));
       }
     }
     return NextResponse.next();
@@ -35,6 +36,7 @@ export async function middleware(request: NextRequest) {
     if (!accessToken) {
       console.log("Middleware - redirecting to /login from:", pathname);
       const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("next", pathname + request.nextUrl.search);
       return NextResponse.redirect(loginUrl);
     }
 
@@ -42,6 +44,7 @@ export async function middleware(request: NextRequest) {
     if (!payload) {
       console.log("Middleware - invalid token, redirecting to /login");
       const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("next", pathname + request.nextUrl.search);
       return NextResponse.redirect(loginUrl);
     }
   }

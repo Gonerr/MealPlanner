@@ -42,7 +42,8 @@ export default function SignInBlock({ onSwitchToSignUp }: SignInBlockProps) {
             }
 
             console.log('Login successful, redirecting to home page...');
-            router.push('/');
+            const next = new URLSearchParams(window.location.search).get('next');
+            router.push(next?.startsWith('/') && !next.startsWith('//') ? next : '/');
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Login failed');
         } finally {

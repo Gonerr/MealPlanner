@@ -1,25 +1,21 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/app/store";
-import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHouseholds, setSelectedHousehold } from "../householdsSlice";
 
 export default function HouseholdBootstrap() {
   const dispatch = useDispatch<AppDispatch>();
-
-  const initilized = useRef(false);
+  const pathname = usePathname();
 
   const selectedHouseholdId = useSelector(
     (state: RootState) => state.households.selectedHouseholdId
   );
 
   useEffect(() => {
-    if (initilized.current) {
-      return;
-    }
-
-    initilized.current = true;
+    if (pathname === "/login") return;
 
     dispatch(fetchHouseholds())
       .unwrap()
@@ -37,11 +33,8 @@ export default function HouseholdBootstrap() {
           dispatch(setSelectedHousehold(id));
         }
       })
-      .catch(() => {
-        // TODO: переход на signup/signin
-        // если пользователь еще не авторизован
-      });
-  }, [dispatch]);
+      .catch(() => {});
+  }, [dispatch, pathname]);
 
   useEffect(() => {
     if (!selectedHouseholdId) {

@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchMenuPlan = createAsyncThunk(
     'menuPlan/fetch',
-    async (date: string) => {
-        return await apiClient.getMenuPlan(date);
+    async ({ date, householdId }: { date: string; householdId: number }) => {
+        return await apiClient.getMenuPlan(date, householdId);
   }
 )
 
@@ -13,18 +13,20 @@ export const addDishToPlan = createAsyncThunk(
   "menuPlan/add",
   async ({
     date,
+    householdId,
     recipeId,
     mealType,
     grams = 100,
     price = 0,
   }: {
     date: string;
+    householdId: number;
     recipeId: number;
     mealType: string;
     grams?: number;
     price?: number;
   }) => {
-    await apiClient.addToMenu(date, recipeId, mealType, grams, price);
+    await apiClient.addToMenu(householdId, date, recipeId, mealType, grams, price);
     return { recipeId };
   }
 );

@@ -1,278 +1,65 @@
-// components/RecipesSection.tsx
-import React, { useState, useMemo, useEffect } from "react";
+import { RootState } from "@/app/store";
+import { addDish, fetchRecipes, removeDish, selectAllDishes, selectLoading } from "@/features/menu/menuSlice";
+import { Dish, DishCategory } from "@/types/menu";
+import { CakeSlice, Clock3, Coffee, Search, Soup, Sparkles, UtensilsCrossed } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    addDish,
-    fetchRecipes,
-    removeDish,
-    selectError,
-    selectFilteredDishes,
-    selectLoading,
-} from "../../menu/menuSlice";
-import { RecipeCard } from "./RecipeCard";
-import { CategoryNav } from "../../categories/ui/CategoryNav";
-import { EmptyState } from "../../../components/ui/EmptyState";
-import { InfoIcon, SortAscIcon, SortDescIcon } from "../../../components/icons";
-import { Dish, DishCategory } from "../../../types/menu";
-import { LoaderIcon } from "lucide-react";
+import { RecipeModal } from "./RecipeModal";
 
-interface Category {
-    id: DishCategory | "all";
-    name: string;
-    color: string;
-}
-
-interface Props {
-    mealType: string | null;
-}
-
-const RecipesSection: React.FC<Props> = ({ mealType }) => {
-    const dispatch = useDispatch();
-    const allRecipes = useSelector(selectFilteredDishes);
-    const loading = useSelector(selectLoading);
-    const error = useSelector(selectError);
-
-    const [activeCategory, setActiveCategory] = useState<DishCategory | "all">(
-        "all"
-    );
-    const [sortBy, setSortBy] = useState<"name" | "time" | "price">("name");
-    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
-    // Загружаем рецепты при монтировании компонента
-    useEffect(() => {
-        dispatch(fetchRecipes() as any);
-    }, [dispatch]);
-
-    // Категории для навигации
-    const categories: Category[] = [
-        { id: "all", name: "Все рецепты", color: "gray" },
-        { id: "salads", name: "Салаты", color: "green" },
-        { id: "soups", name: "Супы", color: "blue" },
-        { id: "main", name: "Основные блюда", color: "amber" },
-        { id: "desserts", name: "Десерты", color: "pink" },
-        { id: "snacks", name: "Перекусы", color: "purple" },
-        { id: "drinks", name: "Напитки", color: "cyan" },
-        { id: "specials", name: "Особые рецепты", color: "rose" },
-    ];
-
-    // Фильтрация и сортировка блюд
-    const filteredRecipes = useMemo(() => {
-        const filtered =
-            activeCategory === "all"
-                ? allRecipes
-                : allRecipes.filter((dish) => dish.category === activeCategory);
-
-        // Сортировка
-        return [...filtered].sort((a, b) => {
-            let comparison = 0;
-            switch (sortBy) {
-                case "name":
-                    comparison = a.name.localeCompare(b.name);
-                    break;
-                case "time":
-                    comparison = a.preparationTime - b.preparationTime;
-                    break;
-                case "price":
-                    comparison = a.price - b.price;
-                    break;
-            }
-            return sortOrder === "asc" ? comparison : -comparison;
-        });
-    }, [allRecipes, activeCategory, sortBy, sortOrder]);
-
-    const hasRecipes = filteredRecipes.length > 0;
-    const totalRecipes = allRecipes.length;
-
-    const handleResetCategory = () => {
-        setActiveCategory("all");
-    };
-
-    if (loading && allRecipes.length === 0) {
-        return (
-            <div className="bg-white rounded-3 shadow-sm border border-gray-300 h-100 p-2">
-                <div
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ minHeight: "400px" }}
-                >
-                    <div className="text-center">
-                        <LoaderIcon className="animate-spin mb-3" size={40} />
-                        <p className="text-muted">Загрузка рецептов...</p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    if (error && allRecipes.length === 0) {
-        return (
-            <div className="bg-white rounded-3 shadow-sm border border-gray-300 h-100 p-2">
-                <div
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ minHeight: "400px" }}
-                >
-                    <div className="text-center text-danger">
-                        <p>Ошибка загрузки рецептов: {error}</p>
-                        <button
-                            className="btn btn-outline-primary"
-                            onClick={() => dispatch(fetchRecipes() as any)}
-                        >
-                            Попробовать снова
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    return (
-        <div className="bg-white rounded-3 shadow-sm border border-gray-300 h-100 p-2">
-            {/* Шапка с навигацией */}
-            <div className=" bg-white rounded-top-3 border-bottom border-gray-300">
-                <div className="p-4 pb-0">
-                    <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h1 className="h3 fw-bold text-dark d-flex align-items-center gap-2">
-                            {hasRecipes
-                                ? "Доступные рецепты"
-                                : "Рецепты не найдены"}
-                        </h1>
-
-                        <p className="text-muted m-0">
-                            {totalRecipes > 0
-                                ? `Найдено ${totalRecipes} рецептов`
-                                : "Добавьте рецепты для начала работы"}
-                        </p>
-                    </div>
-
-                    {/* Навигация по категориям */}
-                    <CategoryNav
-                        categories={categories}
-                        activeCategory={activeCategory}
-                        onCategoryChange={(categoryId) =>
-                            setActiveCategory(
-                                categoryId as DishCategory | "all"
-                            )
-                        }
-                    />
-                </div>
-            </div>
-
-            {/* Панель сортировки */}
-            <div className="px-4 py-3 border-bottom border-gray-300">
-                <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex align-items-center gap-3">
-                        <span className="text-muted fw-medium">
-                            Сортировка:
-                        </span>
-                        <div className="d-flex gap-2">
-                            <button
-                                onClick={() => setSortBy("name")}
-                                className={`btn btn-sm ${
-                                    sortBy === "name"
-                                        ? "btn-dark"
-                                        : "btn-outline-dark"
-                                }`}
-                            >
-                                По названию
-                            </button>
-                            <button
-                                onClick={() => setSortBy("time")}
-                                className={`btn btn-sm ${
-                                    sortBy === "time"
-                                        ? "btn-dark"
-                                        : "btn-outline-dark"
-                                }`}
-                            >
-                                По времени
-                            </button>
-                            <button
-                                onClick={() => setSortBy("price")}
-                                className={`btn btn-sm ${
-                                    sortBy === "price"
-                                        ? "btn-dark"
-                                        : "btn-outline-dark"
-                                }`}
-                            >
-                                По цене
-                            </button>
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={() =>
-                            setSortOrder(sortOrder === "asc" ? "desc" : "asc")
-                        }
-                        className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2"
-                    >
-                        {sortOrder === "asc" ? (
-                            <SortAscIcon />
-                        ) : (
-                            <SortDescIcon />
-                        )}
-                        <span>
-                            {sortOrder === "asc"
-                                ? "По возрастанию"
-                                : "По убыванию"}
-                        </span>
-                    </button>
-                </div>
-            </div>
-
-            {/* Контент */}
-            <div className="p-4">
-                {hasRecipes ? (
-                    <div className="row g-4">
-                        {filteredRecipes.map((dish) => (
-                            <div
-                                key={dish.id}
-                                className="col-12 col-md-6 col-lg-4"
-                            >
-                                <RecipeCard
-                                    dish={dish}
-                                    onAdd={(dish) => {
-                                        dispatch(
-                                            addDish({
-                                                dish,
-                                                mealType,
-                                                grams: 100,
-                                            })
-                                        );
-                                    }}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <EmptyState
-                        searchQuery=""
-                        activeCategory={activeCategory}
-                        categories={categories}
-                        onResetCategory={handleResetCategory}
-                    />
-                )}
-
-                {/* Подсказка о сортировке */}
-                {hasRecipes && (
-                    <div className="mt-4 pt-4 border-top border-gray-300">
-                        <div className="d-flex align-items-center gap-2 text-muted">
-                            <InfoIcon />
-                            <small>
-                                Отсортировано{" "}
-                                <strong>
-                                    {sortBy === "name" && "по названию"}
-                                    {sortBy === "time" &&
-                                        "по времени приготовления"}
-                                    {sortBy === "price" && "по цене"}
-                                </strong>{" "}
-                                {sortOrder === "asc"
-                                    ? "по возрастанию"
-                                    : "по убыванию"}
-                            </small>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+type Category = DishCategory | "all";
+const categories: { id: Category; label: string }[] = [
+  { id: "all", label: "Все" }, { id: "main", label: "Основное" },
+  { id: "soups", label: "Супы" }, { id: "salads", label: "Салаты" },
+  { id: "desserts", label: "Десерты" }, { id: "snacks", label: "Перекусы" },
+  { id: "drinks", label: "Напитки" }, { id: "specials", label: "Особое" },
+];
+const categoryIcon: Record<DishCategory, typeof Soup> = {
+  main: UtensilsCrossed, soups: Soup, salads: Sparkles, desserts: CakeSlice,
+  snacks: UtensilsCrossed, drinks: Coffee, specials: Sparkles,
 };
 
-export default RecipesSection;
+export default function RecipesSection({ mealType }: { mealType: string | null }) {
+  const dispatch = useDispatch<any>();
+  const recipes = useSelector(selectAllDishes);
+  const loading = useSelector(selectLoading);
+  const selected = useSelector((state: RootState) => state.menu.selected);
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState<Category>("all");
+  const [sort, setSort] = useState<"name" | "time">("name");
+  const [detail, setDetail] = useState<Dish | null>(null);
+
+  useEffect(() => { void dispatch(fetchRecipes()); }, [dispatch]);
+
+  const visible = useMemo(() => recipes.filter((dish) =>
+    dish.isAvailable && !dish.isArchived &&
+    (category === "all" || dish.category === category) &&
+    `${dish.name} ${dish.description || ""}`.toLocaleLowerCase("ru").includes(query.trim().toLocaleLowerCase("ru"))
+  ).sort((a, b) => sort === "time" ? a.preparationTime - b.preparationTime : a.name.localeCompare(b.name, "ru")), [recipes, category, query, sort]);
+
+  return <div className="recipe-picker">
+    <div className="recipe-picker__toolbar">
+      <label className="recipe-picker__search"><Search size={18} /><input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Найти блюдо или ингредиент" /></label>
+      <select aria-label="Сортировать блюда" value={sort} onChange={(e) => setSort(e.target.value as "name" | "time")}>
+        <option value="name">По названию</option><option value="time">Быстрее приготовить</option>
+      </select>
+    </div>
+    <div className="recipe-picker__categories" aria-label="Категории блюд">{categories.map((item) =>
+      <button key={item.id} type="button" className={category === item.id ? "is-active" : ""} onClick={() => setCategory(item.id)}>{item.label}</button>
+    )}</div>
+    <p className="recipe-picker__count">{loading ? "Загружаем рецепты…" : `${visible.length} блюд на выбор`}</p>
+    <div className="recipe-picker__grid">{visible.map((dish) => {
+      const picked = selected.some((item) => item.dish.id === dish.id);
+      const Icon = categoryIcon[dish.category] || Soup;
+      return <article className={`recipe-choice ${picked ? "is-selected" : ""}`} key={dish.id}>
+        <div className={`recipe-choice__art recipe-choice__art--${dish.category}`}><Icon size={46} strokeWidth={1.4} /><span>{categories.find((item) => item.id === dish.category)?.label}</span></div>
+        <div className="recipe-choice__body"><h3>{dish.name}</h3><p>{dish.description || "Вкусное блюдо для домашнего меню"}</p>
+          <div className="recipe-choice__meta"><span><Clock3 size={15} /> {dish.preparationTime || 0} мин</span>{dish.calories != null && <span>{dish.calories} ккал</span>}</div>
+          <div className="recipe-choice__actions"><button type="button" onClick={() => setDetail(dish)}>Рецепт</button>
+            <button type="button" className={picked ? "is-selected" : ""} onClick={() => picked ? dispatch(removeDish(dish.id)) : dispatch(addDish({ dish, mealType, grams: 100 }))}>{picked ? "✓ Выбрано" : "+ Выбрать"}</button></div>
+        </div>
+      </article>;
+    })}</div>
+    {!loading && !visible.length && <div className="recipe-picker__empty">Ничего не нашлось. Попробуй другое название или категорию.</div>}
+    {detail && <RecipeModal dish={detail} show={true} onHide={() => setDetail(null)} />}
+  </div>;
+}
