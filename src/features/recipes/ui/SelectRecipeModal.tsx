@@ -4,11 +4,13 @@ import { apiClient } from "@/lib/api-client";
 import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import RecipesSection from "./RecipesSections";
+import { useState } from "react";
+import { Sparkles } from "lucide-react";
 
 interface Props {
   show: boolean;
   onClose: () => void;
-  onSaved?: () => void;
+  onSaved?: () => void | Promise<void>;
   mealType: string | null;
   date: string;
 }
@@ -20,6 +22,8 @@ const SelectRecipeModal: React.FC<Props> = ({
   date,
 }) => {
   const dispatch = useDispatch();
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const selected = useSelector((state: any) => state.menu.selected);
   const householdId = useSelector(
     (state: RootState) => state.households.selectedHouseholdId
@@ -27,9 +31,11 @@ const SelectRecipeModal: React.FC<Props> = ({
   const handleSave = async () => {
     try {
       if (householdId === null) return;
+      setSaving(true);
+      setError("");
 
       for (const item of selected) {
-        await apiClient.addToMenu(
+        const response = await apiClient.addToMenu(
           householdId,
           date,
           item.dish.id,
@@ -37,6 +43,7 @@ const SelectRecipeModal: React.FC<Props> = ({
           item.grams,
           item.dish.price
         );
+        if (!response.ok) throw new Error("Не удалось добавить блюдо в меню");
       }
 
       dispatch(clearSelection());
@@ -46,35 +53,35 @@ const SelectRecipeModal: React.FC<Props> = ({
       onClose();
     } catch (error) {
       console.error("Не удалось добавить блюда на день из-за ошибки: ", error);
+      setError(error instanceof Error ? error.message : "Ошибка сохранения");
+    } finally {
+      setSaving(false);
     }
   };
   return (
-    <Modal show={show} onHide={onClose} size="xl">
-      <Modal.Header closeButton>
-        <Modal.Title>Выберите блюдо</Modal.Title>
+    <Modal show={show} onHide={onClose} size="xl" dialogClassName="recipe-picker-dialog">
+      <Modal.Header closeButton className="recipe-picker-modal-header">
+        <div><span className="eyebrow"><Sparkles size={15} /> СОБИРАЕМ МЕНЮ</span>
+        <Modal.Title>Что приготовим?</Modal.Title><p>Выбери несколько блюд — они появятся в меню выбранного дня.</p></div>
       </Modal.Header>
 
-      <Modal.Body style={{ maxHeight: "80vh", overflowY: "auto" }}>
+      <Modal.Body className="recipe-picker-modal-body">
         <RecipesSection mealType={mealType} />
       </Modal.Body>
 
-      <Modal.Footer>
+      <Modal.Footer className="recipe-picker-modal-footer">
         <div className="d-flex justify-content-between w-100 align-items-center">
-          <span className="text-muted">Выбрано блюд: {selected.length}</span>
+          <span className="text-muted">Выбрано: <strong>{selected.length}</strong></span>
 
           <Button
-            disabled={selected.length === 0}
+            disabled={selected.length === 0 || saving}
             onClick={handleSave}
-            style={{
-              background: "var(--main-color)",
-              color: "black",
-              border: "none",
-              fontSize: "medium",
-            }}
+            className="recipe-picker-save"
           >
-            Добавить выбранное
+            {saving ? "Добавляем…" : "Добавить в меню"}
           </Button>
         </div>
+        {error && <p className="inventory-error w-100 mb-0" role="alert">{error}</p>}
       </Modal.Footer>
     </Modal>
   );

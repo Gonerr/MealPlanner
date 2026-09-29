@@ -60,6 +60,11 @@ const householdsSlice = createSlice({
   initialState,
 
   reducers: {
+    clearHouseholds(state) {
+      state.items = [];
+      state.selectedHouseholdId = null;
+      state.error = null;
+    },
     setSelectedHousehold(state, action: PayloadAction<number>) {
       const exists = state.items.some(
         (household) => household.id === action.payload
@@ -110,6 +115,6 @@ const householdsSlice = createSlice({
   },
 });
 
-export const { setSelectedHousehold } = householdsSlice.actions;
+export const { setSelectedHousehold, clearHouseholds } = householdsSlice.actions;
 
 export default householdsSlice.reducer;

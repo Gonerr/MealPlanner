@@ -8,8 +8,7 @@ import "./styles/dayMenuPlanner.css";
 import "./styles/global.css";
 
 export const metadata: Metadata = {
-  //   title: "NeМеню — домашний планировщик питания",
-  title: "React Ne",
+  title: "NeМеню — домашний планировщик питания",
   description:
     "Планирование домашнего меню, покупок, КБЖУ и расходов на недели вперёд.",
 };
