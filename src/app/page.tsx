@@ -16,10 +16,13 @@ export default function HomePage() {
   const [selectedDay, setSelectedDay] = useState(0);
   // TODO(history): заменить фиксированные 15 дней на общий date-range selector,
   // чтобы этим же экраном можно было открывать прошлые недели и месяцы.
+
+  /**
+   *
+   * */
   const days = Array.from({ length: 15 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() + i);
-
     return {
       index: i,
       label:
@@ -61,12 +64,12 @@ export default function HomePage() {
               Домашнее меню без хаоса
             </span>
             <h1>
-              Что будем есть
+              {/* Что будем есть */}
               <span className="circle-word"> сегодня?</span>
             </h1>
             <p>
-              Собирай меню, учитывай пожелания домашних и сразу понимай,
-              сколько времени и денег уйдёт на неделю.
+              Собирай меню, учитывай пожелания домашних и сразу понимай, сколько
+              времени и денег уйдёт на неделю.
             </p>
 
             <div className="planner-hero__features">

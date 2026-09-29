@@ -1,6 +1,8 @@
+import { RootState } from "@/app/store";
 import { apiClient } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 import { FiActivity, FiBox, FiClock, FiPlus, FiTrash2 } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import SelectRecipeModal from "../../recipes/ui/SelectRecipeModal";
 
 const MEALS = [
@@ -12,20 +14,39 @@ const MEALS = [
 
 const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
   const [items, setItems] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState<string | null>(null);
 
+  const householdId = useSelector(
+    (state: RootState) => state.households.selectedHouseholdId
+  );
+  console.log("selected household:", householdId);
+
   useEffect(() => {
+    if (householdId === null) {
+      setLoading(false);
+      setItems([]);
+      return;
+    }
+
     load();
-  }, [date]);
+  }, [date, householdId]);
 
   const load = async () => {
+    if (householdId === null) {
+      return;
+    }
+
     setLoading(true);
+
     try {
-      const data = await apiClient.getMenuPlan(date);
+      const data = await apiClient.getMenuPlan(date, householdId);
       setItems(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Не удалось загрузить меню", error);
+      setItems([]);
     } finally {
       setLoading(false);
     }
@@ -44,29 +65,44 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
   };
 
   const handleSelectDish = async (dish: any) => {
-    if (!selectedMeal) return;
+    if (!selectedMeal || householdId === null) return;
 
-    await apiClient.addToMenu(date, dish.id, selectedMeal, 100, dish.price);
+    await apiClient.addToMenu(
+      householdId,
+      date,
+      dish.id,
+      selectedMeal,
+      100,
+      dish.price
+    );
 
     await load();
   };
 
   const handleRemoveDish = async (menuItemId: number) => {
+    if (householdId === null) return;
+
     const previousItems = items;
+
     setItems((current) =>
       current.filter((item) => item.menu_item_id !== menuItemId)
     );
 
     try {
-      await apiClient.removeFromMenu(menuItemId);
+      await apiClient.removeFromMenu(householdId, menuItemId);
     } catch (error) {
       setItems(previousItems);
+
       console.error("Не удалось удалить блюдо из меню", error);
     }
   };
 
   if (loading) {
     return <div className="planner-loading">Собираем меню…</div>;
+  }
+
+  if (householdId === null) {
+    return <div className="planner-loading">Пространство пока не выбрано</div>;
   }
 
   return (
@@ -145,6 +181,7 @@ const DayMenuPlanner: React.FC<{ date: string }> = ({ date }) => {
       <SelectRecipeModal
         show={showModal}
         onClose={() => setShowModal(false)}
+        onSaved={load}
         mealType={selectedMeal}
         date={date}
       />

@@ -34,3 +34,6 @@ suite.addEventListener("complete", function () {
 });
 
 suite.run();
+
+// JavaScript выполняется в JIT-компилируемом runtime.
+// V8 постепенно собирает информацию о коде и может его оптимизировать

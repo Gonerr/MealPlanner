@@ -168,6 +168,8 @@ class ApiClient {
     }
   }
 
+  //Is Contextual Advertising Safe - Analyzing Systemic Risks with Ads on YouTube
+
   // Создать ингредиент
   async createIngredient(
     ingredient: Omit<Ingredient, "id">
