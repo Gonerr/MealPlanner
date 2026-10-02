@@ -1,11 +1,11 @@
 import { RootState } from "@/app/store";
 import { clearSelection } from "@/features/menu/menuSlice";
 import { apiClient } from "@/lib/api-client";
+import { Sparkles } from "lucide-react";
+import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import RecipesSection from "./RecipesSections";
-import { useState } from "react";
-import { Sparkles } from "lucide-react";
 
 interface Props {
   show: boolean;
@@ -59,10 +59,20 @@ const SelectRecipeModal: React.FC<Props> = ({
     }
   };
   return (
-    <Modal show={show} onHide={onClose} size="xl" dialogClassName="recipe-picker-dialog">
+    <Modal
+      show={show}
+      onHide={onClose}
+      size="xl"
+      dialogClassName="recipe-picker-dialog"
+    >
       <Modal.Header closeButton className="recipe-picker-modal-header">
-        <div><span className="eyebrow"><Sparkles size={15} /> СОБИРАЕМ МЕНЮ</span>
-        <Modal.Title>Что приготовим?</Modal.Title><p>Выбери несколько блюд — они появятся в меню выбранного дня.</p></div>
+        <div>
+          <span className="eyebrow">
+            <Sparkles size={15} /> СОБИРАЕМ МЕНЮ
+          </span>
+          <Modal.Title>Что приготовим?</Modal.Title>
+          <p>Выбери несколько блюд — они появятся в меню выбранного дня.</p>
+        </div>
       </Modal.Header>
 
       <Modal.Body className="recipe-picker-modal-body">
@@ -71,7 +81,9 @@ const SelectRecipeModal: React.FC<Props> = ({
 
       <Modal.Footer className="recipe-picker-modal-footer">
         <div className="d-flex justify-content-between w-100 align-items-center">
-          <span className="text-muted">Выбрано: <strong>{selected.length}</strong></span>
+          <span className="text-muted">
+            Выбрано: <strong>{selected.length}</strong>
+          </span>
 
           <Button
             disabled={selected.length === 0 || saving}
@@ -81,7 +93,11 @@ const SelectRecipeModal: React.FC<Props> = ({
             {saving ? "Добавляем…" : "Добавить в меню"}
           </Button>
         </div>
-        {error && <p className="inventory-error w-100 mb-0" role="alert">{error}</p>}
+        {error && (
+          <p className="inventory-error w-100 mb-0" role="alert">
+            {error}
+          </p>
+        )}
       </Modal.Footer>
     </Modal>
   );

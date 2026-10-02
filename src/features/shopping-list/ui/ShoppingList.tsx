@@ -1,5 +1,6 @@
 "use client";
 
+import { RootState } from "@/app/store";
 import { ShoppingItem } from "@/types/menu";
 import {
   Check,
@@ -8,60 +9,19 @@ import {
   Home,
   Plus,
   RotateCcw,
-  ShoppingBag,
   Trash2,
 } from "lucide-react";
-import React, { FormEvent, useMemo, useState } from "react";
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { useSelector } from "react-redux";
 import "../css/ShoppingList.css";
 
 type ShoppingTab = "need" | "have";
-
-// Пока что подставляем захардкоженные данные
-const initialItems: ShoppingItem[] = [
-  {
-    id: 1,
-    ingredientId: 1,
-    name: "Помидоры",
-    quantity: 5,
-    category: "vegetable",
-    price: 190,
-    unit: "шт",
-    status: "need",
-    source: "menu",
-  },
-  {
-    id: 2,
-    ingredientId: 2,
-    name: "Куриное филе",
-    quantity: 5,
-    category: "vegetable",
-    price: 190,
-    unit: "шт",
-    status: "need",
-    source: "menu",
-  },
-  {
-    id: 3,
-    ingredientId: 3,
-    name: "Сыр",
-    quantity: 200,
-    price: 240,
-    unit: "г",
-    category: "dairy",
-    status: "have",
-    source: "menu",
-  },
-  {
-    id: 4,
-    name: "Хлеб",
-    quantity: 1,
-    price: 90,
-    unit: "шт",
-    category: "other",
-    status: "bought",
-    source: "manual",
-  },
-];
 
 const categoryLabels: Record<string, string> = {
   vegetable: "Овощи",
@@ -71,30 +31,32 @@ const categoryLabels: Record<string, string> = {
   other: "Другое",
 };
 
-const ShoppingList: React.FC = () => {
-  const [items, setItems] = useState<ShoppingItem[]>(initialItems);
+type PantryItem = {
+  id: number;
+  name: string;
+  quantity: number;
+  unit: string;
+  category: string;
+};
 
+const ShoppingList: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ShoppingTab>("need");
   const [boughtExpanded, setBoughtExpanded] = useState(false);
-
+  const [pantryItems, setPantryItems] = useState<PantryItem[]>([]);
   const [newItemName, setNewItemName] = useState("");
+  const [items, setItems] = useState<ShoppingItem[]>([]);
 
   const needItems = useMemo(
     () => items.filter((item) => item.status === "need"),
     [items]
   );
 
-  const haveItems = useMemo(
-    () => items.filter((item) => item.status === "have"),
-    [items]
-  );
+  const haveItems = pantryItems;
 
   const boughtItems = useMemo(
     () => items.filter((item) => item.status === "bought"),
     [items]
   );
-
-  const visibleItems = activeTab === "need" ? needItems : haveItems;
 
   const estimatedPrive = useMemo(
     () =>
@@ -104,24 +66,172 @@ const ShoppingList: React.FC = () => {
     [needItems]
   );
 
-  const changeStatus = (id: number, status: ShoppingItem["status"]) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              status,
-            }
-          : item
-      )
+  const householdId = useSelector(
+    (state: RootState) => state.households.selectedHouseholdId
+  );
+
+  const loadShopping = useCallback(async () => {
+    if (!householdId) {
+      return [];
+    }
+
+    const response = await fetch(
+      `/api/shopping-list?householdId=${householdId}`
     );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Не удалось загрузить список покупок");
+    }
+
+    return data.items as ShoppingItem[];
+  }, [householdId]);
+
+  const loadPantry = useCallback(async () => {
+    if (!householdId) {
+      return [];
+    }
+
+    const response = await fetch(`/api/pantry?householdId=${householdId}`);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Не удалось загрузить запасы");
+    }
+
+    return data.items as PantryItem[];
+  }, [householdId]);
+
+  const reload = useCallback(async () => {
+    if (!householdId) {
+      setItems([]);
+      setPantryItems([]);
+      return;
+    }
+
+    const [shopping, pantry] = await Promise.all([
+      loadShopping(),
+      loadPantry(),
+    ]);
+
+    setItems(shopping);
+    setPantryItems(pantry);
+  }, [householdId, loadShopping, loadPantry]);
+
+  useEffect(() => {
+    void reload();
+  }, [reload]);
+
+  const changeStatus = async (id: number, status: "need" | "bought") => {
+    if (!householdId) {
+      return;
+    }
+
+    const response = await fetch("/api/shopping-list", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        householdId,
+        id,
+        status,
+      }),
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    await reload();
   };
 
-  const removeItem = (id: number) => {
-    setItems(items.filter((item) => item.id !== id));
+  const removeItem = async (id: number) => {
+    if (!householdId) {
+      return;
+    }
+
+    const response = await fetch("/api/shopping-list", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        householdId,
+        id,
+      }),
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    await reload();
   };
 
-  const handleAddItem = (event: FormEvent) => {};
+  const moveToPantry = async (id: number) => {
+    if (!householdId) {
+      return;
+    }
+
+    const response = await fetch("/api/shopping-list/move-to-pantry", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        householdId,
+        id,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+
+      console.error(data.error);
+      return;
+    }
+
+    await reload();
+  };
+
+  const handleAddItem = async (event: FormEvent) => {
+    event.preventDefault();
+
+    if (!householdId || !newItemName.trim()) {
+      return;
+    }
+
+    const response = await fetch("/api/shopping-list", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        householdId,
+        name: newItemName.trim(),
+        quantity: 1,
+        unit: "шт",
+        category: "other",
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data.error || "Не удалось добавить продукт");
+
+      return;
+    }
+
+    setNewItemName("");
+
+    await reload();
+  };
+
+  const shoppingTotal = needItems.length + boughtItems.length;
 
   const renderItem = (item: ShoppingItem) => {
     return (
@@ -161,7 +271,9 @@ const ShoppingList: React.FC = () => {
             {item.price > 0 && (
               <>
                 <span className="shopping-item__dot">•</span>
-                <span>добавлено вручную</span>
+                <span>
+                  {item.source === "manual" ? "добавлено вручную" : "из меню"}
+                </span>
               </>
             )}
           </div>
@@ -172,23 +284,11 @@ const ShoppingList: React.FC = () => {
             <button
               type="button"
               className="shopping-item__action shopping-item__action--home"
-              onClick={() => changeStatus(item.id, "have")}
+              onClick={() => void moveToPantry(item.id)}
               title="Уже есть дома"
             >
               <Home size={16} />
               <span>Есть дома</span>
-            </button>
-          )}
-
-          {item.status === "have" && (
-            <button
-              type="button"
-              className="shopping-item__action"
-              onClick={() => changeStatus(item.id, "need")}
-              title="Вернуть в покупки"
-            >
-              <ShoppingBag size={16} />
-              <span>Купить</span>
             </button>
           )}
 
@@ -215,6 +315,24 @@ const ShoppingList: React.FC = () => {
       </div>
     );
   };
+
+  const renderPantryItem = (item: PantryItem) => (
+    <div className="shopping-item shopping-item--have" key={item.id}>
+      <div className="shopping-item__main">
+        <div className="shopping-item__top">
+          <span className="shopping-item__name">{item.name}</span>
+
+          <span className="shopping-item__quantity">
+            {item.quantity} {item.unit}
+          </span>
+        </div>
+
+        <div className="shopping-item__meta">
+          <span>{categoryLabels[item.category] || item.category}</span>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="shopping-list">
@@ -276,29 +394,18 @@ const ShoppingList: React.FC = () => {
       </div>
 
       <div className="shopping-list__items">
-        {visibleItems.length > 0 ? (
-          visibleItems.map(renderItem)
+        {activeTab === "need" ? (
+          needItems.length > 0 ? (
+            needItems.map(renderItem)
+          ) : (
+            <div className="shopping-list__empty">...</div>
+          )
+        ) : pantryItems.length > 0 ? (
+          pantryItems.map(renderPantryItem)
         ) : (
           <div className="shopping-list__empty">
-            {activeTab === "need" ? (
-              <>
-                <Check size={24} />
-
-                <strong>Всё необходимое уже отмечено</strong>
-
-                <span>Здесь появятся продукты, которые нужно купить.</span>
-              </>
-            ) : (
-              <>
-                <Home size={24} />
-
-                <strong>Пока ничего не отмечено</strong>
-
-                <span>
-                  Нажми "Есть дома" у продукта, чтобы убрать его из покупок.
-                </span>
-              </>
-            )}
+            <Home size={24} />
+            <strong>Дома пока ничего нет</strong>
           </div>
         )}
       </div>
@@ -334,16 +441,15 @@ const ShoppingList: React.FC = () => {
         </div>
       )}
 
-      {items.length > 0 && (
+      {shoppingTotal > 0 && (
         <div className="shopping-list__progress">
           <div className="shopping-list__progress-header">
             <span>
-              Куплено {boughtItems.length} из{" "}
-              {needItems.length + haveItems.length + boughtItems.length}
+              Куплено {boughtItems.length} из {shoppingTotal}
             </span>
 
             <span>
-              {Math.round((boughtItems.length / items.length) * 100)}%
+              {Math.round((boughtItems.length / shoppingTotal) * 100)}%
             </span>
           </div>
 
@@ -351,7 +457,7 @@ const ShoppingList: React.FC = () => {
             <div
               className="shopping-list__progress-value"
               style={{
-                width: `${(boughtItems.length / items.length) * 100}%`,
+                width: `${(boughtItems.length / shoppingTotal) * 100}%`,
               }}
             />
           </div>

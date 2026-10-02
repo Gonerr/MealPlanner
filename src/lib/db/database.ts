@@ -266,12 +266,22 @@ CREATE TABLE IF NOT EXISTS pantry_items (
     await db.exec("BEGIN IMMEDIATE");
     try {
       for (const item of oldPantry) {
-        await db.run(`
+        await db.run(
+          `
           INSERT INTO pantry_entries (household_id, name, name_key, quantity, unit, category)
           VALUES (?, ?, ?, ?, ?, ?)
           ON CONFLICT(household_id, name_key, unit) DO UPDATE SET
             quantity = pantry_entries.quantity + excluded.quantity
-        `, [item.householdId, item.name, item.name.normalize("NFC").toLocaleLowerCase("ru"), item.quantity, item.unit, item.category]);
+        `,
+          [
+            item.householdId,
+            item.name,
+            item.name.normalize("NFC").toLocaleLowerCase("ru"),
+            item.quantity,
+            item.unit,
+            item.category,
+          ]
+        );
       }
       await db.exec("DELETE FROM pantry_items");
       await db.exec("COMMIT");
@@ -280,6 +290,41 @@ CREATE TABLE IF NOT EXISTS pantry_items (
       throw error;
     }
   }
+
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS shopping_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        household_id INTEGER NOT NULL,
+        ingredient_id INTEGER,
+
+        name TEXT NOT NULL,
+        name_key TEXT NOT NULL,
+        quantity REAL NOT NULL DEFAULT 1
+            CHECK(quantity > 0),
+        unit TEXT NOT NULL DEFAULT 'шт',
+        category TEXT NOT NULL DEFALT 'other',
+        price REAL NOT NULL DEFAULT 0,
+        status TEXT NOT NULL DEFAULT 'need'
+            CHECK(status IN ('need','bought')),
+        source TEXT  NOT NULL DEFAULT 'manual'
+            CHECK(source IN ('manual', 'menu')),
+
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+        FOREIGN KEY (household_id)
+            REFERENCES households(id)
+            ON DELETE CASCADE,
+        
+        FOREIGN KEY (ingredient_id)
+            REFERENCES households(id)
+            ON DELETE SET NULL
+    )
+
+    CREATE INDEX IF NOT EXISTS idx_shopping_items_household
+    ON shopping_items(household_id)
+  `);
 
   try {
     await db.exec(

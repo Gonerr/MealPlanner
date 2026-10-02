@@ -115,6 +115,7 @@ const householdsSlice = createSlice({
   },
 });
 
-export const { setSelectedHousehold, clearHouseholds } = householdsSlice.actions;
+export const { setSelectedHousehold, clearHouseholds } =
+  householdsSlice.actions;
 
 export default householdsSlice.reducer;

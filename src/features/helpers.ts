@@ -1,3 +1,5 @@
+import { HouseholdsRepository } from "@/lib/db/households.repository";
+
 export const formatDateForAPI = (dateString: string): string => {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -39,4 +41,11 @@ export function isValidHouseholdId(value: unknown): value is number {
 
 export function isValidDate(date: unknown): date is string {
   return typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date);
+}
+
+export const validId = (value: unknown) =>
+  Number.isSafeInteger(Number(value)) && Number(value) > 0;
+
+export async function canAccess(db: any, householdId: number, userId: number) {
+  return new HouseholdsRepository(db).isMember(householdId, userId);
 }
