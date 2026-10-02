@@ -1,5 +1,6 @@
-import { canAccess, validId } from "@/features/helpers";
+import { validId } from "@/features/helpers";
 import { withAuthHandler } from "@/lib/api-helper";
+import { canAccess } from "@/lib/housejold-access";
 import { NextResponse } from "next/server";
 
 export const GET = withAuthHandler(async (request, { db, user }) => {
@@ -46,7 +47,7 @@ export const POST = withAuthHandler(async (request, { db, user }) => {
   const body = await request.json();
 
   const householdId = Number(body.householdId);
-  const name = typeof body.name === "string" ? body.name.trip() : "";
+  const name = typeof body.name === "string" ? body.name.trim() : "";
 
   const quantity = Number(body.quantity ?? 1);
   const unit = body.unit || "шт";

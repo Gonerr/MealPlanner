@@ -127,6 +127,7 @@ export async function seedTestData(db: any) {
           calories: 320,
           meal_type: "lunch",
           ingredients: ["Куриное филе", "Картофель", "Сыр"],
+          base_servings: 4,
         },
         {
           name: "Стейк из говядины",
@@ -139,6 +140,7 @@ export async function seedTestData(db: any) {
           calories: 650,
           meal_type: "dinner",
           ingredients: ["Говядина"],
+          base_servings: 4,
         },
         {
           name: "Шоколадный фондан",
@@ -151,6 +153,7 @@ export async function seedTestData(db: any) {
           calories: 420,
           meal_type: "dessert",
           ingredients: ["Шоколад"],
+          base_servings: 4,
         },
         {
           name: "Мохито",
@@ -163,6 +166,7 @@ export async function seedTestData(db: any) {
           calories: 150,
           meal_type: "drinks",
           ingredients: ["Мята", "Лайм"],
+          base_servings: 4,
         },
       ];
 
@@ -173,8 +177,8 @@ export async function seedTestData(db: any) {
                       INSERT INTO recipes (
                           user_id, name, description, price, category_slug, 
                           preparation_time, is_available, is_chef_special, 
-                          calories, meal_type
-                      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                          calories, meal_type, base_servings
+                      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                   `,
           [
             userId,
@@ -187,6 +191,7 @@ export async function seedTestData(db: any) {
             recipe.is_chef_special,
             recipe.calories,
             recipe.meal_type,
+            recipe.base_servings,
           ]
         );
 

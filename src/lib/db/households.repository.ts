@@ -1,4 +1,4 @@
-import { safeDB } from "../api-helper";
+import { safeDB } from "./safe-db";
 
 export class HouseholdsRepository {
   private db: safeDB;

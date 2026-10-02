@@ -1,4 +1,4 @@
-import { safeDB } from "../api-helper";
+import { safeDB } from "./safe-db";
 
 export interface RecipeInput {
   name: string;
@@ -11,6 +11,7 @@ export interface RecipeInput {
   isChefSpecial?: boolean;
   calories?: number;
   mealType?: string;
+  baseServings?: number;
   ingredientIds?: number[];
 }
 

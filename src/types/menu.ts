@@ -61,7 +61,7 @@ export interface ShoppingItem {
 
   category: string;
 
-  status: "need" | "have" | "bought";
+  status: "need" | "bought";
 
   source: "menu" | "manual";
 }

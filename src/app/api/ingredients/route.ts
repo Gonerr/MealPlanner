@@ -1,4 +1,5 @@
-import { safeDB, withAuthHandler } from "@/lib/api-helper";
+import { withAuthHandler } from "@/lib/api-helper";
+import { safeDB } from "@/lib/db/safe-db";
 import { NextResponse } from "next/server";
 
 // GET /api/ingredients - получить все ингредиенты

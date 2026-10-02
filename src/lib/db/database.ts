@@ -78,6 +78,7 @@ export const initDB = async () => {
             calories INTEGER,
             image_url TEXT,
             meal_type TEXT DEFAULT 'lunch',
+            base_servings INTEGER NOT NULL DEFAULT 4,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL,
@@ -303,7 +304,7 @@ CREATE TABLE IF NOT EXISTS pantry_items (
         quantity REAL NOT NULL DEFAULT 1
             CHECK(quantity > 0),
         unit TEXT NOT NULL DEFAULT 'шт',
-        category TEXT NOT NULL DEFALT 'other',
+        category TEXT NOT NULL DEFAULT 'other',
         price REAL NOT NULL DEFAULT 0,
         status TEXT NOT NULL DEFAULT 'need'
             CHECK(status IN ('need','bought')),
@@ -318,13 +319,80 @@ CREATE TABLE IF NOT EXISTS pantry_items (
             ON DELETE CASCADE,
         
         FOREIGN KEY (ingredient_id)
-            REFERENCES households(id)
+            REFERENCES ingredients(id)
             ON DELETE SET NULL
-    )
+    );
 
     CREATE INDEX IF NOT EXISTS idx_shopping_items_household
-    ON shopping_items(household_id)
+    ON shopping_items(household_id);
   `);
+
+  await db.exec(`
+        CREATE TABLE IF NOT EXISTS cooking_batches (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            household_id INTEGER NOT NULL,
+            recipe_id INTEGER NOT NULL,
+
+            total_servings INTEGER NOT NULL
+                CHECK(total_servings > 0),
+
+            remaining_serving INTEGER NOT NULL 
+                CHECK(remaining_serving >= 0),
+
+            planned_for TEXT,
+
+            cooked_at TEXT,
+            expires_at TEXT,
+
+            status TEXT NOT NULL DEFAULT 'planned'
+                CHECK(status IN ('planned', 'cooked', 'finished')),
+
+            created_by INTEGER,
+
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+            FOREIGN KEY (household_id)
+                REFERENCES households(id)
+                ON DELETE CASCADE,
+            
+            FOREIGN KEY (recipe_id)
+                REFERENCES recipe(id)
+                ON DELETE CASCADE,
+
+            FOREIGN KEY (created_by)
+                REFERENCES users(id)
+                ON DELETE SET NULL
+        )
+  `);
+
+  await db.exec(
+    `
+    CREATE TABLE IF NOT EXISTS batch_allocations(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        batch_id INTEGER NOT NULL,
+        menu_item_id INTEGER NOT NULL,
+
+        servings INTEGER NOT NULL
+            CHECK(servings > 0),
+
+        FOREIGN KEY (batch_id)
+            REFERENCES cooking_batches(id)
+            ON DELETE CASCADE,
+
+        FOREIGN KEY (batch_id)
+            REFERENCES cooking_batches(id)
+            ON DELETE CASCADE,
+
+        FOREIGN KEY (menu_item_id)
+            REFERENCES menu_items(id)
+            ON DELETE CASCADE,
+
+        UNIQUE(batch_id, menu_item_id)
+        );
+    `
+  );
 
   try {
     await db.exec(
